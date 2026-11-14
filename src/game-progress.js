@@ -39,7 +39,6 @@ function startNewGame(){
 document.querySelector('#saveProgress').onclick=()=>saveGameProgress(true);
 document.querySelector('#returnTitle').onclick=()=>{saveGameProgress();started=false;adultHud.style.display='none';clearMovement();document.querySelector('#start').style.display='grid';document.querySelector('#inventoryBar').style.display='none';progressMenu.hidden=true;updateContinueButton()};
 document.querySelector('#continueGame').onclick=restoreGameProgress;
-document.querySelector('#startAdult').onclick=()=>{if(!ready)return;started=true;document.querySelector('#start').style.display='none';dialogue=null;queue=[];afterTalk=null;clearMovement();mamaVisible=mamaEntering=mamaLeaving=false;storyEvent.active=false;selectedItem=null;startAdultChapter();updateProgressMenu()};
 addEventListener('pagehide',()=>saveGameProgress());
 addEventListener('keydown',e=>{if(e.code==='KeyS'&&(e.ctrlKey||e.metaKey)){e.preventDefault();saveGameProgress(true)}});
 setInterval(()=>{updateProgressMenu();if(started&&!dialogue&&!fadeTo&&!codePanel.open&&!itemPanel.open&&!forestNightTransition)saveGameProgress()},5000);
