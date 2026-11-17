@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8"><meta name="adv-build" content="69a12115cf88">
+  <meta charset="utf-8"><meta name="adv-build" content="086301418c69">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#181c20">
   <title>昆虫とおしりの部屋 — アドベンチャー版</title>
@@ -78,163 +78,3479 @@
   <dialog id="beetleGame"><header><div><small>夏の記憶</small><h2>くりたけと虫取り勝負</h2></div></header><p>動くカブトムシに網の輪を重ねて、クリック。<br>網を振り下ろした瞬間、輪の中にいれば捕まえられる。</p><div class="catch-score"><span>ちゃんこ <b id="yourScore">0</b></span><time id="catchTime">20</time><span>くりたけ <b id="rivalScore">0</b></span></div><div id="catchField"><img id="catchBug" alt="カブトムシ" draggable="false"><span id="netRing"></span><div id="catchSplash"></div></div><p id="catchResult"></p><div class="catch-buttons"><button id="startCatch">勝負する</button><button id="endCatch" hidden>湖の探索に戻る</button></div></dialog>
   <div id="fatalError" hidden role="alert"></div>
 </main>
-<script>window.ADV_DOWNLOAD=null;window.ADV_ASSETS={"bg-archive": "assets/bg-archive.2042df36cf11.webp", "bg-bath": "assets/bg-bath.b2fed4c8a9c1.webp", "bg-bedroom": "assets/bg-bedroom.5d00db8c3d2f.webp", "bg-chest": "assets/bg-chest.42f16b92456b.webp", "bg-city-bath-reveal": "assets/bg-city-bath-reveal.880ec65d8f6e.webp", "bg-city-bath": "assets/bg-city-bath.ce226fe15ac5.webp", "bg-city-home": "assets/bg-city-home.e87e9a2a4805.webp", "bg-city-police": "assets/bg-city-police.9561e3cccfde.webp", "bg-city": "assets/bg-city.1fae94bcc7ad.webp", "bg-classroom": "assets/bg-classroom.5451fcba1b92.webp", "bg-dream": "assets/bg-dream.3158de8d0feb.webp", "bg-forest": "assets/bg-forest.43bfa224821e.webp", "bg-grave-night": "assets/bg-grave-night.563932d07110.webp", "bg-grave": "assets/bg-grave.298757ff7d54.webp", "bg-lake": "assets/bg-lake.2efcc58321a9.webp", "bg-living-night": "assets/bg-living-night.b0ee3fbb9ed4.webp", "bg-living": "assets/bg-living.df9748f27967.webp", "bg-police-office": "assets/bg-police-office.45e08b8f493c.webp", "bg-room-night": "assets/bg-room-night.f6d574836c0f.webp", "bg-room": "assets/bg-room.4395c6875213.webp", "bg-ruin-inside": "assets/bg-ruin-inside.158dbe563489.webp", "bg-ruin": "assets/bg-ruin.afc90f46f79e.webp", "bg-study": "assets/bg-study.91e433c50b7f.webp", "bg-title": "assets/bg-title.f653637e5e4c.webp", "bg-university": "assets/bg-university.ee59425e2e16.webp", "bg-village": "assets/bg-village.f87719c45ea8.webp", "brother-adult": "assets/brother-adult.357a0daebfbc.webp", "brother-child": "assets/brother-child.510a1dfc72f6.webp", "chanko-adult-grief": "assets/chanko-adult-grief.eedf2146988b.webp", "chanko-adult": "assets/chanko-adult.a836f6ee5899.webp", "chanko-child-fear": "assets/chanko-child-fear.ba766473c87c.webp", "chanko-child": "assets/chanko-child.9349818ea286.webp", "charlotte": "assets/charlotte.5157f1c31e07.webp", "chihiro": "assets/chihiro.fcc0ef7771f1.webp", "fumi": "assets/fumi.d26fa49e61ad.webp", "kiyo": "assets/kiyo.59935bf97516.webp", "kuri-adult-guilt": "assets/kuri-adult-guilt.e1424de7d5a4.webp", "kuri-adult": "assets/kuri-adult.7f625cb81178.webp", "kuri-child": "assets/kuri-child.59d5e7357c1c.webp", "makabe": "assets/makabe.ac5227f96e35.webp", "mama-grief": "assets/mama-grief.e6c1f105dd82.webp", "mama": "assets/mama.fd727d1bacd9.webp", "nozaki": "assets/nozaki.f76b1f60a24f.webp", "papa": "assets/papa.b14882861beb.webp", "pepe": "assets/pepe.2d31da9a0e63.webp", "police": "assets/police.885068764dfc.webp", "sumika": "assets/sumika.1e883394682f.webp", "unknown": "assets/unknown.cf206b5632d6.webp"};</script>
-<script>/* 昆虫とおしりの部屋 / ADV: facts are fixed; testimony and disclosure branch. */
-window.ADV=(()=>{
-const L=(who,text,extra={})=>({who,text,...extra});
-const H=(id,label,x,y,lines,extra={})=>({id,label,x,y,lines,...extra});
-const A=(label,to,extra={})=>({label,to,...extra});
-const characters={
- chanko:{name:'ちゃんこ',art:'chanko-child',bio:'虫が大好きな子供。だいじなものにシールを貼る。青い帽子と丸いサングラスが目印。',child:true},
- adult:{name:'ちゃんこ',art:'chanko-adult',bio:'村を離れ、別の町で暮らす大学生。くりたけと同級生になった。家族を傷つけた侵入者を、今も捜している。'},
- kuri:{name:'くりたけ',art:'kuri-child',bio:'ちゃんこの友達。悪ガキで楽観的。止められると、かえって確かめたくなる。',child:true},
- adultKuri:{name:'くりたけ',art:'kuri-adult',bio:'ちゃんこと同じ町の大学に通う同級生。昔と同じ調子で隣にいるが、あの夏の行動には言い出せないことがある。'},
- mama:{name:'ちゃんママ',art:'mama',bio:'ちゃんこの母。ペペ先生の娘。森へ行くことを強く禁じている。'},
- papa:{name:'ちゃんパパ',art:'papa',bio:'ちゃんこの父。家族の暮らしを守ってきた。警官の訪問には表情を曇らせる。'},
- brother:{name:'弟',art:'brother-child',bio:'ちゃんこの弟。兄の虫の話を、少し怖がりながら聞いている。',child:true},
- adultBrother:{name:'弟',art:'brother-adult',bio:'事件当時は幼かった。見たことと、後から聞かされたことを分けて話そうとする。'},
- police:{name:'警官',art:'police',bio:'村の警官。親切だが、ちゃんこの家の周囲を何度も巡回している。'},
- pepe:{name:'ペペ先生',art:'pepe',bio:'ちゃんママの父で絵画教室の先生。昔の教室は森の奥に残されている。'},
- sumika:{name:'水瀬 澄香',art:'sumika',bio:'祖母の資料を整理するために帰郷した記録調査員。証言と記録の食い違いを追う。'},
- fumi:{name:'水瀬 フミ',art:'fumi',bio:'澄香の祖母。昔の教室と家族たちを知る。出来事の順番が曖昧になることがある。'},
- makabe:{name:'真壁 透',art:'makabe',bio:'若い警官。先輩の曖昧な報告を疑い、捜査記録の裏づけを求めている。'},
- kiyo:{name:'湯原 キヨ',art:'kiyo',bio:'ちゃんこが暮らす大学の町の銭湯店主。客の体や私生活を、むやみに他人へ話さない。'},
- nozaki:{name:'野崎 修',art:'nozaki',bio:'かつてペペの教室に通った男。廃墟に出入りする姿を目撃されている。'},
- chihiro:{name:'相良 千尋',art:'chihiro',bio:'くりたけと同世代の村人。あの日の商店の出来事を覚えている。'},
- charlotte:{name:'シャルロット',art:'charlotte',bio:'ちゃんこの部屋を自由に歩くカブトムシ。小さいが、ちゃんこにとっては特別な存在。',beetle:true},
- unknown:{name:'？？？',art:'unknown',bio:'ちゃんこが覚えている、あの夜の侵入者。顔は思い出せない。'}
+<script>window.ADV_DOWNLOAD=null;window.ADV_ASSETS={"bg-archive": "assets/bg-archive.2042df36cf11.webp", "bg-bath": "assets/bg-bath.b2fed4c8a9c1.webp", "bg-bedroom": "assets/bg-bedroom.5d00db8c3d2f.webp", "bg-chest": "assets/bg-chest.42f16b92456b.webp", "bg-city-bath-reveal": "assets/bg-city-bath-reveal.880ec65d8f6e.webp", "bg-city-bath": "assets/bg-city-bath.ce226fe15ac5.webp", "bg-city-home": "assets/bg-city-home.e87e9a2a4805.webp", "bg-city-police": "assets/bg-city-police.9561e3cccfde.webp", "bg-city": "assets/bg-city.1fae94bcc7ad.webp", "bg-classroom": "assets/bg-classroom.5451fcba1b92.webp", "bg-dream": "assets/bg-dream.3158de8d0feb.webp", "bg-forest": "assets/bg-forest.43bfa224821e.webp", "bg-grave-night": "assets/bg-grave-night.563932d07110.webp", "bg-grave": "assets/bg-grave.298757ff7d54.webp", "bg-lake": "assets/bg-lake.2efcc58321a9.webp", "bg-living-night": "assets/bg-living-night.b0ee3fbb9ed4.webp", "bg-living": "assets/bg-living.df9748f27967.webp", "bg-papa-confession": "assets/bg-papa-confession.b21e5a675096.webp", "bg-papa-door": "assets/bg-papa-door.1685928578ba.webp", "bg-police-office": "assets/bg-police-office.45e08b8f493c.webp", "bg-room-night": "assets/bg-room-night.f6d574836c0f.webp", "bg-room": "assets/bg-room.4395c6875213.webp", "bg-ruin-inside": "assets/bg-ruin-inside.158dbe563489.webp", "bg-ruin": "assets/bg-ruin.afc90f46f79e.webp", "bg-study": "assets/bg-study.91e433c50b7f.webp", "bg-title": "assets/bg-title.f653637e5e4c.webp", "bg-university": "assets/bg-university.ee59425e2e16.webp", "bg-village": "assets/bg-village.f87719c45ea8.webp", "brother-adult": "assets/brother-adult.357a0daebfbc.webp", "brother-child": "assets/brother-child.510a1dfc72f6.webp", "chanko-adult-grief": "assets/chanko-adult-grief.eedf2146988b.webp", "chanko-adult": "assets/chanko-adult.a836f6ee5899.webp", "chanko-child-fear": "assets/chanko-child-fear.ba766473c87c.webp", "chanko-child": "assets/chanko-child.9349818ea286.webp", "charlotte": "assets/charlotte.5157f1c31e07.webp", "chihiro": "assets/chihiro.fcc0ef7771f1.webp", "fumi": "assets/fumi.d26fa49e61ad.webp", "kiyo": "assets/kiyo.59935bf97516.webp", "kuri-adult-guilt": "assets/kuri-adult-guilt.e1424de7d5a4.webp", "kuri-adult": "assets/kuri-adult.7f625cb81178.webp", "kuri-child": "assets/kuri-child.59d5e7357c1c.webp", "makabe": "assets/makabe.ac5227f96e35.webp", "mama-grief": "assets/mama-grief.e6c1f105dd82.webp", "mama": "assets/mama.fd727d1bacd9.webp", "nozaki": "assets/nozaki.f76b1f60a24f.webp", "papa": "assets/papa.b14882861beb.webp", "pepe": "assets/pepe.2d31da9a0e63.webp", "police": "assets/police.885068764dfc.webp", "sumika": "assets/sumika.1e883394682f.webp", "unknown": "assets/unknown.cf206b5632d6.webp"};</script>
+<script>/* Fixed facts, staged testimony. The protected person is identified only after opening the chest. */
+window.ADV={
+  "characters": {
+    "chanko": {
+      "name": "ちゃんこ",
+      "art": "chanko-child",
+      "bio": "虫が大好きな子供。だいじなものにシールを貼る。青い帽子と丸いサングラスが目印。",
+      "child": true
+    },
+    "adult": {
+      "name": "ちゃんこ",
+      "art": "chanko-adult",
+      "bio": "村を離れ、別の町で暮らす大学生。くりたけと同級生になった。家族を傷つけた侵入者を、今も捜している。"
+    },
+    "kuri": {
+      "name": "くりたけ",
+      "art": "kuri-child",
+      "bio": "ちゃんこの友達。悪ガキで楽観的。止められると、かえって確かめたくなる。",
+      "child": true
+    },
+    "adultKuri": {
+      "name": "くりたけ",
+      "art": "kuri-adult",
+      "bio": "ちゃんこと同じ町の大学に通う同級生。昔と同じ調子で隣にいるが、あの夏の行動には言い出せないことがある。"
+    },
+    "mama": {
+      "name": "ちゃんママ",
+      "art": "mama",
+      "bio": "ちゃんこの母。ペペ先生の娘。森へ行くことを強く禁じている。"
+    },
+    "papa": {
+      "name": "ちゃんパパ",
+      "art": "papa",
+      "bio": "ちゃんこの父。家族の暮らしを守ってきた。警官の訪問には表情を曇らせる。"
+    },
+    "brother": {
+      "name": "弟",
+      "art": "brother-child",
+      "bio": "ちゃんこの弟。兄の虫の話を、少し怖がりながら聞いている。",
+      "child": true
+    },
+    "adultBrother": {
+      "name": "弟",
+      "art": "brother-adult",
+      "bio": "事件当時は幼かった。見たことと、後から聞かされたことを分けて話そうとする。"
+    },
+    "police": {
+      "name": "警官",
+      "art": "police",
+      "bio": "村の警官。親切だが、ちゃんこの家の周囲を何度も巡回している。"
+    },
+    "pepe": {
+      "name": "ペペ先生",
+      "art": "pepe",
+      "bio": "ちゃんママの父で絵画教室の先生。昔の教室は森の奥に残されている。"
+    },
+    "sumika": {
+      "name": "水瀬 澄香",
+      "art": "sumika",
+      "bio": "祖母の資料を整理するために帰郷した記録調査員。証言と記録の食い違いを追う。"
+    },
+    "fumi": {
+      "name": "水瀬 フミ",
+      "art": "fumi",
+      "bio": "澄香の祖母。昔の教室と家族たちを知る。出来事の順番が曖昧になることがある。"
+    },
+    "makabe": {
+      "name": "真壁 透",
+      "art": "makabe",
+      "bio": "若い警官。先輩の曖昧な報告を疑い、捜査記録の裏づけを求めている。"
+    },
+    "kiyo": {
+      "name": "湯原 キヨ",
+      "art": "kiyo",
+      "bio": "ちゃんこが暮らす大学の町の銭湯店主。客の体や私生活を、むやみに他人へ話さない。"
+    },
+    "nozaki": {
+      "name": "野崎 修",
+      "art": "nozaki",
+      "bio": "かつてペペの教室に通った男。廃墟に出入りする姿を目撃されている。"
+    },
+    "chihiro": {
+      "name": "相良 千尋",
+      "art": "chihiro",
+      "bio": "くりたけと同世代の村人。あの日の商店の出来事を覚えている。"
+    },
+    "charlotte": {
+      "name": "シャルロット",
+      "art": "charlotte",
+      "bio": "ちゃんこの部屋を自由に歩くカブトムシ。小さいが、ちゃんこにとっては特別な存在。",
+      "beetle": true
+    },
+    "unknown": {
+      "name": "？？？",
+      "art": "unknown",
+      "bio": "ちゃんこが覚えている、あの夜の侵入者。顔は思い出せない。"
+    }
+  },
+  "evidence": {
+    "stickers": {
+      "title": "四枚のだいじなものシール",
+      "text": "机で見つけたシールは四枚。ちゃんこは大切なものに貼る習慣がある。標本や家族写真の額にも、以前のシールが貼られている。",
+      "source": "子供時代・勉強机"
+    },
+    "painting": {
+      "title": "ちゃんママが描いた絵",
+      "text": "子供時代のちゃんママが、桃と家族を描いた絵。ペペの古い教室から、今の教室へ持ち出された。枠の裏には当時の年と署名がある。",
+      "source": "ペペの教室・額縁"
+    },
+    "patrol": {
+      "title": "繰り返される巡回",
+      "text": "警官は虫取りの日だけでなく、その前夜にも家の近くにいた。本人は普通の見回りだと言う。",
+      "source": "村の交番前"
+    },
+    "tone": {
+      "title": "ちゃんこだけが聞いた音",
+      "text": "森の入口で、長く耳を刺すような音がした。くりたけには聞こえていない。",
+      "source": "森での二人の会話"
+    },
+    "oneSticker": {
+      "title": "虫かごに残った一枚",
+      "text": "森で捕まえたカブトムシを入れた虫かごに、ちゃんこが一枚貼った。これは帰宅前のこと。残りは三枚だった。",
+      "source": "湖・虫取りのあと"
+    },
+    "missingStickers": {
+      "title": "見つからない三枚のシール",
+      "text": "事件の翌朝、家族の手当てが済んでから、ちゃんこは残り三枚のシールが台紙ごと見つからないと気づいた。森で一枚使ったことは覚えている。どこかで落としたと思っているが、いつなくなったのかは確かめられていない。",
+      "source": "事件翌朝・ちゃんこの部屋"
+    },
+    "ruinLock": {
+      "title": "開かなかった廃墟",
+      "text": "森の古い絵画教室。虫取りの日、入口は施錠されていて、二人は中に入っていない。",
+      "source": "廃墟の玄関"
+    },
+    "graveSound": {
+      "title": "墓で強まった耳鳴り",
+      "text": "名の読めない墓の近くで、ちゃんこだけが強い耳鳴りと意識の揺れを感じた。",
+      "source": "森の奥の墓"
+    },
+    "cardMemory": {
+      "title": "テレフォンカードの記憶",
+      "text": "ちゃんこは、夕食の代わりに母からオオカマキリのテレフォンカードを渡されたと覚えている。この場面の証人は、まだいない。",
+      "source": "ちゃんこの帰宅後の記憶"
+    },
+    "threeVictims": {
+      "title": "生きていた三人",
+      "text": "翌朝、母・父・弟は全員生きていたが、おしりを失っていた。ちゃんこは警官に助けを求め、ペペは三枚の桃の絵を描いた。",
+      "source": "事件翌朝の記録"
+    },
+    "cityPatrol": {
+      "title": "別の町にもいる警官",
+      "text": "大学生になったちゃんこの暮らす町に、村と同じ警官がいた。正式な配属だとは聞いたが、なぜこの町なのかはまだ分からない。",
+      "source": "大学近くの交番前"
+    },
+    "bathPeach": {
+      "title": "警官の桃の絵",
+      "text": "今暮らしている町の銭湯で、村と同じ警官の体に、家族と同じ桃の絵が付いているのを見た。十年前の事件よりも古い傷だという。",
+      "source": "大学の町の銭湯・警官本人"
+    },
+    "papaLetter": {
+      "title": "父の出さなかった手紙",
+      "text": "「もう家の近くには来ないでください。この家のことは、私が引き受けます。」脅しにも、家族を守る申し出にも読める。封筒は未投函。",
+      "source": "ちゃんパパが保管していた手紙"
+    },
+    "familyTestimony": {
+      "title": "家族の食い違う証言",
+      "text": "母は夕食の準備まで覚えていると言う。父は外から来た男がいたと証言したが、窓を閉めたのも父だった。弟は誰がいたか見ていない。三人の話を同じ確かさでは扱えない。",
+      "source": "家族への聞き取り"
+    },
+    "oldMarriage": {
+      "title": "警官と母の過去",
+      "text": "警官はちゃんママの元夫で、ちゃんこの実父。母の最初の被害者でもある。血縁のない夫婦も被害の対象だった。",
+      "source": "警官の説明・当時の家族記録"
+    },
+    "oldCase": {
+      "title": "伏せられた過去の被害",
+      "text": "警官は昔の被害を事故として届けていた。母を守りたい思いで事実を伏せたが、血の仕組みや十年前の犯人を知っていたわけではない。",
+      "source": "警官自身の申告・真壁による照合"
+    },
+    "noIntruder": {
+      "title": "父が閉めた窓",
+      "text": "窓下の泥には足跡がない。当時の記録では、父が窓を閉め、外から男が入ったと警官に説明していた。外部の侵入が本当にあったかは未確認。",
+      "source": "現場写真と父の当時の申告"
+    },
+    "shopReceipt": {
+      "title": "商店の時刻",
+      "text": "商店の配達控えと千尋の記憶は、くりたけが「ちゃんこと一緒にいた」と述べた時刻に、一人で店へ寄っていたことを示す。",
+      "source": "相良商店・配達控え"
+    },
+    "kuriTruth": {
+      "title": "くりたけの訂正",
+      "text": "森の出口で二人は別れた。寄り道を隠したくて帰宅時刻を遅く申告した。家の事件を目撃したわけではないため、その訂正だけで犯人や犯行時刻は決められない。",
+      "source": "くりたけの訂正書"
+    },
+    "birthdayCard": {
+      "title": "誕生日の封筒",
+      "text": "オオカマキリのテレフォンカードは、事件の前に母が渡した誕生日の贈り物。同じカードが写る誕生日写真と、日付入りの封筒が残る。夕食の記憶は年代が混ざっている。",
+      "source": "弟のアルバム・誕生日の封筒"
+    },
+    "classPhoto": {
+      "title": "昔の教室の写真",
+      "text": "フミが「事件のあと」と呼んだ写真は、裏の日付から事件より前だと分かる。若い母と警官が夫婦で、旧教室を訪ねている。",
+      "source": "フミの資料・写真裏の日付"
+    },
+    "nozakiCanvas": {
+      "title": "野崎が持ち出した絵",
+      "text": "包みの中は野崎自身の昔の作品。廃墟の新しい足跡は現在の彼のもの。十年前の足跡ではない。棚の奥の物を見て怖くなり、出入りを隠していた。",
+      "source": "野崎の包み・旧教室"
+    },
+    "diary": {
+      "title": "母の被害記録",
+      "text": "若い母が警官を傷つけた事件について、翌日の手当てと桃の絵の描き方が記されている。当夜の様子は母本人も説明できず、ペペの記述にも推測が交じる。十年前の事件の加害者は記されていない。",
+      "source": "旧教室の机"
+    },
+    "clan": {
+      "title": "尻切り族の断片記録",
+      "text": "家族から切り離されたものが朽ちないという古い記録。後世の書き写しで、事実と伝承の境界は不明。対象を血縁者だけに限定する記述はない。",
+      "source": "村の資料室"
+    },
+    "pepeOmission": {
+      "title": "繰り返された沈黙",
+      "text": "ペペは娘が警官を傷つけた過去を知り、十年前も再発を恐れた。母に昔の話をさせず、閉じた部屋の確認もしなかった。今回何が起きたかを知っているという告白ではない。父が箱を隠した理由も、この段階では分からない。",
+      "source": "教室での聞き取り"
+    },
+    "motherTrigger": {
+      "title": "母が説明できない夜",
+      "text": "母の過去の事件は、警官の転勤と出産を前に古い教室を訪れた日の夜だった。翌朝、母は直前の記憶がないと話していた。十年前の夕食の説明も曖昧で、同じことが起きたという疑いが残る。",
+      "source": "過去の記録と母の説明"
+    },
+    "chestKey": {
+      "title": "預けられた宝箱の鍵",
+      "text": "母からペペに預けられた鍵。母は昔のことをしまった箱だと言ったが、ペペ自身は中を確かめていない。父は旧宅の部屋を調べることに反対している。",
+      "source": "ペペの保管品"
+    },
+    "charlotteTrace": {
+      "title": "扉のそばの殻",
+      "text": "シャルロットの殻の欠片が、勉強部屋の敷居に残っていた。誰が運んだのか、いつ死んだのかは分からない。ちゃんこが夢で聞いた声の意味も未確認。",
+      "source": "旧宅の勉強部屋の入口"
+    },
+    "chestTruth": {
+      "title": "三つのシール",
+      "text": "箱にある三つは、母・父・弟から切り取られたもの。それぞれにちゃんこのシールがある。森で使った一枚と合わせて四枚。家族を傷つけ、ここにしまったのはちゃんこ自身だった。父は箱をしまうちゃんこを見た後、侵入者がいたという説明を肯定し、勉強部屋の調査を止めていた。",
+      "source": "鍵で開けた宝箱"
+    },
+    "sharedFacts": {
+      "title": "共有した事実",
+      "text": "警官の過去、くりたけの寄り道、村の記録、家族の証言を、四人が互いに話した。プレイヤーが読んだだけではなく、ちゃんこ本人も知っている。",
+      "source": "絵画教室での照合"
+    },
+    "papaCover": {
+      "title": "パパが隠していたこと",
+      "text": "父は、侵入者を見たという証言が嘘だったと認めた。勉強部屋を閉じ、警官の調査を止めたのも父。「家族を守るため」と言い、母をかばっていたようにも見えるが、誰を何から守ったのかは答えていない。",
+      "source": "旧宅で父に尋ねる"
+    },
+    "papaWitness": {
+      "title": "パパが見た相手",
+      "text": "箱を開けたあと、父は意識を取り戻した時にちゃんこが宝箱を閉じるところを見たと証言した。母ではなく、ちゃんこを守るつもりで侵入者を作り、部屋の確認を妨げた。",
+      "source": "開いた宝箱の前での父の訂正"
+    }
+  },
+  "items": {
+    "net": {
+      "name": "虫取り網",
+      "icon": "⌁",
+      "detail": "湖でカブトムシを捕まえる網。物語の中でも、輪の内側が虫に重なると捕獲できる。"
+    },
+    "cage": {
+      "name": "虫かご",
+      "icon": "▥",
+      "detail": "空の虫かご。家で暮らすシャルロットとは別に、森で捕まえた虫を入れる。"
+    },
+    "stickers": {
+      "name": "だいじなものシール",
+      "icon": "✦",
+      "detail": "だいじなものを、自分でだいじだと覚えておくためのシール。机には四枚残っていた。"
+    },
+    "key": {
+      "name": "宝箱の鍵",
+      "icon": "⚿",
+      "detail": "昔の勉強部屋に置かれた箱の鍵。最後の照合を終えてから、ペペが手渡した。"
+    }
+  },
+  "nodes": {
+    "room": {
+      "chapter": 0,
+      "title": "標本の朝",
+      "location": "ちゃんこの部屋",
+      "time": "十年前 · 夏の朝",
+      "pov": "chanko",
+      "bg": "room",
+      "music": "day",
+      "intro": [
+        {
+          "who": "",
+          "text": "夏休みの朝。家の中でいちばん静かな部屋には、小さな命が、壁一面に並んでいた。"
+        },
+        {
+          "who": "chanko",
+          "text": "ふへへ……ティオール、その脚の曲がり方……昨日よりいい。ずっと見てられる。"
+        },
+        {
+          "who": "chanko",
+          "text": "ごはんを食べる時の口、ちっちゃいのに一生懸命で……ああ、もう一回やって。もう一回だけ。"
+        },
+        {
+          "who": "",
+          "text": "床を、シャルロットが横切る。ちゃんこは虫かごから目を離さない。"
+        },
+        {
+          "who": "mama",
+          "text": "ちゃんこ！　なにしてんの！　くりたけくんが呼んでるわよ！"
+        },
+        {
+          "who": "chanko",
+          "text": "あっ、ヤバい！　もうそんな時間！？　虫（ティオール※フランス語で菩提樹の意）に見とれてて忘れちゃってた！"
+        },
+        {
+          "who": "mama",
+          "text": "支度してらっしゃい。出る前に、リビングへ顔を出すのよ。"
+        },
+        {
+          "who": "",
+          "text": "ちゃんママの足音が遠ざかった。"
+        },
+        {
+          "who": "chanko",
+          "text": "くりたけと虫取りに行く約束してたんだ。虫取り網と虫かごを持ってこなきゃ。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "altar",
+          "label": "祭壇みたいな台",
+          "x": 54,
+          "y": 48,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "ティオールは真ん中。光がちょうど当たるからね。ほら、触角の影までかわいい……。"
+            }
+          ]
+        },
+        {
+          "id": "charlotte",
+          "label": "歩き回るシャルロット",
+          "x": 67,
+          "y": 77,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "シャルロット、そこは通り道。踏まれちゃうよ。"
+            },
+            {
+              "who": "",
+              "text": "ちゃんこが指を置くと、シャルロットは、その上をゆっくり越えていった。"
+            }
+          ]
+        },
+        {
+          "id": "specimens",
+          "label": "壁一面の標本",
+          "x": 34,
+          "y": 28,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "だいじなものにはシールを貼るんだ。名前を書くだけだと、どれくらいだいじか分からないでしょ。"
+            },
+            {
+              "who": "chanko",
+              "text": "でもシャルロットには貼らない。背中がベタベタになるの、嫌がりそうだもん。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "右隣の勉強部屋へ",
+          "to": "study"
+        }
+      ]
+    },
+    "study": {
+      "chapter": 0,
+      "title": "四枚のシール",
+      "location": "ちゃんこの勉強部屋",
+      "time": "十年前 · 夏の朝",
+      "pov": "chanko",
+      "bg": "study",
+      "music": "day",
+      "intro": [
+        {
+          "who": "",
+          "text": "いつでも入れる、隣の勉強部屋。虫の部屋から来た扉は、左側にある。"
+        },
+        {
+          "who": "chanko",
+          "text": "網と……虫かご。机も見ておこう。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "desk",
+          "label": "勉強机の引き出し",
+          "x": 24,
+          "y": 54,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "だいじなものシール！　あと四枚しかないから、大事につかわなきゃ。なくなったら、ちゃんママに新しいの買ってもらおう。"
+            }
+          ],
+          "give": [
+            "stickers"
+          ],
+          "items": [
+            "stickers"
+          ]
+        },
+        {
+          "id": "net",
+          "label": "虫取り網",
+          "x": 43,
+          "y": 40,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "これがないと始まらない。今日は大きいの、捕まえたいな。"
+            }
+          ],
+          "items": [
+            "net"
+          ],
+          "set": [
+            "net"
+          ]
+        },
+        {
+          "id": "cage",
+          "label": "空の虫かご",
+          "x": 45,
+          "y": 68,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "お迎えする準備、完璧。中はちゃんと掃除したんだ。"
+            }
+          ],
+          "items": [
+            "cage"
+          ],
+          "set": [
+            "cage"
+          ]
+        },
+        {
+          "id": "cabinet",
+          "label": "番号のついた棚",
+          "x": 55,
+          "y": 29,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "パスコード、忘れちゃったなぁ……。今日はあとでいいや。"
+            }
+          ]
+        },
+        {
+          "id": "chest",
+          "label": "鍵の掛かった宝箱",
+          "x": 75,
+          "y": 72,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "鍵がない。だいじなもの用なのに、開かなかったら入れられないじゃん。"
+            },
+            {
+              "who": "",
+              "text": "古い箱だ。鍵穴の中は暗く、何も見えない。"
+            }
+          ]
+        },
+        {
+          "id": "bed",
+          "label": "ベッド",
+          "x": 86,
+          "y": 49,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "ここで本を読みながら寝ちゃうんだよね。夜は、隣の寝室のベッドでみんなと寝る。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "リビングへ",
+          "to": "living",
+          "requires": [
+            "net",
+            "cage",
+            "stickers"
+          ]
+        },
+        {
+          "label": "虫の部屋に戻る",
+          "to": "room"
+        }
+      ]
+    },
+    "living": {
+      "chapter": 0,
+      "title": "四人の家族",
+      "location": "リビング",
+      "time": "十年前 · 出発前",
+      "pov": "chanko",
+      "bg": "living",
+      "music": "day",
+      "intro": [
+        {
+          "who": "mama",
+          "text": "虫取りはいいけど、森には危ないから絶対に行かないこと。分かった？"
+        },
+        {
+          "who": "chanko",
+          "text": "……うん。"
+        },
+        {
+          "who": "mama",
+          "text": "返事だけじゃだめよ。暗くなる前に帰ってきなさい。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "papa",
+          "label": "ちゃんパパ",
+          "x": 65,
+          "y": 48,
+          "lines": [
+            {
+              "who": "papa",
+              "text": "網を振る時は、隣に人がいないか見るんだぞ。"
+            },
+            {
+              "who": "chanko",
+              "text": "分かってるって。パパもいつか一緒に来てよ。"
+            },
+            {
+              "who": "papa",
+              "text": "ああ。休みが取れたら、四人でな。"
+            }
+          ]
+        },
+        {
+          "id": "brother",
+          "label": "弟",
+          "x": 82,
+          "y": 69,
+          "lines": [
+            {
+              "who": "brother",
+              "text": "お兄ちゃん、虫の名前、帰ったら教えて。"
+            },
+            {
+              "who": "chanko",
+              "text": "いいよ。ちゃんと最後まで聞いてね。脚の話だけでも長いから。"
+            }
+          ]
+        },
+        {
+          "id": "family",
+          "label": "家族の写真",
+          "x": 37,
+          "y": 26,
+          "lines": [
+            {
+              "who": "",
+              "text": "四人が写った写真。ちゃんこは、フレームの角に古いシールを一枚貼っていた。"
+            },
+            {
+              "who": "chanko",
+              "text": "家族も、だいじなもの。これはもう貼ったから、新しいのは虫に使える。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "外へ出る",
+          "to": "village-child"
+        }
+      ]
+    },
+    "village-child": {
+      "chapter": 0,
+      "title": "昨日もいた人",
+      "location": "村の通り",
+      "time": "十年前 · 午前",
+      "pov": "chanko",
+      "bg": "village",
+      "music": "day",
+      "intro": [
+        {
+          "who": "kuri",
+          "text": "おっせーぞ、ちゃんこ。虫とおしゃべりでもしてたのか？"
+        },
+        {
+          "who": "chanko",
+          "text": "しゃべらないよ。そこがいいんじゃん。"
+        },
+        {
+          "who": "police",
+          "text": "おう、ちゃんこ。今日は虫取りか"
+        },
+        {
+          "who": "chanko",
+          "text": "うん！　……おまわりさん、昨日もここにいたよね"
+        },
+        {
+          "who": "police",
+          "text": "……この辺も、ちゃんと見ておかないとな"
+        }
+      ],
+      "give": [
+        "patrol"
+      ],
+      "hotspots": [
+        {
+          "id": "police",
+          "label": "警官の視線",
+          "x": 67,
+          "y": 41,
+          "lines": [
+            {
+              "who": "",
+              "text": "話を終えた警官は、二人ではなく、家の方を見ている。"
+            },
+            {
+              "who": "chanko",
+              "text": "おまわりさん、ちゃんママに用事？"
+            },
+            {
+              "who": "police",
+              "text": "いや。……遅くならないようにな。"
+            }
+          ]
+        },
+        {
+          "id": "kuri",
+          "label": "くりたけ",
+          "x": 81,
+          "y": 67,
+          "lines": [
+            {
+              "who": "kuri",
+              "text": "ペペ先生んとこの前、通って行こうぜ。近道。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "ペペ先生の絵画教室へ",
+          "to": "classroom-child"
+        }
+      ]
+    },
+    "classroom-child": {
+      "chapter": 0,
+      "title": "二度目の忠告",
+      "location": "ペペ先生の絵画教室",
+      "time": "十年前 · 午前",
+      "pov": "chanko",
+      "bg": "classroom",
+      "music": "day",
+      "intro": [
+        {
+          "who": "pepe",
+          "text": "二人とも。ちょうどよかった、少し寄っていきなさい。"
+        },
+        {
+          "who": "kuri",
+          "text": "えー、今から虫取りだよ。"
+        },
+        {
+          "who": "pepe",
+          "text": "すぐ済む。……森の奥には、入ってはいけない。古い建物にも、墓にも近づくな。"
+        },
+        {
+          "who": "chanko",
+          "text": "ちゃんママもそう言ってた。"
+        },
+        {
+          "who": "pepe",
+          "text": "なら、約束しておくれ。何かおかしいと思ったら、二人で抱えず、大人に言うんだ。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "painting",
+          "label": "ちゃんママの子供の頃の絵",
+          "x": 70,
+          "y": 27,
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "これ、ちゃんママが描いたの？"
+            },
+            {
+              "who": "pepe",
+              "text": "ああ。昔の教室から持ってきた。上手い下手よりも、残しておきたい絵なんだ。"
+            },
+            {
+              "who": "",
+              "text": "桃のような丸いものと、並ぶ人の姿。額の裏に、母の名前がある。"
+            }
+          ],
+          "give": [
+            "painting"
+          ]
+        },
+        {
+          "id": "pepe",
+          "label": "先生の様子",
+          "x": 55,
+          "y": 48,
+          "lines": [
+            {
+              "who": "kuri",
+              "text": "森の変なものって、何？"
+            },
+            {
+              "who": "pepe",
+              "text": "……知ってからでは、遅いこともある。"
+            },
+            {
+              "who": "",
+              "text": "答えになっていない。先生は筆を、いつまでも洗っていた。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "教室を出る",
+          "to": "forest-invite",
+          "requires": [
+            "painting"
+          ]
+        }
+      ]
+    },
+    "forest-invite": {
+      "chapter": 0,
+      "title": "行ってみりゃわかる",
+      "location": "森へ続く通り",
+      "time": "十年前 · 昼前",
+      "pov": "chanko",
+      "bg": "village",
+      "music": "day",
+      "intro": [
+        {
+          "who": "kuri",
+          "text": "ちゃんこ、森に行ってみようぜ。"
+        },
+        {
+          "who": "chanko",
+          "text": "えっ、ちゃんママもペペ先生も絶対に行っちゃだめって……"
+        },
+        {
+          "who": "kuri",
+          "text": "いいんだよ！　遅くならなきゃバレないって！　それにさ、森の中、変なものがあるんだよ。"
+        },
+        {
+          "who": "chanko",
+          "text": "変なもの？"
+        },
+        {
+          "who": "kuri",
+          "text": "行ってみりゃわかるよ。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "森の入口へ",
+          "to": "forest"
+        }
+      ]
+    },
+    "forest": {
+      "chapter": 1,
+      "title": "聞こえるのは一人",
+      "location": "虫取りの森",
+      "time": "十年前 · 午後",
+      "pov": "chanko",
+      "bg": "forest",
+      "music": "forest",
+      "intro": [
+        {
+          "who": "",
+          "text": "木陰に足を踏み入れた瞬間、耳の奥に、細く長い音が突き刺さった。",
+          "sfx": "ring"
+        },
+        {
+          "who": "chanko",
+          "text": "……今、何か聞こえなかった？"
+        },
+        {
+          "who": "kuri",
+          "text": "セミ？"
+        },
+        {
+          "who": "chanko",
+          "text": "違う。もっと……。やっぱり帰ろうよ……"
+        },
+        {
+          "who": "kuri",
+          "text": "大丈夫だって。俺もいるし、もうちょっと遊ぼうぜ！"
+        }
+      ],
+      "give": [
+        "tone"
+      ],
+      "hotspots": [
+        {
+          "id": "fork",
+          "label": "分かれ道",
+          "x": 53,
+          "y": 60,
+          "lines": [
+            {
+              "who": "",
+              "text": "湖へ向かう道と、古い建物へ続く坂。墓へ行く獣道は、さらに別の方向へ伸びている。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "湖へ",
+          "to": "lake"
+        },
+        {
+          "label": "古い廃墟へ",
+          "to": "ruin-child"
+        },
+        {
+          "label": "墓への獣道へ",
+          "to": "grave-child"
+        },
+        {
+          "label": "村へ帰ろうとする",
+          "to": null,
+          "showUnless": [
+            "lakeDone",
+            "ruinDone",
+            "graveDone"
+          ],
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "やっぱり帰ろうよ……"
+            },
+            {
+              "who": "kuri",
+              "text": "大丈夫だって。俺もいるし、もうちょっと遊ぼうぜ！"
+            }
+          ]
+        },
+        {
+          "label": "三つの道を回り、帰路へ",
+          "to": "dusk",
+          "requires": [
+            "lakeDone",
+            "ruinDone",
+            "graveDone"
+          ]
+        }
+      ]
+    },
+    "lake": {
+      "chapter": 1,
+      "title": "湖の勝負",
+      "location": "森の奥の湖",
+      "time": "十年前 · 午後",
+      "pov": "chanko",
+      "bg": "lake",
+      "music": "day",
+      "intro": [
+        {
+          "who": "kuri",
+          "text": "ここ、たくさんいるんだ。どっちが多く捕まえるか勝負な！"
+        },
+        {
+          "who": "chanko",
+          "text": "網の輪でちゃんと捕まえるんだよ。柄で叩くんじゃないからね。"
+        },
+        {
+          "who": "kuri",
+          "text": "分かってるって！　お前について歩くだけだと思うなよ。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "shore",
+          "label": "水辺",
+          "x": 72,
+          "y": 69,
+          "lines": [
+            {
+              "who": "",
+              "text": "水面には二人の影。さっきの音は、もう聞こえない。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "虫取り勝負を始める",
+          "to": null,
+          "special": "catch"
+        },
+        {
+          "label": "虫かごにシールを貼る",
+          "to": null,
+          "requires": [
+            "caught"
+          ],
+          "showUnless": "oneSticker",
+          "lines": [
+            {
+              "who": "chanko",
+              "text": "だいじなものになったから、一枚。"
+            },
+            {
+              "who": "kuri",
+              "text": "シール、虫の背中に貼るのか？"
+            },
+            {
+              "who": "chanko",
+              "text": "歩きにくくなるから、虫かごに貼る。中の子の分だよ。"
+            },
+            {
+              "who": "",
+              "text": "四枚のうち一枚を使った。残りは、三枚。"
+            }
+          ],
+          "give": [
+            "oneSticker"
+          ],
+          "set": [
+            "lakeDone"
+          ]
+        },
+        {
+          "label": "分かれ道へ戻る",
+          "to": "forest"
+        }
+      ]
+    },
+    "ruin-child": {
+      "chapter": 1,
+      "title": "閉じた教室",
+      "location": "森の廃墟",
+      "time": "十年前 · 午後",
+      "pov": "chanko",
+      "bg": "ruin",
+      "music": "forest",
+      "intro": [
+        {
+          "who": "kuri",
+          "text": "な。変な家だろ。誰もいないのに、鍵だけ新しいんだ。"
+        },
+        {
+          "who": "chanko",
+          "text": "古い絵画教室って、ここ……？"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "door",
+          "label": "鍵の掛かった扉",
+          "x": 57,
+          "y": 55,
+          "lines": [
+            {
+              "who": "",
+              "text": "扉はびくともしない。窓も板で塞がれている。"
+            },
+            {
+              "who": "kuri",
+              "text": "今日は無理か。"
+            },
+            {
+              "who": "chanko",
+              "text": "無理でいいよ。ここ、嫌な感じがする。"
+            }
+          ],
+          "give": [
+            "ruinLock"
+          ],
+          "set": [
+            "ruinDone"
+          ]
+        },
+        {
+          "id": "window",
+          "label": "窓の向こう",
+          "x": 77,
+          "y": 32,
+          "lines": [
+            {
+              "who": "",
+              "text": "暗がりに、棚のような輪郭だけが見える。何が並んでいるのかは分からない。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "分かれ道へ戻る",
+          "to": "forest"
+        }
+      ]
+    },
+    "grave-child": {
+      "chapter": 1,
+      "title": "名もない墓",
+      "location": "森の奥の墓",
+      "time": "十年前 · 午後",
+      "pov": "chanko",
+      "bg": "grave",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "kuri",
+          "text": "こっちは……墓か。名前、読めねえな。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "stone",
+          "label": "風化した墓石",
+          "x": 57,
+          "y": 51,
+          "lines": [
+            {
+              "who": "",
+              "text": "あの音が戻った。今度は耳の外ではなく、頭の内側で鳴っている。",
+              "sfx": "ring"
+            },
+            {
+              "who": "chanko",
+              "text": "……くりたけ。ちょっと、待って。"
+            },
+            {
+              "who": "",
+              "text": "視界が一度だけ暗転する。次に見えた自分の手が、ひどく遠い。"
+            },
+            {
+              "who": "kuri",
+              "text": "顔、真っ白だぞ。水、飲むか？"
+            }
+          ],
+          "give": [
+            "graveSound"
+          ],
+          "set": [
+            "graveDone"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "分かれ道へ戻る",
+          "to": "forest"
+        }
+      ]
+    },
+    "dusk": {
+      "chapter": 1,
+      "title": "帰る約束",
+      "location": "森の出口",
+      "time": "十年前 · 日没",
+      "pov": "chanko",
+      "bg": "forest",
+      "tone": "night",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "",
+          "text": "三つの道を回るうちに、木々の隙間から日が消えていた。"
+        },
+        {
+          "who": "kuri",
+          "text": "やばい、もうこんな時間！　帰ろう、ちゃんこ。"
+        },
+        {
+          "who": "chanko",
+          "text": "……うん。"
+        },
+        {
+          "who": "",
+          "text": "森を出たところで、二人は別れた。ちゃんこは、家へ急いだ。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "家へ帰る",
+          "to": "home-memory"
+        }
+      ]
+    },
+    "home-memory": {
+      "chapter": 2,
+      "title": "遅い夕食",
+      "location": "リビング",
+      "time": "十年前 · 帰宅後",
+      "pov": "chanko",
+      "bg": "living-night",
+      "tone": "memory",
+      "music": "dread",
+      "memory": true,
+      "intro": [
+        {
+          "who": "mama",
+          "text": "こんな時間まで、どこに行ってたの！　今日は夕飯なし！"
+        },
+        {
+          "who": "",
+          "text": "くりたけも、帰宅してひどく叱られたという。"
+        },
+        {
+          "who": "chanko",
+          "text": "ちゃんママ……おなか、すいた。"
+        },
+        {
+          "who": "mama",
+          "text": "そこに座って。……これでも食っとけ。"
+        },
+        {
+          "who": "",
+          "text": "食卓に、オオカマキリのテレフォンカードが置かれた。"
+        },
+        {
+          "who": "chanko",
+          "text": "一枚かぁ……。"
+        }
+      ],
+      "give": [
+        "cardMemory"
+      ],
+      "actions": [
+        {
+          "label": "自分の部屋へ",
+          "to": "charlotte-night"
+        }
+      ]
+    },
+    "charlotte-night": {
+      "chapter": 2,
+      "title": "動かない友達",
+      "location": "ちゃんこの部屋",
+      "time": "十年前 · 夜",
+      "pov": "chanko",
+      "bg": "room-night",
+      "memory": true,
+      "music": "sad",
+      "intro": [
+        {
+          "who": "",
+          "text": "シャルロットが、動かない。呼んでも、手を近づけても。"
+        },
+        {
+          "who": "chanko",
+          "text": "……なんで。さっきまで、いたのに。"
+        },
+        {
+          "who": "",
+          "text": "泣き声が叫び声になり、机の上の物が床に落ちた。"
+        },
+        {
+          "who": "mama",
+          "text": "ちゃんこ！　どうしたの？"
+        },
+        {
+          "who": "chanko",
+          "text": "シャルロットが……死んじゃった。"
+        },
+        {
+          "who": "mama",
+          "text": "……一緒に、お墓を作ろうね。"
+        },
+        {
+          "who": "",
+          "text": "母の声は、急に優しくなった。"
+        },
+        {
+          "who": "mama",
+          "text": "こんな時間になっちゃったね。ごはんにしよう。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "その夜の記憶へ",
+          "to": "night"
+        }
+      ]
+    },
+    "night": {
+      "chapter": 2,
+      "title": "助かった子",
+      "location": "家族の寝室",
+      "time": "十年前 · 夜",
+      "pov": "chanko",
+      "bg": "bedroom",
+      "memory": true,
+      "music": "dread",
+      "intro": [
+        {
+          "who": "",
+          "text": "四人は、いつもの寝室のベッドで眠っていた。"
+        },
+        {
+          "who": "",
+          "text": "窓が、開く。足音を聞いた覚えはない。"
+        },
+        {
+          "who": "unknown",
+          "text": "……。"
+        },
+        {
+          "who": "",
+          "text": "暗い影が家族の方へ動いた。ちゃんこには、声を出すことができない。"
+        },
+        {
+          "who": "unknown",
+          "text": "お前は俺と同じ目をしている。"
+        },
+        {
+          "who": "",
+          "text": "なぜか、自分だけには手を伸ばさなかった。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "眠りの奥へ",
+          "to": "dream"
+        }
+      ]
+    },
+    "dream": {
+      "chapter": 2,
+      "title": "開けてはいけない",
+      "location": "勉強部屋の扉",
+      "time": "十年前 · 眠りの中",
+      "pov": "chanko",
+      "bg": "dream",
+      "music": "dread",
+      "memory": true,
+      "intro": [
+        {
+          "who": "charlotte",
+          "text": "ちゃんこ。"
+        },
+        {
+          "who": "chanko",
+          "text": "しゃべった！　気持ち悪い！"
+        },
+        {
+          "who": "",
+          "text": "夢の中で、ちゃんこはシャルロットを隣の勉強部屋へ投げ入れ、扉の鍵を掛けた。"
+        },
+        {
+          "who": "",
+          "text": "昨日までは普通に入れた、実在する部屋。その扉の向こうから、声がした。"
+        },
+        {
+          "who": "charlotte",
+          "text": "ちゃんこ。このドアは、決して開けてはいけないよ。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "朝の声を聞く",
+          "to": "morning"
+        }
+      ]
+    },
+    "morning": {
+      "chapter": 2,
+      "title": "三枚の桃",
+      "location": "ペペ先生の教室",
+      "time": "十年前 · 翌朝",
+      "pov": "chanko",
+      "bg": "classroom",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "",
+          "text": "目が覚めると、母も父も弟も、生きていた。けれど三人とも、おしりを失っていた。"
+        },
+        {
+          "who": "",
+          "text": "ちゃんこは警官を呼びに走った。助けが家に着くのを見届けると、ペペの教室へ駆け込んだ。"
+        },
+        {
+          "who": "chanko",
+          "text": "先生！　家族が……窓から、誰かが入ってきて……！"
+        },
+        {
+          "who": "pepe",
+          "text": "……まさか。ちょっと待っていなさい。"
+        },
+        {
+          "who": "",
+          "text": "先生は問い返さず、急いで三枚の桃の絵を描いた。"
+        },
+        {
+          "who": "",
+          "text": "その絵を失った場所に付けて、三人は生活するようになった。どうしてそんなことができるのか、大人は説明しなかった。"
+        },
+        {
+          "who": "",
+          "text": "三人の手当てが済んだあと、ちゃんこは一度、自分の部屋へ戻った。"
+        }
+      ],
+      "give": [
+        "threeVictims"
+      ],
+      "actions": [
+        {
+          "label": "自分の部屋へ",
+          "to": "missing-stickers"
+        }
+      ]
+    },
+    "missing-stickers": {
+      "chapter": 2,
+      "title": "ポケットの中",
+      "location": "ちゃんこの部屋",
+      "time": "十年前 · 事件の翌朝",
+      "pov": "chanko",
+      "bg": "room",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "",
+          "text": "昨日持ち出した虫かごが、机の脇に置いてあった。中のカブトムシは、ゆっくり脚を動かしている。"
+        },
+        {
+          "who": "chanko",
+          "text": "……この子は、ちゃんといる。"
+        },
+        {
+          "who": "",
+          "text": "虫かごのシールを指で押さえ、ちゃんこはポケットを探った。"
+        },
+        {
+          "who": "chanko",
+          "text": "あれ。だいじなものシール……ない。"
+        },
+        {
+          "who": "",
+          "text": "反対のポケットも、服の裏も確かめる。残していた台紙が見つからない。"
+        },
+        {
+          "who": "chanko",
+          "text": "昨日ここで一枚使って、あと三枚あったのに。どこかで落としちゃったのかな……。"
+        },
+        {
+          "who": "",
+          "text": "ちゃんこは、網と虫かごを持って歩いた道を思い返した。どこでなくしたのかは、思い出せなかった。",
+          "give": [
+            "missingStickers"
+          ],
+          "removeItems": [
+            "stickers"
+          ]
+        },
+        {
+          "who": "",
+          "text": "隣の勉強部屋の扉には、鍵が掛かっている。家族の様子を見に来た大人たちの声が、下から聞こえた。"
+        },
+        {
+          "who": "papa",
+          "text": "そこは開けなくていい。鍵は母さんに渡しておくから。"
+        },
+        {
+          "who": "chanko",
+          "text": "勉強部屋、僕の部屋なのに……。"
+        },
+        {
+          "who": "papa",
+          "text": "今日は、下にいよう。"
+        },
+        {
+          "who": "",
+          "text": "やがて一家は別の町へ引っ越した。事件だけが、終わらなかった。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "十年後へ",
+          "to": "return"
+        }
+      ]
+    },
+    "return": {
+      "chapter": 3,
+      "title": "十年後、同じ教室で",
+      "location": "別の町の大学",
+      "time": "現在 · 講義のあと",
+      "pov": "adult",
+      "bg": "university",
+      "music": "day",
+      "inherit": {
+        "adult": "chanko"
+      },
+      "intro": [
+        {
+          "who": "",
+          "text": "村を離れて十年。ちゃんこは、家族と暮らす別の町で大学生になっていた。"
+        },
+        {
+          "who": "adultKuri",
+          "text": "ちゃんこ、次も同じ講義だろ。昼、どうする？"
+        },
+        {
+          "who": "adult",
+          "text": "……あ、ごめん。昨日、また夢を見て。"
+        },
+        {
+          "who": "",
+          "text": "くりたけとは、この大学で同級生になった。場所が変わっても、二人の距離は昔のままだ。"
+        },
+        {
+          "who": "adultKuri",
+          "text": "あの部屋の夢？"
+        },
+        {
+          "who": "adult",
+          "text": "うん。顔のない男と、開けてはいけない部屋。十年経ったのに、そこだけ、昨日のままなんだ。"
+        },
+        {
+          "who": "adultKuri",
+          "text": "一人で考え込むなよ。……俺も、いるんだから。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "くりたけと大学の外へ",
+          "to": "city-first"
+        }
+      ]
+    },
+    "city-first": {
+      "chapter": 3,
+      "title": "どうして、この町に",
+      "location": "大学近くの通り",
+      "time": "現在 · 講義のあと",
+      "pov": "adult",
+      "bg": "city",
+      "music": "investigation",
+      "intro": [
+        {
+          "who": "",
+          "text": "歩道の向こうに、見覚えのある制服姿があった。"
+        },
+        {
+          "who": "police",
+          "text": "おう、ちゃんこ。大学はもう終わりか。"
+        },
+        {
+          "who": "adult",
+          "text": "……おまわりさん？　村の？"
+        },
+        {
+          "who": "adultKuri",
+          "text": "なんで、こっちにいるんだよ。"
+        },
+        {
+          "who": "police",
+          "text": "今は、この町の交番にいる。もう二年になる。"
+        },
+        {
+          "who": "adult",
+          "text": "僕が大学に入った頃……。"
+        },
+        {
+          "who": "police",
+          "text": "この辺も、ちゃんと見ておかないとな。"
+        },
+        {
+          "who": "",
+          "text": "十年前と同じ言い方だった。警官の視線が、家へ続く道へ流れる。"
+        }
+      ],
+      "give": [
+        "cityPatrol"
+      ],
+      "hotspots": [
+        {
+          "id": "box",
+          "label": "町の交番",
+          "x": 64,
+          "y": 38,
+          "lines": [
+            {
+              "who": "adultKuri",
+              "text": "たまたま、だよな？"
+            },
+            {
+              "who": "adult",
+              "text": "村にいた時も、家の近くを何度も巡回してた。今度は、この町で……。"
+            }
+          ]
+        },
+        {
+          "id": "bathSign",
+          "label": "通りの銭湯",
+          "x": 80,
+          "y": 52,
+          "lines": [
+            {
+              "who": "",
+              "text": "非番になった警官が、通りの銭湯へ入っていく。"
+            },
+            {
+              "who": "adult",
+              "text": "あの人に、ちゃんと聞いてみたい。昔、何を気にしていたのか。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "今の町と、昔の村を調べる",
+          "to": "investigation-hub"
+        }
+      ]
+    },
+    "investigation-hub": {
+      "chapter": 3,
+      "title": "交わらない証言",
+      "location": "大学の町と、元の村",
+      "time": "現在 · 二つの場所での調査",
+      "pov": "group",
+      "bg": "city",
+      "music": "investigation",
+      "intro": [
+        {
+          "who": "",
+          "text": "その日、ちゃんママを通じて一件の電話があった。"
+        },
+        {
+          "who": "sumika",
+          "text": "水瀬澄香です。元の村で祖母の資料を整理しています。あなたのお母さんの昔の教室が出てきました。必要なら、見てください。"
+        },
+        {
+          "who": "",
+          "text": "今の町と、置いてきた村。同じ事件を、四人が別の側から調べ始める。誰かの知識は、話すまで他の人には届かない。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "ちゃんこ ─ 銭湯にいる警官",
+          "to": "bath",
+          "pov": "adult",
+          "showUnless": "chankoRoute"
+        },
+        {
+          "label": "警官 ─ 伏せた報告書",
+          "to": "police",
+          "pov": "police",
+          "showUnless": "policeRoute"
+        },
+        {
+          "label": "くりたけ ─ 帰り道の嘘",
+          "to": "kuri-shop",
+          "pov": "adultKuri",
+          "showUnless": "kuriRoute"
+        },
+        {
+          "label": "澄香 ─ 祖母の資料",
+          "to": "archive",
+          "pov": "sumika",
+          "showUnless": "sumikaRoute"
+        },
+        {
+          "label": "元の村へ戻り、四人の調査を照合する",
+          "to": "return-village",
+          "requires": [
+            "chankoRoute",
+            "policeRoute",
+            "kuriRoute",
+            "sumikaRoute"
+          ]
+        }
+      ]
+    },
+    "bath": {
+      "chapter": 3,
+      "title": "この町でも、同じ桃",
+      "location": "大学の町の銭湯",
+      "time": "現在 · ちゃんこの調査",
+      "pov": "adult",
+      "bg": "city-bath",
+      "music": "investigation",
+      "intro": [
+        {
+          "who": "kiyo",
+          "text": "学生さんね。あそこの大学？"
+        },
+        {
+          "who": "adult",
+          "text": "はい。……さっき入ったおまわりさん、ここによく来ますか。"
+        },
+        {
+          "who": "kiyo",
+          "text": "来るけど、お客のことをあれこれ話す場所じゃないよ。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "kiyo",
+          "label": "口を閉ざすキヨ",
+          "x": 35,
+          "y": 44,
+          "lines": [
+            {
+              "who": "adult",
+              "text": "隠してることがあるんですか。"
+            },
+            {
+              "who": "kiyo",
+              "text": "あんたの家族の体のことを、他人に話していいかい？"
+            },
+            {
+              "who": "adult",
+              "text": "……それは、嫌です。"
+            },
+            {
+              "who": "kiyo",
+              "text": "なら、分かっておくれ。本人に聞きな。"
+            }
+          ]
+        },
+        {
+          "id": "police",
+          "label": "脱衣所の警官",
+          "x": 72,
+          "y": 48,
+          "lines": [
+            {
+              "who": "",
+              "text": "着替えかけの警官の背に、入れ墨が見えた。腰のタオルの端から、一枚の桃の絵がのぞいている。家族の体に付いているものと、同じだった。",
+              "bg": "city-bath-reveal"
+            },
+            {
+              "who": "adult",
+              "text": "……それ。うちの家族と、同じ。"
+            },
+            {
+              "who": "police",
+              "text": "見られたか。"
+            },
+            {
+              "who": "adult",
+              "text": "あなたも、あの夜の被害者だった？"
+            },
+            {
+              "who": "police",
+              "text": "違う。私の方が、ずっと前だ。犯人のことを知っていたなら、お前を十年も待たせなかった。"
+            }
+          ],
+          "give": [
+            "bathPeach"
+          ]
+        },
+        {
+          "id": "lockers",
+          "label": "古いロッカー",
+          "x": 52,
+          "y": 24,
+          "lines": [
+            {
+              "who": "",
+              "text": "何度も塗り直された番号。同じ村でも、十年あれば変わるものはある。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "家族の話を聞きに行く",
+          "to": "family",
+          "requires": [
+            "bathPeach"
+          ]
+        }
+      ]
+    },
+    "family": {
+      "chapter": 3,
+      "title": "家のことは私が",
+      "location": "今の町の自宅",
+      "time": "現在 · ちゃんこの調査",
+      "pov": "adult",
+      "bg": "city-home",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "",
+          "text": "ちゃんこは大学から通い慣れた道を戻り、家族に銭湯で見たことを話した。"
+        },
+        {
+          "who": "papa",
+          "text": "あの人が、この町でも関わっているのか。"
+        },
+        {
+          "who": "adult",
+          "text": "おまわりさん？　どうして、そんな言い方をするの。"
+        },
+        {
+          "who": "papa",
+          "text": "家のことは、俺が引き受けると言ったはずだ。……今でも、そのつもりだ。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "letter",
+          "label": "父の手紙",
+          "x": 43,
+          "y": 66,
+          "lines": [
+            {
+              "who": "",
+              "text": "「もう家の近くには来ないでください。この家のことは、私が引き受けます。」"
+            },
+            {
+              "who": "adult",
+              "text": "これは……。"
+            },
+            {
+              "who": "papa",
+              "text": "出せなかった。守るつもりだったのか、自分が父親だと認めさせたかったのか。どっちも、あったんだろうな。"
+            }
+          ],
+          "give": [
+            "papaLetter"
+          ]
+        },
+        {
+          "id": "victims",
+          "label": "三人の証言",
+          "x": 72,
+          "y": 51,
+          "lines": [
+            {
+              "who": "mama",
+              "text": "ごはんを温めようとしていたのは覚えてる。でも、その先は……うまく順番がつかないの。"
+            },
+            {
+              "who": "papa",
+              "text": "外から男が来た。母さんは倒れて、俺もそこでやられた。前にも、そう話しただろう。"
+            },
+            {
+              "who": "adultBrother",
+              "text": "僕は寝室に隠れてた。誰がいたかは見てない。"
+            },
+            {
+              "who": "adult",
+              "text": "ママ。何か、ほかに覚えてない？"
+            },
+            {
+              "who": "papa",
+              "text": "母さんに何度も思い出させるな。あの晩のことは、俺が話す。"
+            }
+          ],
+          "give": [
+            "familyTestimony"
+          ]
+        },
+        {
+          "id": "album",
+          "label": "弟の古いアルバム",
+          "x": 80,
+          "y": 73,
+          "lines": [
+            {
+              "who": "adultBrother",
+              "text": "これ、覚えてる？　オオカマキリのテレフォンカード。誕生日に、母さんからもらったやつ。"
+            },
+            {
+              "who": "adult",
+              "text": "夕飯の代わりに、じゃ……。"
+            },
+            {
+              "who": "adultBrother",
+              "text": "違うよ。日付も残ってる。僕、うらやましかったんだ。"
+            },
+            {
+              "who": "",
+              "text": "写真の中で、ちゃんこは笑ってカードを掲げている。封筒は、事件より前の日付だった。"
+            }
+          ],
+          "give": [
+            "birthdayCard"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "調査を記録して合流を待つ",
+          "to": "investigation-hub",
+          "requires": [
+            "papaLetter",
+            "familyTestimony",
+            "birthdayCard"
+          ],
+          "set": [
+            "chankoRoute"
+          ]
+        }
+      ]
+    },
+    "police": {
+      "chapter": 3,
+      "title": "事故と書いた男",
+      "location": "大学の町の交番",
+      "time": "現在 · 警官の調査",
+      "pov": "police",
+      "bg": "city-police",
+      "music": "investigation",
+      "intro": [
+        {
+          "who": "",
+          "text": "村の事件記録の写しが、今の配属先に届いていた。"
+        },
+        {
+          "who": "makabe",
+          "text": "先輩。ここ、何度読んでもおかしいです。"
+        },
+        {
+          "who": "police",
+          "text": "どこだ。"
+        },
+        {
+          "who": "makabe",
+          "text": "類似の被害を知っていたのに、なぜ報告しなかったんですか。"
+        },
+        {
+          "who": "",
+          "text": "警官は、机の引き出しを押し戻した。ちゃんこには、まだ見せていない書類がある。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "drawer",
+          "label": "押し戻した引き出し",
+          "x": 64,
+          "y": 59,
+          "lines": [
+            {
+              "who": "police",
+              "text": "彼女は、私の妻だった。ちゃんこは、私の子だ。"
+            },
+            {
+              "who": "makabe",
+              "text": "それを捜査から外していたんですか。"
+            },
+            {
+              "who": "police",
+              "text": "許すことと、事実を記録しないことを、同じにしてしまった。"
+            },
+            {
+              "who": "",
+              "text": "過去の記録には、ちゃんママとの婚姻と別離。そして、事故として処理された警官自身の被害がある。"
+            }
+          ],
+          "give": [
+            "oldMarriage",
+            "oldCase"
+          ]
+        },
+        {
+          "id": "photo",
+          "label": "窓下の現場写真",
+          "x": 45,
+          "y": 51,
+          "lines": [
+            {
+              "who": "makabe",
+              "text": "窓の下に足跡がありません。報告には「父親が窓を閉めた」とあります。"
+            },
+            {
+              "who": "police",
+              "text": "彼が、外から男が入ったと言った。私は、子供の話と一致したから信用した。"
+            },
+            {
+              "who": "makabe",
+              "text": "父親は、侵入者の顔や逃げた方向を答えていません。現場の窓を触った人の説明を、もう一度確認するべきです。"
+            }
+          ],
+          "give": [
+            "noIntruder"
+          ]
+        },
+        {
+          "id": "map",
+          "label": "巡回の記録",
+          "x": 77,
+          "y": 27,
+          "lines": [
+            {
+              "who": "police",
+              "text": "最初は、母親がまたあんな状態にならないか心配だった。ちゃんこの様子も気になった。"
+            },
+            {
+              "who": "police",
+              "text": "だが、いつ起こるのか、何が起きるのか……私は、ほとんど何も分かっていなかった。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "この情報をどう扱うか",
+          "to": null,
+          "requires": [
+            "oldMarriage",
+            "oldCase",
+            "noIntruder"
+          ],
+          "prompt": "真壁「この過去も、正式に記録へ残しますか」",
+          "choices": [
+            {
+              "label": "記録して、ちゃんこにも自分で話す",
+              "to": "police-admission",
+              "set": [
+                "policeHonest"
+              ]
+            },
+            {
+              "label": "家族を守るため、今回も伏せる",
+              "to": "father-silence"
+            }
+          ]
+        }
+      ]
+    },
+    "police-admission": {
+      "chapter": 3,
+      "title": "許しの代価",
+      "location": "大学の町の交番",
+      "time": "現在 · 警官の調査",
+      "pov": "police",
+      "bg": "city-police",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "police",
+          "text": "真壁。私の被害も、当時の虚偽の申告も、記録し直してくれ。"
+        },
+        {
+          "who": "makabe",
+          "text": "先輩に不利な記録になります。"
+        },
+        {
+          "who": "police",
+          "text": "分かっている。あの子にだけ、本当のことを言えと迫る資格はない。"
+        },
+        {
+          "who": "makabe",
+          "text": "この町への異動も、あの一家が理由だったんですか。"
+        },
+        {
+          "who": "police",
+          "text": "ああ。心配で、希望を出した。配属は正式なものだ。だが、何も知らないあの子たちから見れば、またついてきた男にしか見えないだろうな。"
+        },
+        {
+          "who": "makabe",
+          "text": "なら、その理由も本人に話すべきです。家族であることと、捜査員であることは、分けて扱いましょう。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "調査を記録して合流を待つ",
+          "to": "investigation-hub",
+          "set": [
+            "policeRoute"
+          ]
+        }
+      ]
+    },
+    "kuri-shop": {
+      "chapter": 3,
+      "title": "十五分の寄り道",
+      "location": "元の村・相良商店の前",
+      "time": "現在 · くりたけの調査",
+      "pov": "adultKuri",
+      "bg": "village",
+      "music": "investigation",
+      "intro": [
+        {
+          "who": "",
+          "text": "講義のない日に、くりたけは元の村へ日帰りで戻った。ちゃんこには、確かめたいことがある、とだけ伝えてある。"
+        },
+        {
+          "who": "chihiro",
+          "text": "くりたけ。大学はどう？　……そんな顔、あの日もしてたね。"
+        },
+        {
+          "who": "adultKuri",
+          "text": "……あの日？"
+        },
+        {
+          "who": "chihiro",
+          "text": "ちゃんこたちの事件の日。店で、ずっと時計を気にしてた。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "receipt",
+          "label": "配達の控え",
+          "x": 66,
+          "y": 68,
+          "lines": [
+            {
+              "who": "chihiro",
+              "text": "配達が遅れて、お父さんが時刻まで書いたの。あんた、その時ここにいた。"
+            },
+            {
+              "who": "adultKuri",
+              "text": "ちゃんことは……森の出口で、別れてた。"
+            },
+            {
+              "who": "",
+              "text": "自分が警察に伝えた帰宅時刻を、くりたけは覚えている。事実より、遅い時刻だった。"
+            }
+          ],
+          "give": [
+            "shopReceipt"
+          ]
+        },
+        {
+          "id": "chihiro",
+          "label": "千尋に聞く",
+          "x": 77,
+          "y": 43,
+          "lines": [
+            {
+              "who": "adultKuri",
+              "text": "俺、何か変なこと言ってた？"
+            },
+            {
+              "who": "chihiro",
+              "text": "家で怒られるって。それから、ちゃんこも一緒に遅くなったから大丈夫って。"
+            },
+            {
+              "who": "adultKuri",
+              "text": "……ああ。そんな理由だったんだよ。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "十年前の訂正をするか考える",
+          "to": null,
+          "requires": [
+            "shopReceipt"
+          ],
+          "prompt": "帰った時刻を訂正すれば、十年前に話したことと食い違う。",
+          "choices": [
+            {
+              "label": "ちゃんこに、別れた時刻を話す",
+              "to": "kuri-confess",
+              "set": [
+                "kuriHonest"
+              ]
+            },
+            {
+              "label": "調査記録には残すが、本人にはまだ言えない",
+              "to": "kuri-delay"
+            }
+          ]
+        }
+      ]
+    },
+    "kuri-confess": {
+      "chapter": 3,
+      "title": "言いそびれた寄り道",
+      "location": "森へ続く道",
+      "time": "現在 · くりたけの調査",
+      "pov": "adultKuri",
+      "bg": "forest",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "adultKuri",
+          "text": "森を出て、俺たちは別れた。俺は寄り道した。それを親に言いたくなくて、帰った時間をごまかした。"
+        },
+        {
+          "who": "adultKuri",
+          "text": "警察にも同じことを言った。直したら俺のせいだと言われる気がして……十年、そのままだ。"
+        },
+        {
+          "who": "",
+          "text": "くりたけは訂正を書き、自分の名前を入れた。今度は、ちゃんこに見せるために。"
+        }
+      ],
+      "give": [
+        "kuriTruth"
+      ],
+      "actions": [
+        {
+          "label": "訂正を持って合流を待つ",
+          "to": "investigation-hub",
+          "set": [
+            "kuriRoute"
+          ]
+        }
+      ]
+    },
+    "kuri-delay": {
+      "chapter": 3,
+      "title": "言えない訂正",
+      "location": "相良商店の前",
+      "time": "現在 · くりたけの調査",
+      "pov": "adultKuri",
+      "bg": "village",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "adultKuri",
+          "text": "記録には書く。でも、ちゃんこには……まだ、言えない。"
+        },
+        {
+          "who": "chihiro",
+          "text": "あんたが怖いのは分かる。だけど、待ってるのは、あんただけじゃないよ。"
+        },
+        {
+          "who": "",
+          "text": "訂正書は封筒に入った。会合で話す機会は、まだ残っている。"
+        }
+      ],
+      "give": [
+        "kuriTruth"
+      ],
+      "actions": [
+        {
+          "label": "封筒を持って合流を待つ",
+          "to": "investigation-hub",
+          "set": [
+            "kuriRoute"
+          ]
+        }
+      ]
+    },
+    "archive": {
+      "chapter": 3,
+      "title": "順番だけが違う",
+      "location": "村の資料室",
+      "time": "現在 · 澄香の調査",
+      "pov": "sumika",
+      "bg": "archive",
+      "music": "investigation",
+      "intro": [
+        {
+          "who": "fumi",
+          "text": "あの先生の娘さんね。事件のあと、旦那さんと教室に来たのよ。"
+        },
+        {
+          "who": "sumika",
+          "text": "おばあちゃん、その「事件」って、いつのこと？"
+        },
+        {
+          "who": "fumi",
+          "text": "あら……いつだったかしら。顔は、はっきり覚えてるのに。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "photo",
+          "label": "写真の裏の日付",
+          "x": 46,
+          "y": 64,
+          "lines": [
+            {
+              "who": "sumika",
+              "text": "この写真、ちゃんこさんが生まれる前だ。十年前の事件より前。"
+            },
+            {
+              "who": "fumi",
+              "text": "そうだったかね。でも、その人のこと、旦那さんって紹介したのは覚えてる。"
+            },
+            {
+              "who": "sumika",
+              "text": "うん。順番と、覚えている言葉は、別にして残そう。"
+            }
+          ],
+          "give": [
+            "classPhoto"
+          ]
+        },
+        {
+          "id": "records",
+          "label": "村の古い記録",
+          "x": 70,
+          "y": 31,
+          "lines": [
+            {
+              "who": "sumika",
+              "text": "「尻切り族」……俗称か、古い一族の呼び名か。"
+            },
+            {
+              "who": "",
+              "text": "同じ家族の中に、失った体の一部を絵で補う話がいくつもある。病気として説明した記録は見当たらない。"
+            }
+          ],
+          "give": [
+            "clan"
+          ]
+        },
+        {
+          "id": "fumi",
+          "label": "祖母の気掛かり",
+          "x": 80,
+          "y": 51,
+          "lines": [
+            {
+              "who": "fumi",
+              "text": "森に灯りがついていたわ。あの、野崎さんじゃないかしら。"
+            },
+            {
+              "who": "sumika",
+              "text": "今の話ね？"
+            },
+            {
+              "who": "fumi",
+              "text": "昨日の夜。今度は、間違えてないよ。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "廃墟に出入りする人物を確かめる",
+          "to": "nozaki",
+          "requires": [
+            "classPhoto",
+            "clan"
+          ]
+        }
+      ]
+    },
+    "nozaki": {
+      "chapter": 3,
+      "title": "包みの中身",
+      "location": "廃墟の前",
+      "time": "現在 · 澄香の調査",
+      "pov": "sumika",
+      "bg": "ruin",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "nozaki",
+          "text": "俺は、ここには来てない。"
+        },
+        {
+          "who": "sumika",
+          "text": "手の塗料、まだ乾いていません。その包みは？"
+        },
+        {
+          "who": "nozaki",
+          "text": "……あなたに、何の関係がある。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "bundle",
+          "label": "布に包んだもの",
+          "x": 61,
+          "y": 59,
+          "lines": [
+            {
+              "who": "",
+              "text": "中にあったのは、古いキャンバス。絵の隅に「野崎修」とある。"
+            },
+            {
+              "who": "nozaki",
+              "text": "俺の絵だよ。先生が返してくれなくて……いや、頼めばよかったんだ。"
+            },
+            {
+              "who": "sumika",
+              "text": "だから、出入りしたことを隠した？"
+            },
+            {
+              "who": "nozaki",
+              "text": "棚の奥を見たら、怖くなった。俺が運んだと思われたくなかった。"
+            }
+          ],
+          "give": [
+            "nozakiCanvas"
+          ]
+        },
+        {
+          "id": "tracks",
+          "label": "新しい足跡",
+          "x": 74,
+          "y": 78,
+          "lines": [
+            {
+              "who": "sumika",
+              "text": "この足跡は新しい。十年前の犯行と、今の無断侵入を混ぜてはいけない。"
+            },
+            {
+              "who": "nozaki",
+              "text": "鍵は先生に返す。……一緒に来てくれ。怒られてもいいから。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "ペペに許可を取り、旧教室の中へ",
+          "to": "ruin-investigation",
+          "requires": [
+            "nozakiCanvas"
+          ]
+        }
+      ]
+    },
+    "ruin-investigation": {
+      "chapter": 3,
+      "title": "残していた先生",
+      "location": "旧絵画教室の内部",
+      "time": "現在 · 澄香の調査",
+      "pov": "sumika",
+      "bg": "ruin-inside",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "pepe",
+          "text": "野崎。黙って入るなと言ったはずだ。……澄香さん、見るなら、私がいる時に。"
+        },
+        {
+          "who": "sumika",
+          "text": "では、先生にも読んでいただきたいものがあります。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "diary",
+          "label": "机に残った日記",
+          "x": 48,
+          "y": 64,
+          "lines": [
+            {
+              "who": "",
+              "text": "「娘は夜のことを説明できず」「桃の絵、三度塗り重ねる」。日付は、ちゃんこが生まれる前だ。"
+            },
+            {
+              "who": "sumika",
+              "text": "この娘さんというのは……。"
+            },
+            {
+              "who": "pepe",
+              "text": "私の娘だ。警官を傷つけた時の記録だよ。"
+            },
+            {
+              "who": "sumika",
+              "text": "十年前にも、同じことがあったのですか。"
+            },
+            {
+              "who": "pepe",
+              "text": "それを恐れた。だが、あの家で何があったか、自分の目で見たわけではない。"
+            }
+          ],
+          "give": [
+            "diary"
+          ]
+        },
+        {
+          "id": "shelf",
+          "label": "布を掛けた棚",
+          "x": 73,
+          "y": 37,
+          "lines": [
+            {
+              "who": "",
+              "text": "布の下には、年月が経っても朽ちないものが置かれていた。添えられた札に、持ち主と日付。"
+            },
+            {
+              "who": "sumika",
+              "text": "先生が切り取ったんですか。"
+            },
+            {
+              "who": "pepe",
+              "text": "違う。預かったものだ。警官の分もある。戻せる方法を探したが……保存するだけになってしまった。"
+            },
+            {
+              "who": "sumika",
+              "text": "しまっておくことと、解決することは、別です。"
+            }
+          ],
+          "set": [
+            "shelfSeen"
+          ]
+        },
+        {
+          "id": "missing",
+          "label": "抜けている日記の頁",
+          "x": 39,
+          "y": 41,
+          "lines": [
+            {
+              "who": "sumika",
+              "text": "続きがありません。"
+            },
+            {
+              "who": "pepe",
+              "text": "今の教室へ移した。焼いてはいない。"
+            },
+            {
+              "who": "sumika",
+              "text": "四人で、読ませてください。別々に少しずつ聞かせるのは、もう終わりにしましょう。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "記録を持って合流を待つ",
+          "to": "investigation-hub",
+          "requires": [
+            "diary",
+            "shelfSeen"
+          ],
+          "set": [
+            "sumikaRoute"
+          ]
+        }
+      ]
+    },
+    "return-village": {
+      "chapter": 4,
+      "title": "二人で戻る村",
+      "location": "元の村",
+      "time": "現在 · 週末",
+      "pov": "adult",
+      "bg": "village",
+      "music": "investigation",
+      "intro": [
+        {
+          "who": "",
+          "text": "週末。ちゃんことくりたけは、大学のある町から、バスで元の村へ戻った。"
+        },
+        {
+          "who": "adultKuri",
+          "text": "大学じゃ、普通に次のレポートの話してたのにな。ここに来ると、十年前の続きみたいだ。"
+        },
+        {
+          "who": "adult",
+          "text": "続きにしたまま、出ていったんだと思う。"
+        },
+        {
+          "who": "",
+          "text": "澄香は村で二人を待っていた。警官も、旧事件の記録の照合のために合流する。"
+        },
+        {
+          "who": "sumika",
+          "text": "資料はそろいました。先生の教室へ行きましょう。"
+        },
+        {
+          "who": "",
+          "text": "家族にも村へ来てもらった。処分できずに残していた旧宅が、今度こそ調べるべき場所になる。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "ペペ先生の教室へ",
+          "to": "meeting"
+        }
+      ]
+    },
+    "meeting": {
+      "chapter": 4,
+      "title": "同じ机に置く",
+      "location": "ペペ先生の絵画教室",
+      "time": "現在 · 帰郷した日の夜",
+      "pov": "adult",
+      "bg": "classroom",
+      "tone": "night",
+      "music": "investigation",
+      "intro": [
+        {
+          "who": "sumika",
+          "text": "別々に知っていることを、ここで同じ机に置きます。読んだことと、相手に話したことは違います。"
+        },
+        {
+          "who": "police",
+          "text": "ちゃんこ。私は、お前の実の父親だ。母さんとは、昔、夫婦だった。"
+        },
+        {
+          "who": "adult",
+          "text": "……パパは、知ってた？"
+        },
+        {
+          "who": "police",
+          "text": "知っている。お前の父親として過ごした十年を、私が奪えると思っていない。"
+        },
+        {
+          "who": "adult",
+          "text": "おしりを切ったのは、ちゃんママ？"
+        },
+        {
+          "who": "police",
+          "text": "ああ。私は許した。だが、過去を隠したせいで、調べられたはずのことを見逃した。"
+        },
+        {
+          "who": "adult",
+          "text": "今の町に来たのも、僕たちがいるから？"
+        },
+        {
+          "who": "police",
+          "text": "そうだ。心配で、異動を希望した。犯人を知っていて見張っていたわけではない。分からないまま近くにいて、理由を話さなかった。"
+        },
+        {
+          "who": "adult",
+          "text": "だから、また怪しく見えたんだ。村と同じように。"
+        }
+      ],
+      "share": [
+        "bathPeach",
+        "papaLetter",
+        "familyTestimony",
+        "birthdayCard",
+        "oldMarriage",
+        "oldCase",
+        "noIntruder",
+        "classPhoto",
+        "nozakiCanvas",
+        "diary",
+        "clan"
+      ],
+      "actions": [
+        {
+          "label": "くりたけの訂正を聞く",
+          "to": null,
+          "prompt": "くりたけは、封筒を握ったまま黙っている。",
+          "choices": [
+            {
+              "label": "責めずに、最後まで話を聞く",
+              "to": "meeting-kuri",
+              "set": [
+                "kuriShared"
+              ]
+            },
+            {
+              "label": "今は話したくない。記録だけ受け取る",
+              "to": "meeting-records"
+            }
+          ]
+        }
+      ]
+    },
+    "meeting-kuri": {
+      "chapter": 4,
+      "title": "帰宅時刻の訂正",
+      "location": "ペペ先生の絵画教室",
+      "time": "現在 · 帰郷した日の夜",
+      "pov": "adult",
+      "bg": "classroom",
+      "tone": "night",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "adultKuri",
+          "text": "あの日、森からは一緒に出た。でも、そのあと俺は店に寄った。帰った時刻をごまかして、警察にも同じことを言った。"
+        },
+        {
+          "who": "adult",
+          "text": "だから、家で怒られた時刻と合わなかったんだ。"
+        },
+        {
+          "who": "adultKuri",
+          "text": "ああ。家の中のことは、本当に何も見てない。そこまで知ってるような顔をして、ごめん。"
+        },
+        {
+          "who": "sumika",
+          "text": "二人の帰宅と、事件が起きた時刻を一つに決めるのはやめましょう。家の中にいた大人の証言も、確かめ直す必要があります。"
+        }
+      ],
+      "share": [
+        "kuriTruth",
+        "shopReceipt"
+      ],
+      "give": [
+        "sharedFacts"
+      ],
+      "actions": [
+        {
+          "label": "ペペに残りの頁を求める",
+          "to": "pepe-truth"
+        }
+      ]
+    },
+    "meeting-records": {
+      "chapter": 4,
+      "title": "声にならない訂正",
+      "location": "ペペ先生の絵画教室",
+      "time": "現在 · 帰郷した日の夜",
+      "pov": "adult",
+      "bg": "classroom",
+      "tone": "night",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "adult",
+          "text": "今は、くりたけの口から聞くのが怖い。書いたものなら読む。"
+        },
+        {
+          "who": "",
+          "text": "訂正書には、森の出口で別れた時刻が書いてある。内容は受け取った。しかし、二人は目を合わせなかった。"
+        },
+        {
+          "who": "sumika",
+          "text": "読むのをやめるなら、今日はここまでにできます。続けるなら、次は先生の話です。"
+        }
+      ],
+      "share": [
+        "kuriTruth",
+        "shopReceipt"
+      ],
+      "actions": [
+        {
+          "label": "先生の話は聞く",
+          "to": "pepe-truth"
+        },
+        {
+          "label": "自分の記憶は変えたくない。調査を離れる",
+          "to": "record-ending"
+        }
+      ]
+    },
+    "pepe-truth": {
+      "chapter": 4,
+      "title": "絵を描けた理由",
+      "location": "ペペ先生の絵画教室",
+      "time": "現在 · 帰郷した日の夜",
+      "pov": "adult",
+      "bg": "classroom",
+      "tone": "night",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "pepe",
+          "text": "娘が警官を傷つけた時、私は助けを呼ばず、絵を描いた。十年前も、同じことをした。"
+        },
+        {
+          "who": "adult",
+          "text": "ちゃんママが、またやったと思った？"
+        },
+        {
+          "who": "pepe",
+          "text": "そう恐れた。だから娘に過去のことを話させなかった。"
+        },
+        {
+          "who": "sumika",
+          "text": "それは先生の疑いですね。今回、見たこととは分けてください。"
+        },
+        {
+          "who": "pepe",
+          "text": "……ああ。知らないまま閉じた部屋も、確かめるべきだった。"
+        }
+      ],
+      "give": [
+        "pepeOmission"
+      ],
+      "hotspots": [
+        {
+          "id": "pages",
+          "label": "移された日記の続き",
+          "x": 52,
+          "y": 63,
+          "lines": [
+            {
+              "who": "pepe",
+              "text": "古い記録には、尻切り族という名がある。家族を切り離し、残す。その男を、村ではおしり切り裂きジャックと呼んだ。"
+            },
+            {
+              "who": "adult",
+              "text": "墓は、その人のもの……？"
+            },
+            {
+              "who": "pepe",
+              "text": "そう伝わっている。娘の血は私からではない。もう片方の親から入ったものだ。"
+            },
+            {
+              "who": "sumika",
+              "text": "伝承だけでは、この家の事件の説明にはなりません。まず、実際に残っているものを確かめましょう。"
+            },
+            {
+              "who": "pepe",
+              "text": "切り取られたものが朽ちないことと、桃の絵で形を補えることは、私も見てきた。だが、十年前の行為を見たわけではない。"
+            }
+          ],
+          "set": [
+            "rulesRead"
+          ]
+        },
+        {
+          "id": "mama",
+          "label": "母の最初の事件",
+          "x": 76,
+          "y": 45,
+          "lines": [
+            {
+              "who": "mama",
+              "text": "あの人の転勤が決まって、あなたを産む前に、古い教室を訪ねたの。それから家に帰って……。"
+            },
+            {
+              "who": "mama",
+              "text": "次に覚えているのは、あの人が倒れていた朝。"
+            },
+            {
+              "who": "adult",
+              "text": "十年前も……そうだったの？"
+            },
+            {
+              "who": "mama",
+              "text": "分からない。覚えていないことを、なかったとも言えない。"
+            },
+            {
+              "who": "papa",
+              "text": "もういい。母さんに、分からないことまで言わせるな。"
+            }
+          ],
+          "give": [
+            "motherTrigger"
+          ]
+        },
+        {
+          "id": "key",
+          "label": "先生が持つ鍵",
+          "x": 38,
+          "y": 51,
+          "lines": [
+            {
+              "who": "pepe",
+              "text": "事件のあと、娘がこの鍵を持ってきた。昔のことをしまった箱だと。私は確かめずに預かった。"
+            },
+            {
+              "who": "adult",
+              "text": "ちゃんママが、中に何かをしまったの？"
+            },
+            {
+              "who": "pepe",
+              "text": "その言い方だけでは、分からん。箱を開けてはいない。"
+            },
+            {
+              "who": "papa",
+              "text": "あの部屋は、俺が閉めた。もう調べなくていい。"
+            },
+            {
+              "who": "sumika",
+              "text": "なぜ調べなくていいと、決められるんですか。"
+            },
+            {
+              "who": "",
+              "text": "ペペは答えを待ち、最後に鍵を机の上へ置いた。"
+            }
+          ],
+          "give": [
+            "chestKey"
+          ],
+          "items": [
+            "key"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "事実の食い違いを照合する",
+          "to": null,
+          "requires": [
+            "rulesRead",
+            "motherTrigger",
+            "chestKey"
+          ],
+          "challenge": {
+            "prompt": "「夕飯の代わりにカードを渡された」という記憶を、別の日と示す証拠は？",
+            "answer": "birthdayCard",
+            "options": [
+              "birthdayCard",
+              "papaLetter",
+              "noIntruder",
+              "graveSound"
+            ],
+            "success": "night-reconstruction",
+            "wrong": "その証拠だけでは、食卓の場面の日付は分からない。カードそのものの来歴を確かめよう。"
+          }
+        }
+      ]
+    },
+    "night-reconstruction": {
+      "chapter": 4,
+      "title": "母の話、父の言葉",
+      "location": "旧宅のリビング",
+      "time": "現在 · 帰郷の翌朝",
+      "pov": "adult",
+      "bg": "living",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "adult",
+          "text": "カードは誕生日の贈り物だった。あの夜の食卓は、何かが混ざってる。"
+        },
+        {
+          "who": "mama",
+          "text": "ごはんを温めるつもりだった。それは覚えているの。でも、その先を話そうとすると、はっきりしない。"
+        },
+        {
+          "who": "adult",
+          "text": "カードを渡した記憶だけじゃ、あの夜を説明できないんだね。"
+        },
+        {
+          "who": "papa",
+          "text": "母さんには、これ以上聞かなくていい。"
+        },
+        {
+          "who": "sumika",
+          "text": "お父さん。事件のあと、勉強部屋の確認を断った記録があります。体の手当てが済んだ後もです。"
+        },
+        {
+          "who": "papa",
+          "text": "……家の中を、好きに調べられたくなかった。"
+        },
+        {
+          "who": "adult",
+          "text": "鍵のことも、部屋のことも、パパが決めたの？"
+        },
+        {
+          "who": "",
+          "text": "父は、母の方を見た。それから、隣の部屋へ向かう廊下に立った。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "パパに話を聞く",
+          "to": "papa-confront"
+        }
+      ]
+    },
+    "old-room": {
+      "chapter": 5,
+      "title": "ほんとうの扉",
+      "location": "十年後のちゃんこの部屋",
+      "time": "現在 · 帰郷の翌日",
+      "pov": "adult",
+      "bg": "room-night",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "",
+          "text": "カーテンを閉めたままの部屋は、昼でも暗い。標本箱には、埃が積もっている。"
+        },
+        {
+          "who": "adult",
+          "text": "夢で見た場所と同じだ。最初から、実際にあった部屋なんだ。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "shell",
+          "label": "扉のそばの殻",
+          "x": 63,
+          "y": 74,
+          "lines": [
+            {
+              "who": "",
+              "text": "敷居の隅に、小さな殻が引っ掛かっていた。"
+            },
+            {
+              "who": "adult",
+              "text": "シャルロット……。"
+            },
+            {
+              "who": "",
+              "text": "夢では、この扉の向こうから声がした。だが、実際に誰がここへ運んだのかは分からない。"
+            },
+            {
+              "who": "adult",
+              "text": "この部屋で、何があったんだろう。"
+            }
+          ],
+          "give": [
+            "charlotteTrace"
+          ]
+        },
+        {
+          "id": "cage",
+          "label": "森から持ち帰った虫かご",
+          "x": 45,
+          "y": 41,
+          "lines": [
+            {
+              "who": "",
+              "text": "小さなシールが一枚、剥がれかけている。森で捕まえたカブトムシは、ここに入れた。"
+            },
+            {
+              "who": "adult",
+              "text": "使ったのは一枚。次の朝、あとの三枚がなくなってて……どこかで落としたって、思ってた。"
+            }
+          ]
+        },
+        {
+          "id": "door",
+          "label": "右隣の勉強部屋",
+          "x": 80,
+          "y": 46,
+          "lines": [
+            {
+              "who": "",
+              "text": "父は部屋の鍵を母に渡し、母はそれを保管していた。宝箱の鍵とは別の鍵だ。"
+            },
+            {
+              "who": "adult",
+              "text": "ちゃんママが昔のものをしまって、パパが部屋を閉めた……。"
+            },
+            {
+              "who": "sumika",
+              "text": "どちらが何をしまったのかは、まだ聞いていません。"
+            }
+          ],
+          "set": [
+            "doorExamined"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "扉の前で決める",
+          "to": null,
+          "requires": [
+            "charlotteTrace",
+            "doorExamined"
+          ],
+          "prompt": "父が調べさせなかった部屋。その中に、昔の宝箱がある。",
+          "choices": [
+            {
+              "label": "開ける。中にあるものを確かめる",
+              "to": "final-study"
+            },
+            {
+              "label": "今日は開けない。追うべき犯人は外にいる",
+              "to": "closed-ending"
+            }
+          ]
+        }
+      ]
+    },
+    "final-study": {
+      "chapter": 5,
+      "title": "だいじなものの箱",
+      "location": "十年後の勉強部屋",
+      "time": "現在 · 帰郷の翌日",
+      "pov": "adult",
+      "bg": "study",
+      "tone": "memory",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "",
+          "text": "机、棚、ベッド。虫取り網が掛かっていた場所。何一つ、夢のために作られた部屋ではない。"
+        },
+        {
+          "who": "adult",
+          "text": "あの箱も、ずっとここにあった。"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "emptySheet",
+          "label": "シールを剥がした台紙",
+          "x": 39,
+          "y": 57,
+          "lines": [
+            {
+              "who": "",
+              "text": "机と壁の隙間に、見覚えのある台紙が落ちていた。四枚分の空白。シールは一枚も残っていない。"
+            },
+            {
+              "who": "adult",
+              "text": "これ……あの朝、探してた台紙だ。"
+            },
+            {
+              "who": "adult",
+              "text": "森で一枚使ったあと、三枚残ってたはずなのに。"
+            },
+            {
+              "who": "",
+              "text": "誰かが持ち込んだのか、ずっとここにあったのか。台紙だけでは、まだ分からない。"
+            }
+          ]
+        },
+        {
+          "id": "chest",
+          "label": "鍵の掛かった宝箱",
+          "x": 76,
+          "y": 71,
+          "lines": [
+            {
+              "who": "",
+              "text": "錠は壊れていない。開けるには、先生から受け取った鍵がいる。"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "label": "宝箱の鍵を使う",
+          "to": "revelation",
+          "requires": [
+            "chestKey"
+          ]
+        }
+      ]
+    },
+    "revelation": {
+      "chapter": 5,
+      "title": "三つとも、だいじ",
+      "location": "開いた宝箱",
+      "time": "現在 · 帰郷の翌日",
+      "pov": "adult",
+      "bg": "chest",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "",
+          "text": "鍵が回った。蓋の下には、三つあった。"
+        },
+        {
+          "who": "",
+          "text": "布を少しだけ開く。母のもの。父のもの。弟のもの。年月が経っているのに、朽ちていない。"
+        },
+        {
+          "who": "adult",
+          "text": "ちゃんママが、これを……。"
+        },
+        {
+          "who": "",
+          "text": "それぞれに一枚ずつ、だいじなものシールが貼られている。ちゃんこがなくしたと思っていた三枚だった。"
+        },
+        {
+          "who": "adult",
+          "text": "僕のシール……でも、これだけじゃ、誰が貼ったか……。"
+        },
+        {
+          "who": "papa",
+          "text": "母さんじゃない。"
+        },
+        {
+          "who": "",
+          "text": "父は箱のそばに膝をつき、蓋から手を離せないまま話し始めた。",
+          "bg": "papa-confession"
+        },
+        {
+          "who": "papa",
+          "text": "倒れたあと、一度、目が覚めた。俺は廊下から見たんだ。お前が、そこに三つしまって、蓋を閉めるところを。"
+        },
+        {
+          "who": "adult",
+          "text": "……僕が？"
+        },
+        {
+          "who": "papa",
+          "text": "母さんの鍵を持っていた。虫の大事なものをしまいたいと言って、帰ってすぐに借りていた鍵だ。"
+        },
+        {
+          "who": "papa",
+          "text": "見なかったことにすれば、お前を守れると思った。鍵を拾って母さんに渡し、部屋を閉めた。朝、お前が窓から男が来たと言った時、俺も同じことを言った。"
+        },
+        {
+          "who": "papa",
+          "text": "母さんをかばっていたと思っただろう。違う。お前が何をしたか、誰にも確かめさせたくなかったんだ。",
+          "give": [
+            "papaWitness"
+          ]
+        },
+        {
+          "who": "",
+          "text": "箱の縁に触れた指が、あの夜の動きをたどった。シールを一枚ずつ剥がした指の感触。重い蓋を押さえた手。"
+        },
+        {
+          "who": "adult",
+          "text": "三枚……なくしたんじゃ、なかった。僕が、使ってたんだ。"
+        },
+        {
+          "who": "adult",
+          "text": "家に帰って、みんないて。ずっと、いなくならないでほしいって……。"
+        },
+        {
+          "who": "",
+          "text": "母の背に近づいた自分の足。倒れた母に駆け寄る父。逃げていく弟。見えなかった男の顔ではなく、伸ばした自分の手が戻ってくる。"
+        },
+        {
+          "who": "adult",
+          "text": "誰も、窓からなんか来ていない。僕だった。",
+          "give": [
+            "chestTruth"
+          ]
+        },
+        {
+          "who": "pepe",
+          "text": "娘の血がお前にも入っている。それは、知っていた。だが父さんが閉めた部屋を確かめず、娘の過去まで隠した。何が起きたか分からないまま、お前を守っているつもりでいた。"
+        },
+        {
+          "who": "pepe",
+          "text": "古い記録にあるのは、墓のそばで目覚め、祖先の人格に乗っ取られるという話だ。娘が記憶を失った夜とも重なる。だが、仕組みの全てや、完全に覚醒した先までは分からない。"
+        },
+        {
+          "who": "",
+          "text": "森の墓で聞いた音と、そこから抜け落ちた時間がつながる。母に起きたことは、ちゃんこにも起きていた。"
+        },
+        {
+          "who": "adult",
+          "text": "あの影に言われた、同じ目って……。"
+        },
+        {
+          "who": "",
+          "text": "助かった自分を説明するための影。父が肯定した侵入者。その顔を、ちゃんこは一度も見ていなかった。"
+        },
+        {
+          "who": "adult",
+          "text": "シャルロットも……足元にいた。僕が運んでる時に……。"
+        },
+        {
+          "who": "",
+          "text": "踏みつけた感触が戻る。扉の向こうの声が誰のものだったのかは、今も分からない。"
+        },
+        {
+          "who": "adult",
+          "text": "……ごめん。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "真実を知ったあと、どうするか",
+          "to": null,
+          "prompt": "箱を閉じても、事実は消えない。この先を、誰と引き受ける。",
+          "choices": [
+            {
+              "label": "家族と、調べてくれた人たちに話す",
+              "to": "family-ending-scene"
+            },
+            {
+              "label": "自分だけで責任を背負い、誰とも会わない",
+              "to": "alone-ending"
+            }
+          ]
+        }
+      ]
+    },
+    "family-ending-scene": {
+      "chapter": 6,
+      "title": "家族の前で",
+      "location": "旧宅のリビング",
+      "time": "現在 · 帰郷翌日の夕方",
+      "pov": "adult",
+      "bg": "living-night",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "adult",
+          "text": "あの夜、みんなを傷つけたのは、僕だった。祖先のせいだけにして、僕のしたことを消したくない。"
+        },
+        {
+          "who": "mama",
+          "text": "私も、あなたに話さなかった。自分がしたことを、隠した。"
+        },
+        {
+          "who": "papa",
+          "text": "俺は、何も見ていない父親の顔をして、お前と暮らした。母さんが疑われても、部屋を開けさせなかった。"
+        },
+        {
+          "who": "papa",
+          "text": "お前を守るという言い訳で、みんなに嘘をつかせた。俺のしたことも、記録してほしい。"
+        },
+        {
+          "who": "adultBrother",
+          "text": "今度は、僕にも本当のことを話して。小さいからって、外に置かないで。"
+        },
+        {
+          "who": "police",
+          "text": "記録に残す。私自身の過去も含めてだ。これ以上、誰か一人の中に閉じ込めない。"
+        },
+        {
+          "who": "adultKuri",
+          "text": "俺も、訂正する。お前に会えなくなるのが怖くて、言えなかった。でも、もう嘘でつながるのは嫌だ。"
+        },
+        {
+          "who": "pepe",
+          "text": "戻す方法も、血を止める方法も、見つかったとは言えない。知らないことを、知っているふりは、もうしない。"
+        },
+        {
+          "who": "sumika",
+          "text": "分かった事実と、まだ分からないこと。その両方を、残しましょう。"
+        },
+        {
+          "who": "",
+          "text": "失ったものが元に戻ったわけではない。けれど、箱の中にしまわれたままの家族では、なくなった。"
+        }
+      ],
+      "actions": [
+        {
+          "label": "最後の場面へ",
+          "to": "grave-final"
+        }
+      ]
+    },
+    "grave-final": {
+      "chapter": 6,
+      "title": "まだ、そこにある",
+      "location": "森の奥の墓",
+      "time": "その夜",
+      "pov": "none",
+      "bg": "grave-night",
+      "music": "silence",
+      "intro": [
+        {
+          "who": "",
+          "text": "村から離れた森に、夜が降りていた。"
+        },
+        {
+          "who": "",
+          "text": "人のいない獣道。濡れた岩。読めない名。"
+        },
+        {
+          "who": "",
+          "text": "墓は、何も変わっていない。"
+        },
+        {
+          "who": "",
+          "text": "――静けさの底から、あの音が、また長く響いた。",
+          "sfx": "ring"
+        }
+      ],
+      "end": "family"
+    },
+    "father-silence": {
+      "chapter": 3,
+      "title": "父の沈黙",
+      "location": "大学の町の交番",
+      "time": "現在",
+      "pov": "police",
+      "bg": "city-police",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "police",
+          "text": "これは、記録に入れないでくれ。家族のためだ。"
+        },
+        {
+          "who": "makabe",
+          "text": "その家族に、選ばせてもいないじゃないですか。"
+        },
+        {
+          "who": "",
+          "text": "引き出しが閉じた。ちゃんこは、今日も外にいる犯人を捜す。父親を名乗れない男が、そのすぐ近くで見守っている。"
+        }
+      ],
+      "end": "father"
+    },
+    "record-ending": {
+      "chapter": 4,
+      "title": "残された記録",
+      "location": "村の資料室",
+      "time": "現在 · 数日後",
+      "pov": "sumika",
+      "bg": "archive",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "sumika",
+          "text": "彼が席を立っても、記録は残ります。"
+        },
+        {
+          "who": "",
+          "text": "警官の過去、くりたけの訂正、家族の証言。紙の上ではつながり始めていた。"
+        },
+        {
+          "who": "",
+          "text": "しかし、ちゃんこの部屋の箱は閉じたままだ。資料には「未確認」と書き添えられた。"
+        },
+        {
+          "who": "sumika",
+          "text": "本人が受け取れる形を、まだ見つけられていない。"
+        }
+      ],
+      "end": "record"
+    },
+    "closed-ending": {
+      "chapter": 5,
+      "title": "閉じた部屋",
+      "location": "開かなかった勉強部屋",
+      "time": "現在",
+      "pov": "adult",
+      "bg": "dream",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "adult",
+          "text": "まだ、開けなくていい。犯人を見つけてからだ。"
+        },
+        {
+          "who": "",
+          "text": "鍵は、使われなかった。ちゃんこは村を出て、顔を思い出せない男を捜し続ける。"
+        },
+        {
+          "who": "charlotte",
+          "text": "このドアは、決して開けてはいけないよ。"
+        },
+        {
+          "who": "",
+          "text": "次の夜も、夢は同じところで終わった。"
+        }
+      ],
+      "end": "closed"
+    },
+    "alone-ending": {
+      "chapter": 6,
+      "title": "ひとりの告白",
+      "location": "勉強部屋",
+      "time": "現在 · 夜",
+      "pov": "adult",
+      "bg": "study",
+      "tone": "night",
+      "music": "sad",
+      "intro": [
+        {
+          "who": "adult",
+          "text": "全部、僕が悪い。僕がいなくなれば……。"
+        },
+        {
+          "who": "",
+          "text": "ちゃんこは事実を手紙に書いた。けれど、誰にも会わず、どうすれば次を防げるかを話し合わなかった。"
+        },
+        {
+          "who": "",
+          "text": "罪を認めることと、一人で閉じこもること。その違いを、まだ見つけられない。"
+        },
+        {
+          "who": "",
+          "text": "扉の外で、家族が呼んでいる。"
+        }
+      ],
+      "end": "alone"
+    },
+    "papa-confront": {
+      "chapter": 5,
+      "title": "閉めた人",
+      "location": "旧宅・勉強部屋の前",
+      "time": "現在 · 帰郷の翌日",
+      "pov": "adult",
+      "bg": "papa-door",
+      "music": "dread",
+      "intro": [
+        {
+          "who": "",
+          "text": "父は扉の前から動かなかった。",
+          "bg": "papa-door"
+        },
+        {
+          "who": "adult",
+          "text": "ちゃんママをかばってるの？"
+        },
+        {
+          "who": "papa",
+          "text": "家族を守ると、決めたんだ。"
+        },
+        {
+          "who": "sumika",
+          "text": "外から男が入ったという話は、お父さんも警官に伝えています。実際に、その人を見ましたか。"
+        },
+        {
+          "who": "papa",
+          "text": "……見ていない。"
+        },
+        {
+          "who": "police",
+          "text": "では、なぜ見たように話した。"
+        },
+        {
+          "who": "papa",
+          "text": "そういうことにすれば、この家のことを調べられずに済むと思った。窓を閉めたのも、部屋を閉めたのも、俺だ。"
+        },
+        {
+          "who": "adult",
+          "text": "ママがやったことを、隠したの？"
+        },
+        {
+          "who": "",
+          "text": "母は何か言いかけたが、父は、その言葉を待たなかった。"
+        },
+        {
+          "who": "papa",
+          "text": "箱を開ければ……俺が何を隠したか、分かる。"
+        },
+        {
+          "who": "sumika",
+          "text": "まだ、誰の行為を隠したのかは聞いていません。中を見る前に、結論は決めないでください。"
+        },
+        {
+          "who": "",
+          "text": "父は手を離し、扉の前から退いた。"
+        }
+      ],
+      "give": [
+        "papaCover"
+      ],
+      "actions": [
+        {
+          "label": "虫の部屋へ",
+          "to": "old-room"
+        }
+      ]
+    }
+  },
+  "endings": {
+    "father": {
+      "name": "父の沈黙",
+      "text": "守るために伏せた過去が、\n次の調査を止めてしまった。",
+      "rewind": "police"
+    },
+    "record": {
+      "name": "残された記録",
+      "text": "証言は残った。\nだが、箱を確かめる人は席を立った。",
+      "rewind": "meeting"
+    },
+    "closed": {
+      "name": "閉じた部屋",
+      "text": "扉の向こうに、だいじなものを残したまま。\n誰かを捜す日々が続く。",
+      "rewind": "old-room"
+    },
+    "alone": {
+      "name": "ひとりの告白",
+      "text": "犯人は分かった。\nその先を引き受ける言葉は、まだ届かない。",
+      "rewind": "revelation"
+    },
+    "family": {
+      "name": "家族の前で",
+      "text": "だいじなものを、もう閉じ込めない。\nけれど、あの墓は、まだ森にある。",
+      "rewind": "revelation"
+    }
+  },
+  "chapters": [
+    "序章 ─ 虫の部屋",
+    "第一章 ─ 森の声",
+    "第二章 ─ 助かった子",
+    "第三章 ─ 四つの証言",
+    "第四章 ─ 食い違う夜",
+    "第五章 ─ だいじなもの",
+    "終章 ─ 開いたあと"
+  ],
+  "start": "room"
 };
-const evidence={
- stickers:{title:'四枚のだいじなものシール',text:'机で見つけたシールは四枚。ちゃんこは大切なものに貼る習慣がある。標本や家族写真の額にも、以前のシールが貼られている。',source:'子供時代・勉強机'},
- painting:{title:'ちゃんママが描いた絵',text:'子供時代のちゃんママが、桃と家族を描いた絵。ペペの古い教室から、今の教室へ持ち出された。枠の裏には当時の年と署名がある。',source:'ペペの教室・額縁'},
- patrol:{title:'繰り返される巡回',text:'警官は虫取りの日だけでなく、その前夜にも家の近くにいた。本人は普通の見回りだと言う。',source:'村の交番前'},
- tone:{title:'ちゃんこだけが聞いた音',text:'森の入口で、長く耳を刺すような音がした。くりたけには聞こえていない。',source:'森での二人の会話'},
- oneSticker:{title:'虫かごに残った一枚',text:'森で捕まえたカブトムシを入れた虫かごに、ちゃんこが一枚貼った。これは帰宅前のこと。残りは三枚だった。',source:'湖・虫取りのあと'},
- missingStickers:{title:'見つからない三枚のシール',text:'事件の翌朝、家族の手当てが済んでから、ちゃんこは残り三枚のシールが台紙ごと見つからないと気づいた。森で一枚使ったことは覚えている。どこかで落としたと思っているが、いつなくなったのかは確かめられていない。',source:'事件翌朝・ちゃんこの部屋'},
- ruinLock:{title:'開かなかった廃墟',text:'森の古い絵画教室。虫取りの日、入口は施錠されていて、二人は中に入っていない。',source:'廃墟の玄関'},
- graveSound:{title:'墓で強まった耳鳴り',text:'名の読めない墓の近くで、ちゃんこだけが強い耳鳴りと意識の揺れを感じた。',source:'森の奥の墓'},
- cardMemory:{title:'テレフォンカードの記憶',text:'ちゃんこは、夕食の代わりに母からオオカマキリのテレフォンカードを渡されたと覚えている。この場面の証人は、まだいない。',source:'ちゃんこの帰宅後の記憶'},
- threeVictims:{title:'生きていた三人',text:'翌朝、母・父・弟は全員生きていたが、おしりを失っていた。ちゃんこは警官に助けを求め、ペペは三枚の桃の絵を描いた。',source:'事件翌朝の記録'},
- cityPatrol:{title:'別の町にもいる警官',text:'大学生になったちゃんこの暮らす町に、村と同じ警官がいた。正式な配属だとは聞いたが、なぜこの町なのかはまだ分からない。',source:'大学近くの交番前'},
- bathPeach:{title:'警官の桃の絵',text:'今暮らしている町の銭湯で、村と同じ警官の体に、家族と同じ桃の絵が付いているのを見た。十年前の事件よりも古い傷だという。',source:'大学の町の銭湯・警官本人'},
- papaLetter:{title:'父の出さなかった手紙',text:'「もう家の近くには来ないでください。この家のことは、私が引き受けます。」脅しにも、家族を守る申し出にも読める。封筒は未投函。',source:'ちゃんパパが保管していた手紙'},
- familyTestimony:{title:'家族が見た範囲',text:'母は背を向けていた。父は倒れた母の側にかがんでいた。弟は寝室に隠れ、兄の声を聞いた。三人とも一部始終や、品物の収納を見ていない。',source:'家族三人の個別証言'},
- oldMarriage:{title:'警官と母の過去',text:'警官はちゃんママの元夫で、ちゃんこの実父。母の最初の被害者でもある。血縁のない夫婦も被害の対象だった。',source:'警官の説明・当時の家族記録'},
- oldCase:{title:'伏せられた過去の被害',text:'警官は昔の被害を事故として届けていた。母を守りたい思いで事実を伏せたが、血の仕組みや十年前の犯人を知っていたわけではない。',source:'警官自身の申告・真壁による照合'},
- noIntruder:{title:'窓の外の地面',text:'当夜の現場写真では、濡れた窓下に侵入者の足跡がない。窓から出入りしたという証言は、ちゃんこのものだけだった。足跡がないことだけで犯人は決められない。',source:'事件の現場写真'},
- shopReceipt:{title:'商店の時刻',text:'商店の配達控えと千尋の記憶は、くりたけが「ちゃんこと一緒にいた」と述べた時刻に、一人で店へ寄っていたことを示す。',source:'相良商店・配達控え'},
- kuriTruth:{title:'くりたけの訂正',text:'森から出たあと、二人は分かれた。くりたけは寄り道を隠すため帰宅時刻を偽った。それが、ちゃんこの空白の時間を覆っていた。',source:'くりたけの訂正した証言'},
- birthdayCard:{title:'誕生日の封筒',text:'オオカマキリのテレフォンカードは、事件の前に母が渡した誕生日の贈り物。同じカードが写る誕生日写真と、日付入りの封筒が残る。夕食の記憶は年代が混ざっている。',source:'弟のアルバム・誕生日の封筒'},
- classPhoto:{title:'昔の教室の写真',text:'フミが「事件のあと」と呼んだ写真は、裏の日付から事件より前だと分かる。若い母と警官が夫婦で、旧教室を訪ねている。',source:'フミの資料・写真裏の日付'},
- nozakiCanvas:{title:'野崎が持ち出した絵',text:'包みの中は野崎自身の昔の作品。廃墟の新しい足跡は現在の彼のもの。十年前の足跡ではない。棚の奥の物を見て怖くなり、出入りを隠していた。',source:'野崎の包み・旧教室'},
- diary:{title:'ペペの日記',text:'墓の近くで意識が変わる血筋、切り取られたものが朽ちないこと、桃の絵による代用を記している。母の血はペペではなく、もう片方の親から入った。',source:'廃墟の机'},
- clan:{title:'尻切り族の断片記録',text:'血を引く者に祖先の人格が入り込み、家族を「失わないために残そう」とする。発現中は記憶を失う。愛着そのものが悪いのではなく、乗っ取る人格が家族への愛着を歪めて使う。',source:'日記と村の古記録の照合'},
- pepeOmission:{title:'ペペが話さなかったこと',text:'ペペは母の発現と血の危険を知っていた。「知らせなければ同じことは起こらない」と考え、禁止するだけで説明しなかった。事件後はちゃんこを疑いながら沈黙した。',source:'四人がそろって聞いた説明'},
- motherTrigger:{title:'母の最初の発現',text:'警官の転勤と出産を控えた母が、村を離れる前に古い教室と墓を訪れた。そこで半覚醒し、家庭を失う恐れを祖先の人格に利用された。結婚したこと自体が発現の条件ではない。',source:'母の話・警官の転勤記録・ペペの日記'},
- chestKey:{title:'宝箱の鍵',text:'事件後、ペペが母から預かって保管していた鍵。鍵穴を壊すことなく、昔の勉強部屋の箱を開けられる。',source:'ペペから受け取る'},
- charlotteTrace:{title:'扉のそばの小さな殻',text:'勉強部屋の敷居にシャルロットの殻の欠片が残る。ちゃんこが思い出す、何かを運ぶ足元で踏みつけた感触と重なる。夢の言葉が超常現象なのかは確かめられない。',source:'実在する勉強部屋の入口'},
- chestTruth:{title:'三つのシール',text:'箱にある三つは、母・父・弟から切り取られたもの。それぞれにちゃんこのシールがある。森で使った一枚と合わせて四枚。家族を傷つけ、ここにしまったのはちゃんこ自身だった。',source:'鍵で開けた宝箱'},
- sharedFacts:{title:'共有した事実',text:'警官の過去、くりたけの寄り道、村の記録、家族の証言を、四人が互いに話した。プレイヤーが読んだだけではなく、ちゃんこ本人も知っている。',source:'絵画教室での照合'}
-};
-const items={net:{name:'虫取り網',icon:'⌁',detail:'湖でカブトムシを捕まえる網。物語の中でも、輪の内側が虫に重なると捕獲できる。'},cage:{name:'虫かご',icon:'▥',detail:'空の虫かご。家で暮らすシャルロットとは別に、森で捕まえた虫を入れる。'},stickers:{name:'だいじなものシール',icon:'✦',detail:'だいじなものを、自分でだいじだと覚えておくためのシール。机には四枚残っていた。'},key:{name:'宝箱の鍵',icon:'⚿',detail:'昔の勉強部屋に置かれた箱の鍵。最後の照合を終えてから、ペペが手渡した。'}};
-const nodes={
- room:{chapter:0,title:'標本の朝',location:'ちゃんこの部屋',time:'十年前 · 夏の朝',pov:'chanko',bg:'room',music:'day',intro:[
-  L('','夏休みの朝。家の中でいちばん静かな部屋には、小さな命が、壁一面に並んでいた。'),
-  L('chanko','ふへへ……ティオール、その脚の曲がり方……昨日よりいい。ずっと見てられる。'),
-  L('chanko','ごはんを食べる時の口、ちっちゃいのに一生懸命で……ああ、もう一回やって。もう一回だけ。'),
-  L('','床を、シャルロットが横切る。ちゃんこは虫かごから目を離さない。'),
-  L('mama','ちゃんこ！　なにしてんの！　くりたけくんが呼んでるわよ！'),
-  L('chanko','あっ、ヤバい！　もうそんな時間！？　虫（ティオール※フランス語で菩提樹の意）に見とれてて忘れちゃってた！'),
-  L('mama','支度してらっしゃい。出る前に、リビングへ顔を出すのよ。'),
-  L('','ちゃんママの足音が遠ざかった。'),
-  L('chanko','くりたけと虫取りに行く約束してたんだ。虫取り網と虫かごを持ってこなきゃ。')],
- hotspots:[H('altar','祭壇みたいな台',54,48,[L('chanko','ティオールは真ん中。光がちょうど当たるからね。ほら、触角の影までかわいい……。')]),H('charlotte','歩き回るシャルロット',67,77,[L('chanko','シャルロット、そこは通り道。踏まれちゃうよ。'),L('','ちゃんこが指を置くと、シャルロットは、その上をゆっくり越えていった。')]),H('specimens','壁一面の標本',34,28,[L('chanko','だいじなものにはシールを貼るんだ。名前を書くだけだと、どれくらいだいじか分からないでしょ。'),L('chanko','でもシャルロットには貼らない。背中がベタベタになるの、嫌がりそうだもん。')])],actions:[A('右隣の勉強部屋へ','study')]},
- study:{chapter:0,title:'四枚のシール',location:'ちゃんこの勉強部屋',time:'十年前 · 夏の朝',pov:'chanko',bg:'study',music:'day',intro:[L('','いつでも入れる、隣の勉強部屋。虫の部屋から来た扉は、左側にある。'),L('chanko','網と……虫かご。机も見ておこう。')],hotspots:[
- H('desk','勉強机の引き出し',24,54,[L('chanko','だいじなものシール！　あと四枚しかないから、大事につかわなきゃ。なくなったら、ちゃんママに新しいの買ってもらおう。')],{give:['stickers'],items:['stickers']}),
- H('net','虫取り網',43,40,[L('chanko','これがないと始まらない。今日は大きいの、捕まえたいな。')],{items:['net'],set:['net']}),
- H('cage','空の虫かご',45,68,[L('chanko','お迎えする準備、完璧。中はちゃんと掃除したんだ。')],{items:['cage'],set:['cage']}),
- H('cabinet','番号のついた棚',55,29,[L('chanko','パスコード、忘れちゃったなぁ……。今日はあとでいいや。')]),
- H('chest','鍵の掛かった宝箱',75,72,[L('chanko','鍵がない。だいじなもの用なのに、開かなかったら入れられないじゃん。'),L('','古い箱だ。鍵穴の中は暗く、何も見えない。')]),
- H('bed','ベッド',86,49,[L('chanko','ここで本を読みながら寝ちゃうんだよね。夜は、隣の寝室のベッドでみんなと寝る。')])],actions:[A('リビングへ','living',{requires:['net','cage','stickers']}),A('虫の部屋に戻る','room')]},
- living:{chapter:0,title:'四人の家族',location:'リビング',time:'十年前 · 出発前',pov:'chanko',bg:'living',music:'day',intro:[L('mama','虫取りはいいけど、森には危ないから絶対に行かないこと。分かった？'),L('chanko','……うん。'),L('mama','返事だけじゃだめよ。暗くなる前に帰ってきなさい。')],hotspots:[
- H('papa','ちゃんパパ',65,48,[L('papa','網を振る時は、隣に人がいないか見るんだぞ。'),L('chanko','分かってるって。パパもいつか一緒に来てよ。'),L('papa','ああ。休みが取れたら、四人でな。')]),H('brother','弟',82,69,[L('brother','お兄ちゃん、虫の名前、帰ったら教えて。'),L('chanko','いいよ。ちゃんと最後まで聞いてね。脚の話だけでも長いから。')]),H('family','家族の写真',37,26,[L('','四人が写った写真。ちゃんこは、フレームの角に古いシールを一枚貼っていた。'),L('chanko','家族も、だいじなもの。これはもう貼ったから、新しいのは虫に使える。')])],actions:[A('外へ出る','village-child')]},
- 'village-child':{chapter:0,title:'昨日もいた人',location:'村の通り',time:'十年前 · 午前',pov:'chanko',bg:'village',music:'day',intro:[L('kuri','おっせーぞ、ちゃんこ。虫とおしゃべりでもしてたのか？'),L('chanko','しゃべらないよ。そこがいいんじゃん。'),L('police','おう、ちゃんこ。今日は虫取りか'),L('chanko','うん！　……おまわりさん、昨日もここにいたよね'),L('police','……この辺も、ちゃんと見ておかないとな')],give:['patrol'],hotspots:[H('police','警官の視線',67,41,[L('','話を終えた警官は、二人ではなく、家の方を見ている。'),L('chanko','おまわりさん、ちゃんママに用事？'),L('police','いや。……遅くならないようにな。')]),H('kuri','くりたけ',81,67,[L('kuri','ペペ先生んとこの前、通って行こうぜ。近道。')])],actions:[A('ペペ先生の絵画教室へ','classroom-child')]},
- 'classroom-child':{chapter:0,title:'二度目の忠告',location:'ペペ先生の絵画教室',time:'十年前 · 午前',pov:'chanko',bg:'classroom',music:'day',intro:[L('pepe','二人とも。ちょうどよかった、少し寄っていきなさい。'),L('kuri','えー、今から虫取りだよ。'),L('pepe','すぐ済む。……森の奥には、入ってはいけない。古い建物にも、墓にも近づくな。'),L('chanko','ちゃんママもそう言ってた。'),L('pepe','なら、約束しておくれ。何かおかしいと思ったら、二人で抱えず、大人に言うんだ。')],hotspots:[H('painting','ちゃんママの子供の頃の絵',70,27,[L('chanko','これ、ちゃんママが描いたの？'),L('pepe','ああ。昔の教室から持ってきた。上手い下手よりも、残しておきたい絵なんだ。'),L('','桃のような丸いものと、並ぶ人の姿。額の裏に、母の名前がある。')],{give:['painting']}),H('pepe','先生の様子',55,48,[L('kuri','森の変なものって、何？'),L('pepe','……知ってからでは、遅いこともある。'),L('','答えになっていない。先生は筆を、いつまでも洗っていた。')])],actions:[A('教室を出る','forest-invite',{requires:['painting']})]},
- 'forest-invite':{chapter:0,title:'行ってみりゃわかる',location:'森へ続く通り',time:'十年前 · 昼前',pov:'chanko',bg:'village',music:'day',intro:[L('kuri','ちゃんこ、森に行ってみようぜ。'),L('chanko','えっ、ちゃんママもペペ先生も絶対に行っちゃだめって……'),L('kuri','いいんだよ！　遅くならなきゃバレないって！　それにさ、森の中、変なものがあるんだよ。'),L('chanko','変なもの？'),L('kuri','行ってみりゃわかるよ。')],actions:[A('森の入口へ','forest')]},
- forest:{chapter:1,title:'聞こえるのは一人',location:'虫取りの森',time:'十年前 · 午後',pov:'chanko',bg:'forest',music:'forest',intro:[L('','木陰に足を踏み入れた瞬間、耳の奥に、細く長い音が突き刺さった。',{sfx:'ring'}),L('chanko','……今、何か聞こえなかった？'),L('kuri','セミ？'),L('chanko','違う。もっと……。やっぱり帰ろうよ……'),L('kuri','大丈夫だって。俺もいるし、もうちょっと遊ぼうぜ！')],give:['tone'],hotspots:[H('fork','分かれ道',53,60,[L('','湖へ向かう道と、古い建物へ続く坂。墓へ行く獣道は、さらに別の方向へ伸びている。')])],actions:[A('湖へ','lake'),A('古い廃墟へ','ruin-child'),A('墓への獣道へ','grave-child'),A('村へ帰ろうとする',null,{showUnless:['lakeDone','ruinDone','graveDone'],lines:[L('chanko','やっぱり帰ろうよ……'),L('kuri','大丈夫だって。俺もいるし、もうちょっと遊ぼうぜ！')]}),A('三つの道を回り、帰路へ','dusk',{requires:['lakeDone','ruinDone','graveDone']})]},
- lake:{chapter:1,title:'湖の勝負',location:'森の奥の湖',time:'十年前 · 午後',pov:'chanko',bg:'lake',music:'day',intro:[L('kuri','ここ、たくさんいるんだ。どっちが多く捕まえるか勝負な！'),L('chanko','網の輪でちゃんと捕まえるんだよ。柄で叩くんじゃないからね。'),L('kuri','分かってるって！　お前について歩くだけだと思うなよ。')],hotspots:[H('shore','水辺',72,69,[L('','水面には二人の影。さっきの音は、もう聞こえない。')])],actions:[A('虫取り勝負を始める',null,{special:'catch'}),A('虫かごにシールを貼る',null,{requires:['caught'],showUnless:'oneSticker',lines:[L('chanko','だいじなものになったから、一枚。'),L('kuri','シール、虫の背中に貼るのか？'),L('chanko','歩きにくくなるから、虫かごに貼る。中の子の分だよ。'),L('','四枚のうち一枚を使った。残りは、三枚。')],give:['oneSticker'],set:['lakeDone']}),A('分かれ道へ戻る','forest')]},
- 'ruin-child':{chapter:1,title:'閉じた教室',location:'森の廃墟',time:'十年前 · 午後',pov:'chanko',bg:'ruin',music:'forest',intro:[L('kuri','な。変な家だろ。誰もいないのに、鍵だけ新しいんだ。'),L('chanko','古い絵画教室って、ここ……？')],hotspots:[H('door','鍵の掛かった扉',57,55,[L('','扉はびくともしない。窓も板で塞がれている。'),L('kuri','今日は無理か。'),L('chanko','無理でいいよ。ここ、嫌な感じがする。')],{give:['ruinLock'],set:['ruinDone']}),H('window','窓の向こう',77,32,[L('','暗がりに、棚のような輪郭だけが見える。何が並んでいるのかは分からない。')])],actions:[A('分かれ道へ戻る','forest')]},
- 'grave-child':{chapter:1,title:'名もない墓',location:'森の奥の墓',time:'十年前 · 午後',pov:'chanko',bg:'grave',music:'dread',intro:[L('kuri','こっちは……墓か。名前、読めねえな。')],hotspots:[H('stone','風化した墓石',57,51,[L('','あの音が戻った。今度は耳の外ではなく、頭の内側で鳴っている。',{sfx:'ring'}),L('chanko','……くりたけ。ちょっと、待って。'),L('','視界が一度だけ暗転する。次に見えた自分の手が、ひどく遠い。'),L('kuri','顔、真っ白だぞ。水、飲むか？')],{give:['graveSound'],set:['graveDone']})],actions:[A('分かれ道へ戻る','forest')]},
- dusk:{chapter:1,title:'帰る約束',location:'森の出口',time:'十年前 · 日没',pov:'chanko',bg:'forest',tone:'night',music:'dread',intro:[L('','三つの道を回るうちに、木々の隙間から日が消えていた。'),L('kuri','やばい、もうこんな時間！　帰ろう、ちゃんこ。'),L('chanko','……うん。'),L('','森を出たところで、二人は別れた。ここから先の記憶は、妙に輪郭がはっきりしている。')],actions:[A('家へ帰る','home-memory')]},
- 'home-memory':{chapter:2,title:'食卓の記憶',location:'リビング',time:'十年前 · ちゃんこの記憶',pov:'chanko',bg:'living-night',tone:'memory',music:'dread',memory:true,intro:[L('mama','こんな時間まで、どこに行ってたの！　今日は夕飯なし！'),L('','くりたけも、帰宅してひどく叱られたという。'),L('chanko','ちゃんママ……おなか、すいた。'),L('mama','そこに座って。……これでも食っとけ。'),L('','食卓に、オオカマキリのテレフォンカードが置かれた。'),L('chanko','一枚かぁ……。')],give:['cardMemory'],actions:[A('自分の部屋へ','charlotte-night')]},
- 'charlotte-night':{chapter:2,title:'動かない友達',location:'ちゃんこの部屋',time:'十年前 · ちゃんこの記憶',pov:'chanko',bg:'room-night',memory:true,music:'sad',intro:[L('','シャルロットが、動かない。呼んでも、手を近づけても。'),L('chanko','……なんで。さっきまで、いたのに。'),L('','泣き声が叫び声になり、机の上の物が床に落ちた。'),L('mama','ちゃんこ！　どうしたの？'),L('chanko','シャルロットが……死んじゃった。'),L('mama','……一緒に、お墓を作ろうね。'),L('','母の声は、急に優しくなった。'),L('mama','こんな時間になっちゃったね。ごはんにしよう。')],actions:[A('その夜の記憶へ','night')]},
- night:{chapter:2,title:'助かった子',location:'家族の寝室',time:'十年前 · ちゃんこの記憶',pov:'chanko',bg:'bedroom',memory:true,music:'dread',intro:[L('','四人は、いつもの寝室のベッドで眠っていた。'),L('','窓が、開く。足音を聞いた覚えはない。'),L('unknown','……。'),L('','暗い影が家族の方へ動いた。ちゃんこには、声を出すことができない。'),L('unknown','お前は俺と同じ目をしている。'),L('','なぜか、自分だけには手を伸ばさなかった。')],actions:[A('眠りの奥へ','dream')]},
- dream:{chapter:2,title:'開けてはいけない',location:'勉強部屋の扉',time:'十年前 · 眠りの中',pov:'chanko',bg:'dream',music:'dread',memory:true,intro:[L('charlotte','ちゃんこ。'),L('chanko','しゃべった！　気持ち悪い！'),L('','夢の中で、ちゃんこはシャルロットを隣の勉強部屋へ投げ入れ、扉の鍵を掛けた。'),L('','昨日までは普通に入れた、実在する部屋。その扉の向こうから、声がした。'),L('charlotte','ちゃんこ。このドアは、決して開けてはいけないよ。')],actions:[A('朝の声を聞く','morning')]},
- morning:{chapter:2,title:'三枚の桃',location:'ペペ先生の教室',time:'十年前 · 翌朝',pov:'chanko',bg:'classroom',music:'sad',intro:[L('','目が覚めると、母も父も弟も、生きていた。けれど三人とも、おしりを失っていた。'),L('','ちゃんこは警官を呼びに走った。助けが家に着くのを見届けると、ペペの教室へ駆け込んだ。'),L('chanko','先生！　家族が……窓から、誰かが入ってきて……！'),L('pepe','……まさか。ちょっと待っていなさい。'),L('','先生は問い返さず、急いで三枚の桃の絵を描いた。'),L('','その絵を失った場所に付けて、三人は生活するようになった。どうしてそんなことができるのか、大人は説明しなかった。'),L('','三人の手当てが済んだあと、ちゃんこは一度、自分の部屋へ戻った。')],give:['threeVictims'],actions:[A('自分の部屋へ','missing-stickers')]},
- 'missing-stickers':{chapter:2,title:'ポケットの中',location:'ちゃんこの部屋',time:'十年前 · 事件の翌朝',pov:'chanko',bg:'room',music:'sad',intro:[L('','昨日持ち出した虫かごが、机の脇に置いてあった。中のカブトムシは、ゆっくり脚を動かしている。'),L('chanko','……この子は、ちゃんといる。'),L('','虫かごのシールを指で押さえ、ちゃんこはポケットを探った。'),L('chanko','あれ。だいじなものシール……ない。'),L('','反対のポケットも、服の裏も確かめる。残していた台紙が見つからない。'),L('chanko','昨日ここで一枚使って、あと三枚あったのに。どこかで落としちゃったのかな……。'),L('','ちゃんこは、網と虫かごを持って歩いた道を思い返した。どこでなくしたのかは、思い出せなかった。',{give:['missingStickers'],removeItems:['stickers']}),L('','隣の勉強部屋の扉には、鍵が掛かっている。家族の様子を見に来た大人たちの声が、下から聞こえた。'),L('','やがて一家は別の町へ引っ越した。事件だけが、終わらなかった。')],actions:[A('十年後へ','return')]},
- return:{chapter:3,title:'十年後、同じ教室で',location:'別の町の大学',time:'現在 · 講義のあと',pov:'adult',bg:'university',music:'day',inherit:{adult:'chanko'},intro:[L('','村を離れて十年。ちゃんこは、家族と暮らす別の町で大学生になっていた。'),L('adultKuri','ちゃんこ、次も同じ講義だろ。昼、どうする？'),L('adult','……あ、ごめん。昨日、また夢を見て。'),L('','くりたけとは、この大学で同級生になった。場所が変わっても、二人の距離は昔のままだ。'),L('adultKuri','あの部屋の夢？'),L('adult','うん。顔のない男と、開けてはいけない部屋。十年経ったのに、そこだけ、昨日のままなんだ。'),L('adultKuri','一人で考え込むなよ。……俺も、いるんだから。')],actions:[A('くりたけと大学の外へ','city-first')]},
- 'city-first':{chapter:3,title:'どうして、この町に',location:'大学近くの通り',time:'現在 · 講義のあと',pov:'adult',bg:'city',music:'investigation',intro:[L('','歩道の向こうに、見覚えのある制服姿があった。'),L('police','おう、ちゃんこ。大学はもう終わりか。'),L('adult','……おまわりさん？　村の？'),L('adultKuri','なんで、こっちにいるんだよ。'),L('police','今は、この町の交番にいる。もう二年になる。'),L('adult','僕が大学に入った頃……。'),L('police','この辺も、ちゃんと見ておかないとな。'),L('','十年前と同じ言い方だった。警官の視線が、家へ続く道へ流れる。')],give:['cityPatrol'],hotspots:[H('box','町の交番',64,38,[L('adultKuri','たまたま、だよな？'),L('adult','村にいた時も、家の近くを何度も巡回してた。今度は、この町で……。')]),H('bathSign','通りの銭湯',80,52,[L('','非番になった警官が、通りの銭湯へ入っていく。'),L('adult','あの人に、ちゃんと聞いてみたい。昔、何を気にしていたのか。')])],actions:[A('今の町と、昔の村を調べる','investigation-hub')]},
- 'investigation-hub':{chapter:3,title:'交わらない証言',location:'大学の町と、元の村',time:'現在 · 二つの場所での調査',pov:'group',bg:'city',music:'investigation',intro:[L('','その日、ちゃんママを通じて一件の電話があった。'),L('sumika','水瀬澄香です。元の村で祖母の資料を整理しています。あなたのお母さんの昔の教室が出てきました。必要なら、見てください。'),L('','今の町と、置いてきた村。同じ事件を、四人が別の側から調べ始める。誰かの知識は、話すまで他の人には届かない。')],actions:[
- A('ちゃんこ ─ 銭湯にいる警官','bath',{pov:'adult',showUnless:'chankoRoute'}),
- A('警官 ─ 伏せた報告書','police',{pov:'police',showUnless:'policeRoute'}),
- A('くりたけ ─ 帰り道の嘘','kuri-shop',{pov:'adultKuri',showUnless:'kuriRoute'}),
- A('澄香 ─ 祖母の資料','archive',{pov:'sumika',showUnless:'sumikaRoute'}),
- A('元の村へ戻り、四人の調査を照合する','return-village',{requires:['chankoRoute','policeRoute','kuriRoute','sumikaRoute']})]},
- bath:{chapter:3,title:'この町でも、同じ桃',location:'大学の町の銭湯',time:'現在 · ちゃんこの調査',pov:'adult',bg:'city-bath',music:'investigation',intro:[L('kiyo','学生さんね。あそこの大学？'),L('adult','はい。……さっき入ったおまわりさん、ここによく来ますか。'),L('kiyo','来るけど、お客のことをあれこれ話す場所じゃないよ。')],hotspots:[
- H('kiyo','口を閉ざすキヨ',35,44,[L('adult','隠してることがあるんですか。'),L('kiyo','あんたの家族の体のことを、他人に話していいかい？'),L('adult','……それは、嫌です。'),L('kiyo','なら、分かっておくれ。本人に聞きな。')]),
- H('police','脱衣所の警官',72,48,[L('','着替えかけの警官の背に、入れ墨が見えた。腰のタオルの端から、一枚の桃の絵がのぞいている。家族の体に付いているものと、同じだった。',{bg:'city-bath-reveal'}),L('adult','……それ。うちの家族と、同じ。'),L('police','見られたか。'),L('adult','あなたも、あの夜の被害者だった？'),L('police','違う。私の方が、ずっと前だ。犯人のことを知っていたなら、お前を十年も待たせなかった。')],{give:['bathPeach']}),
- H('lockers','古いロッカー',52,24,[L('','何度も塗り直された番号。同じ村でも、十年あれば変わるものはある。')])],actions:[A('家族の話を聞きに行く','family',{requires:['bathPeach']})]},
- family:{chapter:3,title:'家のことは私が',location:'今の町の自宅',time:'現在 · ちゃんこの調査',pov:'adult',bg:'city-home',music:'sad',intro:[L('','ちゃんこは大学から通い慣れた道を戻り、家族に銭湯で見たことを話した。'),L('papa','あの人が、この町でも関わっているのか。'),L('adult','おまわりさん？　どうして、そんな言い方をするの。'),L('papa','……お前を、取られる気がした時期があった。それだけだ。')],hotspots:[
- H('letter','父の手紙',43,66,[L('','「もう家の近くには来ないでください。この家のことは、私が引き受けます。」'),L('adult','これは……。'),L('papa','出せなかった。守るつもりだったのか、自分が父親だと認めさせたかったのか。どっちも、あったんだろうな。')],{give:['papaLetter']}),
- H('victims','三人の証言',72,51,[L('mama','あの晩、帰ってきたあなたの顔を見たわ。その後、私は背を向けていた。全部は見ていない。'),L('papa','俺は倒れた母さんにかがんだ。その先は覚えていない。犯人の顔を見た、とは言えない。'),L('adultBrother','僕は寝室に隠れた。兄ちゃんの声がした。でも、見たわけじゃない。窓の人の話は、あとから聞いた。'),L('adult','……僕が、話したんだ。')],{give:['familyTestimony']}),
- H('album','弟の古いアルバム',80,73,[L('adultBrother','これ、覚えてる？　オオカマキリのテレフォンカード。誕生日に、母さんからもらったやつ。'),L('adult','夕飯の代わりに、じゃ……。'),L('adultBrother','違うよ。日付も残ってる。僕、うらやましかったんだ。'),L('','写真の中で、ちゃんこは笑ってカードを掲げている。封筒は、事件より前の日付だった。')],{give:['birthdayCard']})],actions:[A('調査を記録して合流を待つ','investigation-hub',{requires:['papaLetter','familyTestimony','birthdayCard'],set:['chankoRoute']})]},
- police:{chapter:3,title:'事故と書いた男',location:'大学の町の交番',time:'現在 · 警官の調査',pov:'police',bg:'city-police',music:'investigation',intro:[L('','村の事件記録の写しが、今の配属先に届いていた。'),L('makabe','先輩。ここ、何度読んでもおかしいです。'),L('police','どこだ。'),L('makabe','類似の被害を知っていたのに、なぜ報告しなかったんですか。'),L('','警官は、机の引き出しを押し戻した。ちゃんこには、まだ見せていない書類がある。')],hotspots:[
- H('drawer','押し戻した引き出し',64,59,[L('police','彼女は、私の妻だった。ちゃんこは、私の子だ。'),L('makabe','それを捜査から外していたんですか。'),L('police','許すことと、事実を記録しないことを、同じにしてしまった。'),L('','過去の記録には、ちゃんママとの婚姻と別離。そして、事故として処理された警官自身の被害がある。')],{give:['oldMarriage','oldCase']}),
- H('photo','窓下の現場写真',45,51,[L('makabe','ここは雨上がりの泥です。窓から入って出たなら、何も残らないのは不自然です。'),L('police','ただし、それだけで家の中の誰かだと決めるな。'),L('makabe','はい。でも、侵入者の目撃談は、ちゃんこさんの一件だけでした。')],{give:['noIntruder']}),
- H('map','巡回の記録',77,27,[L('police','最初は、母親がまたあんな状態にならないか心配だった。ちゃんこの様子も気になった。'),L('police','だが、いつ起こるのか、何が起きるのか……私は、ほとんど何も分かっていなかった。')])],actions:[A('この情報をどう扱うか',null,{requires:['oldMarriage','oldCase','noIntruder'],prompt:'真壁「この過去も、正式に記録へ残しますか」',choices:[A('記録して、ちゃんこにも自分で話す','police-admission',{set:['policeHonest']}),A('家族を守るため、今回も伏せる','father-silence')]})]},
- 'police-admission':{chapter:3,title:'許しの代価',location:'大学の町の交番',time:'現在 · 警官の調査',pov:'police',bg:'city-police',music:'sad',intro:[L('police','真壁。私の被害も、当時の虚偽の申告も、記録し直してくれ。'),L('makabe','先輩に不利な記録になります。'),L('police','分かっている。あの子にだけ、本当のことを言えと迫る資格はない。'),L('makabe','この町への異動も、あの一家が理由だったんですか。'),L('police','ああ。心配で、希望を出した。配属は正式なものだ。だが、何も知らないあの子たちから見れば、またついてきた男にしか見えないだろうな。'),L('makabe','なら、その理由も本人に話すべきです。家族であることと、捜査員であることは、分けて扱いましょう。')],actions:[A('調査を記録して合流を待つ','investigation-hub',{set:['policeRoute']})]},
- 'kuri-shop':{chapter:3,title:'十五分の寄り道',location:'元の村・相良商店の前',time:'現在 · くりたけの調査',pov:'adultKuri',bg:'village',music:'investigation',intro:[L('','講義のない日に、くりたけは元の村へ日帰りで戻った。ちゃんこには、確かめたいことがある、とだけ伝えてある。'),L('chihiro','くりたけ。大学はどう？　……そんな顔、あの日もしてたね。'),L('adultKuri','……あの日？'),L('chihiro','ちゃんこたちの事件の日。店で、ずっと時計を気にしてた。')],hotspots:[
- H('receipt','配達の控え',66,68,[L('chihiro','配達が遅れて、お父さんが時刻まで書いたの。あんた、その時ここにいた。'),L('adultKuri','ちゃんことは……森の出口で、別れてた。'),L('','自分が警察に伝えた帰宅時刻を、くりたけは覚えている。事実より、遅い時刻だった。')],{give:['shopReceipt']}),
- H('chihiro','千尋に聞く',77,43,[L('adultKuri','俺、何か変なこと言ってた？'),L('chihiro','家で怒られるって。それから、ちゃんこも一緒に遅くなったから大丈夫って。'),L('adultKuri','……ああ。そんな理由だったんだよ。')])],actions:[A('十年前の訂正をするか考える',null,{requires:['shopReceipt'],prompt:'寄り道を隠すための嘘が、ちゃんこの空白を覆っていた。',choices:[A('ちゃんこに、別れた時刻を話す','kuri-confess',{set:['kuriHonest']}),A('調査記録には残すが、本人にはまだ言えない','kuri-delay')]})]},
- 'kuri-confess':{chapter:3,title:'一人になった時間',location:'森へ続く道',time:'現在 · くりたけの調査',pov:'adultKuri',bg:'forest',music:'sad',intro:[L('adultKuri','森を出て、俺たちは別れた。俺は寄り道した。それを親に言いたくなくて、帰った時間をごまかした。'),L('adultKuri','警察にも同じことを言った。直したら俺のせいだと言われる気がして……十年、そのままだ。'),L('','くりたけは訂正を書き、自分の名前を入れた。今度は、ちゃんこに見せるために。')],give:['kuriTruth'],actions:[A('訂正を持って合流を待つ','investigation-hub',{set:['kuriRoute']})]},
- 'kuri-delay':{chapter:3,title:'言えない訂正',location:'相良商店の前',time:'現在 · くりたけの調査',pov:'adultKuri',bg:'village',music:'sad',intro:[L('adultKuri','記録には書く。でも、ちゃんこには……まだ、言えない。'),L('chihiro','あんたが怖いのは分かる。だけど、待ってるのは、あんただけじゃないよ。'),L('','訂正書は封筒に入った。会合で話す機会は、まだ残っている。')],give:['kuriTruth'],actions:[A('封筒を持って合流を待つ','investigation-hub',{set:['kuriRoute']})]},
- archive:{chapter:3,title:'順番だけが違う',location:'村の資料室',time:'現在 · 澄香の調査',pov:'sumika',bg:'archive',music:'investigation',intro:[L('fumi','あの先生の娘さんね。事件のあと、旦那さんと教室に来たのよ。'),L('sumika','おばあちゃん、その「事件」って、いつのこと？'),L('fumi','あら……いつだったかしら。顔は、はっきり覚えてるのに。')],hotspots:[
- H('photo','写真の裏の日付',46,64,[L('sumika','この写真、ちゃんこさんが生まれる前だ。十年前の事件より前。'),L('fumi','そうだったかね。でも、その人のこと、旦那さんって紹介したのは覚えてる。'),L('sumika','うん。順番と、覚えている言葉は、別にして残そう。')],{give:['classPhoto']}),
- H('records','村の古い記録',70,31,[L('sumika','「尻切り族」……俗称か、古い一族の呼び名か。'),L('','同じ家族の中に、失った体の一部を絵で補う話がいくつもある。病気として説明した記録は見当たらない。')],{give:['clan']}),
- H('fumi','祖母の気掛かり',80,51,[L('fumi','森に灯りがついていたわ。あの、野崎さんじゃないかしら。'),L('sumika','今の話ね？'),L('fumi','昨日の夜。今度は、間違えてないよ。')])],actions:[A('廃墟に出入りする人物を確かめる','nozaki',{requires:['classPhoto','clan']})]},
- nozaki:{chapter:3,title:'包みの中身',location:'廃墟の前',time:'現在 · 澄香の調査',pov:'sumika',bg:'ruin',music:'dread',intro:[L('nozaki','俺は、ここには来てない。'),L('sumika','手の塗料、まだ乾いていません。その包みは？'),L('nozaki','……あなたに、何の関係がある。')],hotspots:[
- H('bundle','布に包んだもの',61,59,[L('','中にあったのは、古いキャンバス。絵の隅に「野崎修」とある。'),L('nozaki','俺の絵だよ。先生が返してくれなくて……いや、頼めばよかったんだ。'),L('sumika','だから、出入りしたことを隠した？'),L('nozaki','棚の奥を見たら、怖くなった。俺が運んだと思われたくなかった。')],{give:['nozakiCanvas']}),
- H('tracks','新しい足跡',74,78,[L('sumika','この足跡は新しい。十年前の犯行と、今の無断侵入を混ぜてはいけない。'),L('nozaki','鍵は先生に返す。……一緒に来てくれ。怒られてもいいから。')])],actions:[A('ペペに許可を取り、旧教室の中へ','ruin-investigation',{requires:['nozakiCanvas']})]},
- 'ruin-investigation':{chapter:3,title:'残していた先生',location:'旧絵画教室の内部',time:'現在 · 澄香の調査',pov:'sumika',bg:'ruin-inside',music:'dread',intro:[L('pepe','野崎。黙って入るなと言ったはずだ。……澄香さん、見るなら、私がいる時に。'),L('sumika','では、先生にも読んでいただきたいものがあります。')],hotspots:[
- H('diary','机に残った日記',48,64,[L('','「墓に寄ったあと、声と目つきが変わる」「戻った本人に、発現中の記憶がない」'),L('sumika','先生。これは、空想の絵の設定ではないですね。'),L('pepe','……私の娘の記録だ。血は、私からではない。もう片方の親から入った。')],{give:['diary']}),
- H('shelf','布を掛けた棚',73,37,[L('','布の下には、年月が経っても朽ちないものが置かれていた。添えられた札に、持ち主と日付。'),L('sumika','先生が切り取ったんですか。'),L('pepe','違う。預かったものだ。警官の分もある。戻せる方法を探したが……保存するだけになってしまった。'),L('sumika','しまっておくことと、解決することは、別です。')],{set:['shelfSeen']}),
- H('missing','抜けている日記の頁',39,41,[L('sumika','続きがありません。'),L('pepe','今の教室へ移した。焼いてはいない。'),L('sumika','四人で、読ませてください。別々に少しずつ聞かせるのは、もう終わりにしましょう。')])],actions:[A('記録を持って合流を待つ','investigation-hub',{requires:['diary','shelfSeen'],set:['sumikaRoute']})]},
- 'return-village':{chapter:4,title:'二人で戻る村',location:'元の村',time:'現在 · 週末',pov:'adult',bg:'village',music:'investigation',intro:[L('','週末。ちゃんことくりたけは、大学のある町から、バスで元の村へ戻った。'),L('adultKuri','大学じゃ、普通に次のレポートの話してたのにな。ここに来ると、十年前の続きみたいだ。'),L('adult','続きにしたまま、出ていったんだと思う。'),L('','澄香は村で二人を待っていた。警官も、旧事件の記録の照合のために合流する。'),L('sumika','資料はそろいました。先生の教室へ行きましょう。'),L('','家族にも村へ来てもらった。処分できずに残していた旧宅が、今度こそ調べるべき場所になる。')],actions:[A('ペペ先生の教室へ','meeting')]},
- meeting:{chapter:4,title:'同じ机に置く',location:'ペペ先生の絵画教室',time:'現在 · 帰郷した日の夜',pov:'adult',bg:'classroom',tone:'night',music:'investigation',intro:[L('sumika','別々に知っていることを、ここで同じ机に置きます。読んだことと、相手に話したことは違います。'),L('police','ちゃんこ。私は、お前の実の父親だ。母さんとは、昔、夫婦だった。'),L('adult','……パパは、知ってた？'),L('police','知っている。お前の父親として過ごした十年を、私が奪えると思っていない。'),L('adult','おしりを切ったのは、ちゃんママ？'),L('police','ああ。私は許した。だが、過去を隠したせいで、調べられたはずのことを見逃した。'),L('adult','今の町に来たのも、僕たちがいるから？'),L('police','そうだ。心配で、異動を希望した。犯人を知っていて見張っていたわけではない。分からないまま近くにいて、理由を話さなかった。'),L('adult','だから、また怪しく見えたんだ。村と同じように。')],share:['bathPeach','papaLetter','familyTestimony','birthdayCard','oldMarriage','oldCase','noIntruder','classPhoto','nozakiCanvas','diary','clan'],actions:[A('くりたけの訂正を聞く',null,{prompt:'くりたけは、封筒を握ったまま黙っている。',choices:[A('責めずに、最後まで話を聞く','meeting-kuri',{set:['kuriShared']}),A('今は話したくない。記録だけ受け取る','meeting-records')]})]},
- 'meeting-kuri':{chapter:4,title:'空白の所在',location:'ペペ先生の絵画教室',time:'現在 · 帰郷した日の夜',pov:'adult',bg:'classroom',tone:'night',music:'sad',intro:[L('adultKuri','森から出たあと、俺は一緒じゃなかった。ごめん。お前のせいにしたくてついた嘘じゃない。でも……お前の十年を、変えた。'),L('adult','僕が一人になった時間が、あったんだね。'),L('adultKuri','ああ。犯人を見たとは言えない。そこだけは、これからも作らない。'),L('sumika','森に入る前ではなく、森から帰ったあと。記録が食い違うのは、そこです。')],share:['kuriTruth','shopReceipt'],give:['sharedFacts'],actions:[A('ペペに残りの頁を求める','pepe-truth')]},
- 'meeting-records':{chapter:4,title:'声にならない訂正',location:'ペペ先生の絵画教室',time:'現在 · 帰郷した日の夜',pov:'adult',bg:'classroom',tone:'night',music:'sad',intro:[L('adult','今は、くりたけの口から聞くのが怖い。書いたものなら読む。'),L('','訂正書には、森の出口で別れた時刻が書いてある。内容は受け取った。しかし、二人は目を合わせなかった。'),L('sumika','読むのをやめるなら、今日はここまでにできます。続けるなら、次は先生の話です。')],share:['kuriTruth','shopReceipt'],actions:[A('先生の話は聞く','pepe-truth'),A('自分の記憶は変えたくない。調査を離れる','record-ending')]},
- 'pepe-truth':{chapter:4,title:'絵を描けた理由',location:'ペペ先生の絵画教室',time:'現在 · 帰郷した日の夜',pov:'adult',bg:'classroom',tone:'night',music:'dread',intro:[L('pepe','切り取ったのは私ではない。でも、起こり得ると知っていて、話さなかった。'),L('adult','知ってたのに、森に行くな、としか言わなかった？'),L('pepe','知らせなければ、意識しなければ、同じことは起こらないと思った。娘にも、お前にも。'),L('sumika','危険を知っている人の沈黙は、知らない人を守りません。'),L('pepe','……そうだ。言い訳にはならん。')],give:['pepeOmission'],hotspots:[
- H('pages','移された日記の続き',52,63,[L('pepe','昔の尻切り族にいた、一人の男の人格が入り込む。後の村では、おしり切り裂きジャックと呼ばれた。墓は、その男のものだ。'),L('adult','その名前……僕は、あの夜、聞いていない。'),L('pepe','血を引いているだけで、いつも乗っ取られるわけではない。墓の近くで一度揺らぎ、それから家族への強い思いを、別の人格に使われる。'),L('pepe','切り取られたものは朽ちない。桃の絵は、失われた形の代わりを保つためのものだ。普通の絵なら何でも治せる、という話ではない。'),L('adult','血のつながった人だけじゃない。パパも、昔の夫婦だった二人も……家族なんだ。')],{set:['rulesRead']}),
- H('mama','母の最初の事件',76,45,[L('mama','あの人の転勤が決まって、あなたを産む前に、村を離れることになったの。最後に昔の教室を見たくて、墓のそばまで行った。'),L('mama','帰ってから、暮らしが変わるのが怖かった。家族を失いたくない。その先は、覚えていない。'),L('police','結婚が引き金というわけではなかった。私は、そこまで調べずに許してしまった。'),L('mama','許してもらったことと、なかったことにするのは違うのに。私は、それに甘えた。')],{give:['motherTrigger']}),
- H('key','先生が持つ鍵',38,51,[L('adult','箱の鍵……？'),L('pepe','事件のあと、母さんから預かった。お前が鍵を見つけたら、記憶まで開くのが怖かった。'),L('adult','今度も、何を知っていいか、先生が決めるの？'),L('pepe','……もう、決めない。お前に返す。')],{give:['chestKey'],items:['key']})],actions:[A('事実の食い違いを照合する',null,{requires:['rulesRead','motherTrigger','chestKey'],challenge:{prompt:'「夕飯の代わりにカードを渡された」という記憶を、別の日と示す証拠は？',answer:'birthdayCard',options:['birthdayCard','papaLetter','noIntruder','graveSound'],success:'night-reconstruction',wrong:'その証拠だけでは、食卓の場面の日付は分からない。カードそのものの来歴を確かめよう。'}})]},
- 'night-reconstruction':{chapter:4,title:'つなぎ直した夜',location:'旧宅のリビング',time:'現在 · 帰郷の翌朝',pov:'adult',bg:'living',music:'sad',intro:[L('adult','カードは誕生日の贈り物。あの冷たい食卓は……本当に、その日にあったの？'),L('mama','遅いって叱った。でも、食べ物の代わりにカードを渡していない。帰ってきたあなたに、ごはんを温めると言った。'),L('mama','その時、あなたは虫のだいじなものを箱にしまいたいと言った。だから、私が持っていた箱の鍵を渡したの。'),L('adult','朝は、鍵がなくて開けられなかった……帰ってから、受け取ったんだ。'),L('mama','事件のあと、床に落ちていた鍵を先生に預けた。部屋を閉じておけば、その夜のことからあなたを守れると思った。'),L('papa','その後のことを、窓の男の話で全部つないでしまったのかもしれない。'),L('sumika','まだ、記憶だけで結論を決めないで。部屋に残っているものを確認しましょう。'),L('','ちゃんこが覚えている帰宅後の場面は、別の日の出来事と、望んだ家族の姿で埋められていた。'),L('','けれど、誰が三人を傷つけたのか。それを確かめる箱は、まだ閉じている。')],actions:[A('昔の虫の部屋へ','old-room')]},
- 'old-room':{chapter:5,title:'ほんとうの扉',location:'十年後のちゃんこの部屋',time:'現在 · 帰郷の翌日',pov:'adult',bg:'room-night',music:'dread',intro:[L('','カーテンを閉めたままの部屋は、昼でも暗い。標本箱には、埃が積もっている。'),L('adult','夢で見た場所と同じだ。最初から、実際にあった部屋なんだ。')],hotspots:[
- H('shell','扉のそばの殻',63,74,[L('','敷居の隅に、小さな殻が引っ掛かっていた。'),L('adult','あの夜……何かを運んでいて。足元に、シャルロットがいた。'),L('','踏みつけた感触。見たくなくて目をそらした感覚。それが、いま戻ってくる。'),L('adult','僕を守るために、夢で止めてくれたの？　それとも、僕が言わせていただけ？'),L('','殻は、答えなかった。')],{give:['charlotteTrace']}),
- H('cage','森から持ち帰った虫かご',45,41,[L('','小さなシールが一枚、剥がれかけている。森で捕まえたカブトムシは、ここに入れた。'),L('adult','使ったのは一枚。次の朝、あとの三枚がなくなってて……どこかで落としたって、思ってた。')]),
- H('door','右隣の勉強部屋',80,46,[L('','実際の扉は、母が保管していた部屋の鍵で開けられる。宝箱の鍵とは別だ。'),L('adult','夢の中では、僕がシャルロットを閉じ込めた。あの声は、箱を見ないための声だったのかもしれない。')],{set:['doorExamined']})],actions:[A('扉の前で決める',null,{requires:['charlotteTrace','doorExamined'],prompt:'部屋の中に入る。それは、自分の記憶を疑い切ることかもしれない。',choices:[A('開ける。中にあるものを確かめる','final-study'),A('今日は開けない。追うべき犯人は外にいる','closed-ending')]})]},
- 'final-study':{chapter:5,title:'だいじなものの箱',location:'十年後の勉強部屋',time:'現在 · 帰郷の翌日',pov:'adult',bg:'study',tone:'memory',music:'dread',intro:[L('','机、棚、ベッド。虫取り網が掛かっていた場所。何一つ、夢のために作られた部屋ではない。'),L('adult','あの箱も、ずっとここにあった。')],hotspots:[H('emptySheet','シールを剥がした台紙',39,57,[L('','机と壁の隙間に、見覚えのある台紙が落ちていた。四枚分の空白。シールは一枚も残っていない。'),L('adult','これ……あの朝、探してた台紙だ。'),L('adult','森で一枚使ったあと、三枚残ってたはずなのに。'),L('','それが剥がれたのか、誰かが使ったのか。空白だけでは、まだ分からない。')]),H('chest','鍵の掛かった宝箱',76,71,[L('','錠は壊れていない。開けるには、先生から受け取った鍵がいる。')])],actions:[A('宝箱の鍵を使う','revelation',{requires:['chestKey']})]},
- revelation:{chapter:5,title:'三つとも、だいじ',location:'開いた宝箱',time:'現在 · 帰郷の翌日',pov:'adult',bg:'chest',music:'dread',intro:[L('','鍵が回った。蓋の下には、三つあった。'),L('','布を少しだけ開く。母のもの。父のもの。弟のもの。年月が経っているのに、朽ちていない。'),L('','それぞれに、一枚ずつ。ちゃんこが貼った、だいじなものシール。'),L('adult','……三枚。あの朝、落としたと思ってた……。'),L('adult','なくしたんじゃ、なかった。僕が、使ってたんだ。'),L('','四枚のうち一枚は、森の虫かごに。残りの三枚は、家族に。'),L('','箱をしまった腕の重さが、ようやく自分のものになる。'),L('adult','家に帰って、みんないて……ずっと、いなくならないでほしいって……。'),L('','墓で揺らいだ意識に、祖先の人格が入り込んだ。家族への思いは、家族を切り取って残すという行為に変えられた。'),L('adult','誰も、窓からなんか来ていない。僕だった。'),L('','失われた時間を埋めたのは、自分だけが助かったという物語。顔のない男の「同じ目」は、目をそらした自分の輪郭だった。'),L('adult','シャルロットも……ごめん。')],give:['chestTruth'],actions:[A('真実を知ったあと、どうするか',null,{prompt:'箱を閉じても、事実は消えない。この先を、誰と引き受ける。',choices:[A('家族と、調べてくれた人たちに話す','family-ending-scene'),A('自分だけで責任を背負い、誰とも会わない','alone-ending')]})]},
- 'family-ending-scene':{chapter:6,title:'家族の前で',location:'旧宅のリビング',time:'現在 · 帰郷翌日の夕方',pov:'adult',bg:'living-night',music:'sad',intro:[L('adult','あの夜、みんなを傷つけたのは、僕だった。祖先のせいだけにして、僕のしたことを消したくない。'),L('mama','私も、あなたに話さなかった。自分がしたことを、隠した。'),L('papa','すぐに何もかも許す、とは言えない。怖い。でも、聞いたからって、お前が家族じゃなくなるわけじゃない。'),L('adultBrother','今度は、僕にも本当のことを話して。小さいからって、外に置かないで。'),L('police','記録に残す。私自身の過去も含めてだ。これ以上、誰か一人の中に閉じ込めない。'),L('adultKuri','俺も、訂正する。お前に会えなくなるのが怖くて、言えなかった。でも、もう嘘でつながるのは嫌だ。'),L('pepe','戻す方法も、血を止める方法も、見つかったとは言えない。知らないことを、知っているふりは、もうしない。'),L('sumika','分かった事実と、まだ分からないこと。その両方を、残しましょう。'),L('','失ったものが元に戻ったわけではない。けれど、箱の中にしまわれたままの家族では、なくなった。')],actions:[A('最後の場面へ','grave-final')]},
- 'grave-final':{chapter:6,title:'まだ、そこにある',location:'森の奥の墓',time:'その夜',pov:'none',bg:'grave-night',music:'silence',intro:[L('','村から離れた森に、夜が降りていた。'),L('','人のいない獣道。濡れた岩。読めない名。'),L('','墓は、何も変わっていない。'),L('','――静けさの底から、あの音が、また長く響いた。',{sfx:'ring'})],end:'family'},
- 'father-silence':{chapter:3,title:'父の沈黙',location:'大学の町の交番',time:'現在',pov:'police',bg:'city-police',music:'sad',intro:[L('police','これは、記録に入れないでくれ。家族のためだ。'),L('makabe','その家族に、選ばせてもいないじゃないですか。'),L('','引き出しが閉じた。ちゃんこは、今日も外にいる犯人を捜す。父親を名乗れない男が、そのすぐ近くで見守っている。')],end:'father'},
- 'record-ending':{chapter:4,title:'残された記録',location:'村の資料室',time:'現在 · 数日後',pov:'sumika',bg:'archive',music:'sad',intro:[L('sumika','彼が席を立っても、記録は残ります。'),L('','警官の過去、くりたけの訂正、家族の証言。紙の上ではつながり始めていた。'),L('','しかし、ちゃんこの部屋の箱は閉じたままだ。資料には「未確認」と書き添えられた。'),L('sumika','本人が受け取れる形を、まだ見つけられていない。')],end:'record'},
- 'closed-ending':{chapter:5,title:'閉じた部屋',location:'開かなかった勉強部屋',time:'現在',pov:'adult',bg:'dream',music:'dread',intro:[L('adult','まだ、開けなくていい。犯人を見つけてからだ。'),L('','鍵は、使われなかった。ちゃんこは村を出て、顔を思い出せない男を捜し続ける。'),L('charlotte','このドアは、決して開けてはいけないよ。'),L('','次の夜も、夢は同じところで終わった。')],end:'closed'},
- 'alone-ending':{chapter:6,title:'ひとりの告白',location:'勉強部屋',time:'現在 · 夜',pov:'adult',bg:'study',tone:'night',music:'sad',intro:[L('adult','全部、僕が悪い。僕がいなくなれば……。'),L('','ちゃんこは事実を手紙に書いた。けれど、誰にも会わず、どうすれば次を防げるかを話し合わなかった。'),L('','罪を認めることと、一人で閉じこもること。その違いを、まだ見つけられない。'),L('','扉の外で、家族が呼んでいる。')],end:'alone'}
-};
-const endings={father:{name:'父の沈黙',text:'守るために伏せた過去が、\n次の調査を止めてしまった。',rewind:'police'},record:{name:'残された記録',text:'証言は残った。\nだが、箱を確かめる人は席を立った。',rewind:'meeting'},closed:{name:'閉じた部屋',text:'扉の向こうに、だいじなものを残したまま。\n誰かを捜す日々が続く。',rewind:'old-room'},alone:{name:'ひとりの告白',text:'犯人は分かった。\nその先を引き受ける言葉は、まだ届かない。',rewind:'revelation'},family:{name:'家族の前で',text:'だいじなものを、もう閉じ込めない。\nけれど、あの墓は、まだ森にある。',rewind:'revelation'}};
-const chapters=['序章 ─ 虫の部屋','第一章 ─ 森の声','第二章 ─ 助かった子','第三章 ─ 四つの証言','第四章 ─ 食い違う夜','第五章 ─ だいじなもの','終章 ─ 開いたあと'];
-return {characters,evidence,items,nodes,endings,chapters,start:'room'};
-})();
 </script>
 <script>/* Standalone browser ADV. No CDN, backend, or loading gate. */
 (()=>{'use strict';
