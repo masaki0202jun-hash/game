@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8"><meta name="adv-build" content="8c79e7c4898a">
+  <meta charset="utf-8"><meta name="adv-build" content="091b0a385013">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#181c20">
   <title>昆虫とおしりの部屋 — アドベンチャー版</title>
@@ -16,6 +16,9 @@
 @media(max-width:600px){.cg #background{object-position:82% center}.cg #dialogue{left:12px;right:12px;width:auto;top:145px;bottom:auto;min-height:0}.cg #dialogueAdvance{font-size:15px;min-height:75px}.cg .dialogue-tools{margin-top:8px}}
 
 .download-links{margin-top:14px;font:12px sans-serif}.download-links a{display:inline-block;color:#d3c195;text-underline-offset:5px;padding:7px 0}.download-links a:hover{color:#fff0be}
+/* Persistent investigation desk, usable with mouse, keyboard, or touch. */
+.paper-document{background:#d6cbb1;color:#292a26;padding:28px 30px;border:1px solid #7a705e;box-shadow:inset 0 0 35px #765d3422;margin-bottom:20px}.paper-document p{font-size:15px;line-height:2.15;letter-spacing:.04em;margin:0 0 22px}.paper-document p:last-child{margin-bottom:0}.puzzle-references{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:0 0 18px;margin-bottom:20px}.puzzle-references button{font-size:12px;background:#293b3b}.card-tray{display:flex;flex-wrap:wrap;gap:9px;min-height:55px;padding:13px;border:1px dashed #9e977b66;background:#101d20}.work-card{padding:12px 15px;text-align:left;background:#dfd2b6;color:#222c2b;border:1px solid #80755d;min-width:130px;font-size:14px;line-height:1.7;box-shadow:2px 3px #071215}.work-card:hover{background:#f0e1c2;color:#171f1c}.work-card small{display:block;color:#586056;font-size:10px;line-height:1.8}.work-card.selected{outline:3px solid #c85d48;outline-offset:2px}.work-card.placed{opacity:.55}.ordered-evidence{padding:10px 0 0 30px;min-height:60px;border-left:2px solid #9d8b5d66;margin:20px 0}.ordered-evidence li{margin:10px 0;padding-left:5px;display:list-item}.ordered-evidence li>button{min-width:70%;max-width:90%;vertical-align:middle}.ordered-evidence li>div{display:inline-flex;gap:3px;vertical-align:middle;margin-left:6px}.ordered-evidence li>div button{padding:8px}.matching-slots{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}.matching-slots section{padding:15px;background:#0e1c21;border:1px solid var(--line)}.matching-slots h3{font-size:13px;font-weight:400;color:var(--gold);margin:0 0 12px}.matching-slots button{width:100%;min-height:65px;text-align:left;line-height:1.9;font-size:14px}.code-entry{display:flex;justify-content:center;align-items:center;gap:20px;margin:25px 0;font-size:14px}.code-entry input{width:160px;font:28px monospace;letter-spacing:.2em;text-align:center;padding:12px;background:#0a151c;color:#ead4a4;border:1px solid #b7a172}.puzzle-diagram{display:grid;grid-template-columns:1fr 1fr;width:min(360px,100%);margin:20px auto;border:4px solid #7c6851;background:#a88f68;color:#202c29}.puzzle-diagram figure{margin:0;border:2px solid #564c3f;padding:17px;text-align:center}.puzzle-diagram span{font-size:28px}.puzzle-diagram figcaption{font-size:11px;margin-top:5px}.puzzle-controls{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px}.puzzle-controls button{font-size:13px}#choices{max-height:72svh;overflow:auto}
+@media(max-width:600px){.paper-document{padding:20px 17px}.paper-document p{font-size:14px;line-height:2}.work-card{font-size:12px;min-width:100px}.matching-slots{grid-template-columns:1fr}.ordered-evidence li>button{width:70%;min-width:0}.code-entry{flex-direction:column;gap:10px}.puzzle-controls button{flex:1;padding:11px 8px;font-size:12px}#choices{top:48%;transform:translate(-50%,-35%);max-height:68svh}}
 </style>
 </head>
 <body>
@@ -34,7 +37,7 @@
       </nav>
       <p class="title-note">調べる。話す。証言をつなぐ。<br>クリック / タップで進行 · Enter でも会話を進められます</p>
     </div>
-    <span class="edition">NOVEL ADVENTURE · 02</span>
+    <span class="edition">NOVEL ADVENTURE · 03</span>
   </section>
 
   <section id="game" hidden aria-label="ゲーム画面">
@@ -78,7 +81,7 @@
   <dialog id="beetleGame"><header><div><small>夏の記憶</small><h2>くりたけと虫取り勝負</h2></div></header><p>動くカブトムシに網の輪を重ねて、クリック。<br>網を振り下ろした瞬間、輪の中にいれば捕まえられる。</p><div class="catch-score"><span>ちゃんこ <b id="yourScore">0</b></span><time id="catchTime">20</time><span>くりたけ <b id="rivalScore">0</b></span></div><div id="catchField"><img id="catchBug" alt="カブトムシ" draggable="false"><span id="netRing"></span><div id="catchSplash"></div></div><p id="catchResult"></p><div class="catch-buttons"><button id="startCatch">勝負する</button><button id="endCatch" hidden>湖の探索に戻る</button></div></dialog>
   <div id="fatalError" hidden role="alert"></div>
 </main>
-<script>window.ADV_DOWNLOAD=null;window.ADV_ASSETS={"bg-archive": "assets/bg-archive.2042df36cf11.webp", "bg-bath": "assets/bg-bath.b2fed4c8a9c1.webp", "bg-bedroom": "assets/bg-bedroom.5d00db8c3d2f.webp", "bg-chest": "assets/bg-chest.42f16b92456b.webp", "bg-city-bath-reveal": "assets/bg-city-bath-reveal.880ec65d8f6e.webp", "bg-city-bath": "assets/bg-city-bath.ce226fe15ac5.webp", "bg-city-home": "assets/bg-city-home.e87e9a2a4805.webp", "bg-city-police": "assets/bg-city-police.9561e3cccfde.webp", "bg-city": "assets/bg-city.1fae94bcc7ad.webp", "bg-classroom": "assets/bg-classroom.5451fcba1b92.webp", "bg-dream": "assets/bg-dream.3158de8d0feb.webp", "bg-forest": "assets/bg-forest.43bfa224821e.webp", "bg-grave-night": "assets/bg-grave-night.563932d07110.webp", "bg-grave": "assets/bg-grave.298757ff7d54.webp", "bg-lake": "assets/bg-lake.2efcc58321a9.webp", "bg-living-night": "assets/bg-living-night.b0ee3fbb9ed4.webp", "bg-living": "assets/bg-living.df9748f27967.webp", "bg-papa-confession": "assets/bg-papa-confession.b21e5a675096.webp", "bg-papa-door": "assets/bg-papa-door.1685928578ba.webp", "bg-police-office": "assets/bg-police-office.45e08b8f493c.webp", "bg-room-night": "assets/bg-room-night.f6d574836c0f.webp", "bg-room": "assets/bg-room.4395c6875213.webp", "bg-ruin-inside": "assets/bg-ruin-inside.158dbe563489.webp", "bg-ruin": "assets/bg-ruin.afc90f46f79e.webp", "bg-study": "assets/bg-study.91e433c50b7f.webp", "bg-title": "assets/bg-title.f653637e5e4c.webp", "bg-university": "assets/bg-university.ee59425e2e16.webp", "bg-village": "assets/bg-village.f87719c45ea8.webp", "brother-adult": "assets/brother-adult.357a0daebfbc.webp", "brother-child": "assets/brother-child.510a1dfc72f6.webp", "chanko-adult-grief": "assets/chanko-adult-grief.eedf2146988b.webp", "chanko-adult": "assets/chanko-adult.a836f6ee5899.webp", "chanko-child-fear": "assets/chanko-child-fear.ba766473c87c.webp", "chanko-child": "assets/chanko-child.9349818ea286.webp", "charlotte": "assets/charlotte.5157f1c31e07.webp", "chihiro": "assets/chihiro.fcc0ef7771f1.webp", "fumi": "assets/fumi.d26fa49e61ad.webp", "kiyo": "assets/kiyo.59935bf97516.webp", "kuri-adult-guilt": "assets/kuri-adult-guilt.e1424de7d5a4.webp", "kuri-adult": "assets/kuri-adult.7f625cb81178.webp", "kuri-child": "assets/kuri-child.59d5e7357c1c.webp", "makabe": "assets/makabe.ac5227f96e35.webp", "mama-grief": "assets/mama-grief.e6c1f105dd82.webp", "mama": "assets/mama.fd727d1bacd9.webp", "nozaki": "assets/nozaki.f76b1f60a24f.webp", "papa": "assets/papa.b14882861beb.webp", "pepe": "assets/pepe.2d31da9a0e63.webp", "police": "assets/police.885068764dfc.webp", "sumika": "assets/sumika.1e883394682f.webp", "unknown": "assets/unknown.cf206b5632d6.webp"};</script>
+<script>window.ADV_DOWNLOAD=null;window.ADV_ASSETS={"bg-archive": "assets/bg-archive.2042df36cf11.webp", "bg-bath-office": "assets/bg-bath-office.57467a290967.webp", "bg-bath": "assets/bg-bath.b2fed4c8a9c1.webp", "bg-bedroom": "assets/bg-bedroom.5d00db8c3d2f.webp", "bg-chest": "assets/bg-chest.42f16b92456b.webp", "bg-city-bath-reveal": "assets/bg-city-bath-reveal.880ec65d8f6e.webp", "bg-city-bath": "assets/bg-city-bath.ce226fe15ac5.webp", "bg-city-home": "assets/bg-city-home.e87e9a2a4805.webp", "bg-city-police": "assets/bg-city-police.9561e3cccfde.webp", "bg-city": "assets/bg-city.1fae94bcc7ad.webp", "bg-classroom-past": "assets/bg-classroom-past.5753d60a2201.webp", "bg-classroom": "assets/bg-classroom.5451fcba1b92.webp", "bg-dream": "assets/bg-dream.3158de8d0feb.webp", "bg-forest": "assets/bg-forest.43bfa224821e.webp", "bg-grave-night": "assets/bg-grave-night.563932d07110.webp", "bg-grave": "assets/bg-grave.298757ff7d54.webp", "bg-lake": "assets/bg-lake.2efcc58321a9.webp", "bg-living-night": "assets/bg-living-night.b0ee3fbb9ed4.webp", "bg-living": "assets/bg-living.df9748f27967.webp", "bg-oldhouse-window": "assets/bg-oldhouse-window.862fd00dbd9c.webp", "bg-papa-confession": "assets/bg-papa-confession.b21e5a675096.webp", "bg-papa-door": "assets/bg-papa-door.1685928578ba.webp", "bg-police-office": "assets/bg-police-office.45e08b8f493c.webp", "bg-room-night": "assets/bg-room-night.f6d574836c0f.webp", "bg-room": "assets/bg-room.4395c6875213.webp", "bg-ruin-inside": "assets/bg-ruin-inside.158dbe563489.webp", "bg-ruin": "assets/bg-ruin.afc90f46f79e.webp", "bg-storehouse": "assets/bg-storehouse.79ad834d2a4d.webp", "bg-study": "assets/bg-study.91e433c50b7f.webp", "bg-title": "assets/bg-title.f653637e5e4c.webp", "bg-university-library": "assets/bg-university-library.e8c03a786a6c.webp", "bg-university": "assets/bg-university.ee59425e2e16.webp", "bg-village": "assets/bg-village.f87719c45ea8.webp", "brother-adult": "assets/brother-adult.357a0daebfbc.webp", "brother-child": "assets/brother-child.510a1dfc72f6.webp", "chanko-adult-grief": "assets/chanko-adult-grief.eedf2146988b.webp", "chanko-adult": "assets/chanko-adult.a836f6ee5899.webp", "chanko-child-fear": "assets/chanko-child-fear.ba766473c87c.webp", "chanko-child": "assets/chanko-child.9349818ea286.webp", "charlotte": "assets/charlotte.5157f1c31e07.webp", "chihiro": "assets/chihiro.fcc0ef7771f1.webp", "fumi": "assets/fumi.d26fa49e61ad.webp", "kiyo": "assets/kiyo.59935bf97516.webp", "kuri-adult-guilt": "assets/kuri-adult-guilt.e1424de7d5a4.webp", "kuri-adult": "assets/kuri-adult.7f625cb81178.webp", "kuri-child": "assets/kuri-child.59d5e7357c1c.webp", "makabe": "assets/makabe.ac5227f96e35.webp", "mama-grief": "assets/mama-grief.e6c1f105dd82.webp", "mama-young": "assets/mama-young.e3bb24d2e291.webp", "mama": "assets/mama.fd727d1bacd9.webp", "nozaki": "assets/nozaki.f76b1f60a24f.webp", "papa": "assets/papa.b14882861beb.webp", "pepe": "assets/pepe.2d31da9a0e63.webp", "police-young": "assets/police-young.791a8b712f4e.webp", "police": "assets/police.885068764dfc.webp", "sumika": "assets/sumika.1e883394682f.webp", "unknown": "assets/unknown.cf206b5632d6.webp"};</script>
 <script>/* Fixed facts, staged testimony. The protected person is identified only after opening the chest. */
 window.ADV={
   "characters": {
@@ -3552,6 +3555,372 @@ window.ADV={
   "start": "room"
 };
 </script>
+<script>/* Long-form investigation chapters. Every branch uses the same fixed historical facts. */
+(()=>{'use strict';
+const D=window.ADV,N=D.nodes,E=D.evidence;
+const L=(who,text,extra={})=>({who,text,...extra}),A=(label,to,extra={})=>({label,to,...extra});
+const H=(id,label,x,y,lines,extra={})=>({id,label,x,y,lines,...extra});
+const doc=(id,title,text,evidence)=>{D.documents[id]={title,text,evidence}};
+const ev=(id,title,text,source)=>E[id]={title,text,source};
+const scene=(id,title,bg,pov,intro,actions,extra={})=>{N[id]={chapter:3,title,location:title,time:'現在 · 調査の一週間',bg,pov,music:'investigation',intro,actions,...extra}};
+const side=(id,title,bg,pov,lines,to,extra={})=>scene(id,title,bg,pov,lines,[A('話を続ける',to)],extra);
+D.documents={};D.puzzles={};
+D.characters.youngMama={name:'若い頃のちゃんママ',art:'mama-young',bio:'母が話す、結婚したばかりの頃の自分。今より少し長い前髪と、使い込んだ絵の具箱。'};
+D.characters.youngPolice={name:'若い頃の警官',art:'police-young',bio:'まだ村の仕事に慣れていなかった頃の警官。母と暮らし始めたばかりだった。'};
+// Source documents remain available from each workbench; their text never changes to suit an answer.
+ev('patrolOrder','二枚の巡回表','現在の町の巡回は、当直表の順序と交番への到着記録が一致する。だが、配属を希望した理由までは当直表から分からない。','大学の資料机・交番');
+ev('clockCheck','商店の時計のずれ','配達控えに書かれた19:14は、八分進んだ店内時計の時刻だった。時刻を補正しても、くりたけが一人で寄り道した事実は変わらない。','商店の修理票とラジオ時報');
+ev('photoOrder','写真の写った順番','警官と母が一緒に暮らした写真、転勤の準備、桃の絵が初めて写る写真、旧教室の閉鎖後の写真。持ち主の後書きだけでは日付を決められない。','写真の裏書きと教室の貸出票');
+ev('authorMatch','三枚の作品の持ち主','母の桃、野崎の窓辺、フミの教室。年代・支持体・署名を合わせると三作品を区別できる。野崎が現在持ち出した絵は、古い被害の保存物ではなかった。','作品目録と保管票');
+ev('cabinetRecord','保管棚の受領票','棚の品には、預けた日と預けた人を別々に記す規則があった。受領票への署名は、制作や犯行の証拠ではない。母の名がある封筒も、それだけでは中身の持ち主を決められない。','旧教室の保管棚');
+ev('windowAccount','窓に関する情報の出所','侵入者を見たという父の言葉と、警官自身が確認した窓の状態は別。父は窓を閉めたが、侵入者の顔や逃走先を答えていない。','警官の原本と真壁の写し');
+ev('specimenOrder','四つの標本札','棚のメモは、四つの標本を入手した順にラベル右下の数字を読むというもの。虫の脚や角を数える暗号ではなかった。','昔の勉強机');
+ev('independentReport','真壁の独立した聞き取り','警官の元家族としての話と、捜査員として確認したことを分けて記録した。親しかったという理由で、どの証言も無条件には採用しない。','真壁の調査票');
+ev('motherEnvelope','母の未送付の封筒','母は昔の被害について警察に話そうとして手紙を書いていた。封筒は出されず、父はその存在を知っている。今回の事件についての告白文ではない。','家族の引っ越し箱');
+ev('bathLedger','銭湯の古い記録','警官が初めて来店した日は大学入学より前。異動希望の時期と家族への気掛かりは重なるが、巡回先の選定だけで今回の犯人とは決められない。','町の銭湯・キヨの帳面');
+ev('restoredLetter','封筒の中の続き','破れた紙は母の手紙ではなく、ペペが書いた受領の控えだった。外から見える署名だけで、中の物を誰が作ったか判断する危険が分かる。','旧教室・断片の復元');
+ev('motherPerspective','母の以前の暮らし','母と警官の暮らしは、最初から不仲だったわけではない。被害のあと、許されたことで過去を話す機会を失っていった。母の沈黙には自分の過去を知られたくない理由もある。','母と警官が別々に語った回想');
+ev('nozakiCustody','野崎の預かりもの','野崎は教室閉鎖のあと、自作と家族の絵を取りに来ていた。閉鎖前後の貸出票には彼以外の出入りもある。無断侵入は事実だが、同じ人物がすべてを運んだとは言えない。','野崎とフミの説明');
+
+doc('patrol-notes','貼り直された当直表',`大学前の交番　午後の巡回順を決める内規。これは当日の時刻表ではなく、引き継ぎを決めるための順序表である。日によって開始時刻がずれるため、場所だけを見て「同じ時刻にいつもいた」とは言えない。
+
+四か所は、大学正門、川沿い、商店街、住宅街。住宅街の巡回が終わった者は、そのまま交番へ戻り、途中の場所へ引き返さない。大学正門から出た者は次に川沿いへ回る。商店街の確認は川沿いの確認より後で、住宅街の確認より前に行う。
+
+受付の控えには「正門へ出る前に大学から通報」「商店街で一件の相談」「帰所時に住宅街での忘れ物を届けた」とある。通報があったから大学だけを見張り続けていた、と考えると、商店街の相談を受けたことと合わない。
+
+表の右端に、鉛筆で『配属希望』と小さく書き足されている。希望した本人の理由は、この用紙には書かれていない。巡回が正式な勤務でも、希望の動機まで公務上のものとは限らない。逆に、家族を心配していたとしても、毎回の巡回が家族を追いかけるためだったとは限らない。
+
+真壁の付箋。『勤務の順序と、誰かに会った記憶は分けて照合する。人物を先に疑って巡回の一部だけ抜き出すと、どの順序でも怪しく見える。まず全部を同じ紙の上に置く』。`);
+doc('clock-doc','八分進む時計',`相良商店　時計の修理受付票。事件の日付より三日前に受付。症状は「毎日ほぼ同じだけ進む。時報と合わせると八分先」。修理に出すまで使い続けるため、会計の控えには店の時計の値をそのまま記すという注意書きがある。日付欄は正常。
+
+配達の控え。荷物番号三七、代金受領。時刻は十九時十四分。横に「くりたけ、店で受け取る」と店主の筆跡。千尋はその夜のラジオの番組名を覚えているが、何分に流れていたかまでは覚えていない。番組名は時報の代わりには使えない。
+
+くりたけの当時の説明には「ちゃんこと別れて、すぐ家へ帰った」とある。帰宅時刻の数字には一度消した跡がある。誰かの指示で書き換えたとする資料はない。本人が怒られたくなくて変えたという説明をするなら、実際に店にいた時刻とも矛盾しないか確かめる必要がある。
+
+千尋の書き添え。『十九時十四分が本当だと私も思っていた。あの時計はいつも少し早いと知っていたのに、紙に数字があると正しい気がした。私が覚えているのは、くりたけが一人だったことと、家に帰りたくなさそうにしていたこと。その先は見ていない』。
+
+この票だけで、家で何が起きたかは決められない。時刻を直すという作業は、誰かを犯人にすることと同じではない。ただ、本人の説明と同じ条件で比べられるようになる。`);
+doc('photo-doc','写真と貸出票',`四枚の写真には、撮影日ではなく、後に整理した人が説明を書き足している。写真そのものに写るものと、裏の説明を別々に読むこと。
+
+Ａ　母と警官が古い教室で二人並んでいる。母の手には、まだ取っ手が壊れていない絵の具箱。後書きは「教室の最後の日」。だが教室の壁には、翌年に塗り直した青い縁がまだなく、この説明は別の写真と取り違えられている。
+
+Ｂ　窓辺に荷造りした二つの鞄。転勤の辞令の封筒が写っている。貸出票には、この日の前日に二人が絵の具箱を借り、翌日に返す予定だったとある。絵の具箱の返却欄には、予定の二日後の日付が書かれている。
+
+Ｃ　桃の絵が乾燥棚に一枚立ててある。取っ手の壊れた絵の具箱が床にある。この写真の包み紙には、Ｂの返却予定日より後の新聞の日付が読める。桃の絵が何のためのものか、写っているだけでは分からない。
+
+Ｄ　片付けられた教室。壁の縁は青く、椅子には紙が掛かっている。教室の貸出帳はここで終わり、新しい教室へ移ったことが余白に記される。フミは、この写真を見て『二人が来たのは、このあとだった』と話した。しかし、Ａには閉鎖前の壁が写っている。
+
+人の顔だけを見れば、四枚ともほとんど同じ頃に見える。大人の数年は子供の一年ほど顔が変わらない。それでも、物の修理や建物の変更は順番を残す。忘れた人を嘘つきと決めるより、変わった物を確かめる方が遠くまで進める。`);
+doc('painting-doc','作品目録の余白',`教室を移す際の三作品の控え。名札は一度外され、別の作業台にまとめられた。現物のラベルを貼り直す時は、署名、支持体、貸出票を照合すること。題材だけで作者を決めない。
+
+「桃」――薄い和紙に描かれ、裏から光を当てると筆の重なりが見える。鉛筆の下描きはほとんどない。年の欄は、母が警官と暮らすより前。署名は母の旧姓。後の被害の代用品として描いたものではなく、本人の練習画として預かった記録である。
+
+「窓辺」――厚い麻布に描かれた小さな油彩。角に、乾く前についた指の跡。野崎は自分の絵だと主張している。貸出票は、教室の閉鎖より後に返却を求めた記録。ただし作品の制作自体は閉鎖前である。
+
+「教室」――厚紙に墨で描かれた建物。絵には閉鎖後の青い縁が描かれているが、フミの署名は後から細い筆で添えられたもの。フミが昔に描いたと話したのは、若い頃に見た建物という意味で、作品を描いた年とは違っていた。
+
+三枚の題名には、人を疑わせる響きがある。桃は母の過去、窓は侵入者、教室は先生の沈黙を連想させる。しかし、それは見る人が付け加えた物語でもある。絵そのものの作者と、絵から想像した事件は別に記録する。
+
+野崎の追記。『勝手に持っていったことは謝る。だが、俺の絵が俺のものだと示すために、他の二枚を人のせいにしたくない。頼むから、全部同じ条件で見てくれ』。`);
+doc('cabinet-doc','保管棚の規則',`旧教室の保管棚。番号を忘れた場合、鍵を壊してはならない。四つの引き出しの印は、棚を正面から見て左上が「月」、右上が「桃」、左下が「松」、右下が「蝉」。各印の下に一桁の数字が残る。
+
+開錠用の数字は、絵を置いた時と同じ順に読む。始まりは入口に一番近い「松」。そこから、正面の四角を時計回りに一周する。数字を小さい順に並べるものではない。棚を窓ガラス越しに見た時は左右が反転するため、ガラスに映った印を読まないこと。
+
+受領の記録について。『預けた人』の名前と、『元の持ち主』の名前が違う場合がある。本人が来られず、家族が預けに来た物もある。受領欄に署名があるからといって、預けた人が制作した、傷つけた、所有していたとは限らない。袋を開封していない品には、持ち主を推定で書き足さない。
+
+ペペの手書き。『預かるだけで、戻せるようになると思ってしまった。戻せないまま棚は増えた。人の名前を札にして、棚に置いて、待たせていることを忘れた。新しい教室には持っていけない。だが、ここに残せば、いずれ誰も聞けなくなる』。
+
+余白の別の筆跡。『中を見ないで預かったと、後から言えばいいわけじゃない。預けられた側にも、問い返す時がある』。野崎はこの文字を見て、先生に怒られた日の自分の書き込みだと言った。先生は、それを消さずに残していた。`);
+doc('window-doc','原本と報告の写し',`事件翌朝　聞き取りの原本。警官が現場へ着くより前に、父が窓を閉めた。窓の外に、濡れた土が残っていることは警官自身が確認。外部の足跡は確認できず。窓の開いていた幅、留め金の元の位置は未確認。
+
+父の申告。『外から男が入った。子供も見た。母親は倒れていた。窓は私が閉めた』。男の顔、背丈、服装、逃げた方角については、質問に対する具体的な答えが書かれていない。父が「子供が見た」と言ったことを、警官が「父と子が見た」と要約している箇所がある。
+
+捜査報告の写し。『父子の一致した目撃証言。侵入者は窓から入り、同所より退出したものと推定』。この一文は、現場を直接見て書いた事実と、父の話と、警官の推定が一緒になっている。読む側には境目が分からない。
+
+真壁のメモ。『四つの文を、観察・申告・推定に分ける。観察は「窓の外の土は濡れていた」。申告は「窓は父が閉めた」と「外から男が入った」。そのどちらも、父がそう話したことは事実だが、中身が真実かは別。推定は「同じ窓から逃げた」。写しに複数の目撃者がいるように書かれた理由は、原本まで戻らないと分からない』。
+
+この食い違いを、父が犯人だという証明には使えない。父が何を見て、何を聞いて、自分の言葉として話したのかを尋ねるために使う。嘘を一つ見つけたからといって、残りの全てが逆になるわけではない。`);
+doc('specimen-doc','ちゃんこの標本ノート',`机に挟まれた小さなノート。『棚は日付の順。ひらがな順でも、好きな順でもない。箱が入れ替わったら、もらった日を見て戻すこと』。子供の丸い文字だが、途中から妙に細かい。
+
+アオスジアゲハ――四月二日。翅はまだ少し透けていた。拾ったものを、先生が伸ばすのを手伝ってくれた。ラベルの右下には四。
+
+ノコギリクワガタ――六月十八日。パパが仕事帰りに連れてきた。お礼に、脚をいちばん見やすくしてあげた。ラベルの右下には一。
+
+タマムシ――七月三日。羽の色は、角度を変えると急に消える。ママはきれいだと言ったあと、少し離れて見ていた。ラベルの右下には三。
+
+クロアゲハ――七月二十二日。弟が初めて自分で見つけた。弟の名前で残してあげる。ラベルの右下には二。
+
+裏表紙。『毎日見ていても、好きだった理由を忘れることがある。だから、いつ、誰と見たかも書く。どれもだいじだから、順番はえらさじゃない』。四つの絵の脇に、同じ印が引き出しにもあるとメモされている。
+
+最後のページには、日付だけ書いて内容のない欄がある。虫取りへ行った日だ。あとから、薄い筆圧で「シール、三枚ない」と書き足されている。どこでなくしたかは書かれていない。`);
+doc('torn-doc','破れた受領の控え',`封筒から六枚の断片が落ちた。用紙には、短い縦の折り目と、横に続く文がある。断片の上辺の記号は、折り目の左から順に丸、三角、四角、星、二重丸、横線。一枚は別の領収書の裏で、もう一枚は作品の題名だけの紙だ。
+
+先生は受領の時、最初に預かった日を書き、次に預けた人、次に開封の有無、その後に確認できたこと、最後に返却の条件と署名を記す。署名の断片を最初に置くと、誰の文章かだけは分かるが、何を認めた文章か分からなくなる。
+
+紙の端は細く破れ、隣り合う断片の文字が一つにつながっている。丸の断片には「本日」、三角には「御家族より」、四角には「未開封」、星には「確認していない」、二重丸には「受領者」、横線には「返す」とある。二重丸が署名ではないことに注意。受領者についての条件の続きである。
+
+一枚の断片は『棚に置いた者を、元の持ち主と取り違えない』と読める。もう一枚には単に『窓辺』。どちらも本紙と紙質が違う。文章に合いそうだからと無理に継げば、自然な偽の手紙ができてしまう。
+
+澄香のメモ。『分かった気がする文章を先に作らない。紙を合わせる時は、何が書かれていてほしいかではなく、折り目と書式から順番を戻す』。`);
+const cards=(a)=>a.map(([id,label,note])=>({id,label,note}));
+D.puzzles={
+ patrolPuzzle:{title:'巡回の順序を組み直す',type:'sequence',prompt:'当直表と受付の控えが、同時に成り立つ巡回順を作る。ここで分かるのは行動の順番で、動機ではない。',documents:['patrol-notes'],cards:cards([['houses','住宅街','忘れ物を受け取った場所'],['shops','商店街','相談を受けた場所'],['gate','大学正門','大学からの通報'],['river','川沿い','川の水位を確認']]),answer:['gate','river','shops','houses'],give:['patrolOrder'],result:'四か所の巡回を、勤務記録と同じ順に戻した。',to:'campus-result'},
+ clockPuzzle:{title:'配達控えの時刻',type:'code',prompt:'くりたけが店にいた実際の時刻を、二十四時間制・四桁で記録する。配達控えと修理票を同じ基準に直す。',inputLabel:'実際の時刻',digits:4,documents:['clock-doc'],answer:'1906',give:['clockCheck'],result:'店の時計と実際の時刻を分けた。',to:'shop-clock-result'},
+ photoPuzzle:{title:'四枚の写真',type:'sequence',prompt:'写真が撮られた順に並べる。後書きは撮影日とは限らない。写っている建物や道具の変化を比べる。',documents:['photo-doc'],cards:cards([['closed','片付けられた教室','壁の縁が青い'],['peach','乾燥棚の桃','取っ手の壊れた絵の具箱'],['couple','二人と絵の具箱','壁の縁は塗り直される前'],['bags','荷造りの鞄','返却予定の貸出票']]),answer:['couple','bags','peach','closed'],give:['photoOrder'],result:'裏書きと撮影順が食い違っていた。',to:'photo-result'},
+ paintingPuzzle:{title:'外された作品札',type:'matching',prompt:'作品と作者の札を結び直す。題材が事件を連想させることと、誰の作品かは別に扱う。',documents:['painting-doc'],cards:cards([['nozaki','野崎 修','教室閉鎖後に返却を求めた'],['fumi','水瀬 フミ','青い縁のある教室を描いた'],['mama','ちゃんママ','旧姓の署名']]),slots:[{id:'peach',label:'薄い和紙の「桃」'},{id:'class',label:'厚紙に墨で描いた「教室」'},{id:'window',label:'麻布に油彩の「窓辺」'}],answer:{peach:'mama',class:'fumi',window:'nozaki'},give:['authorMatch'],result:'三枚の持ち主を分け、野崎の包みを照合した。',to:'nozaki-result'},
+ cabinetPuzzle:{title:'保管棚の四つの印',type:'code',prompt:'棚を正面から見て、保管規則の順に数字を読む。ガラスに映った向きではない。',documents:['cabinet-doc'],diagram:[{symbol:'☾ ２',label:'月'},{symbol:'桃 ６',label:'桃'},{symbol:'松 ４',label:'松'},{symbol:'蝉 ９',label:'蝉'}],inputLabel:'保管棚の番号',answer:'4269',give:['cabinetRecord'],result:'保管棚の封筒を開いた。',to:'cabinet-result'},
+ letterPuzzle:{title:'断片をつなぎ直す',type:'sequence',prompt:'受領の控えの六片を、元の書式に戻す。別の紙も混じっている。自然に読めることだけを根拠にしない。',documents:['torn-doc'],cards:cards([['signature','受領者が制作したと認めるものではなく、','二重丸の折り目'],['title','窓辺','厚い別紙'],['notchecked','内容は確認していない。','星の折り目'],['date','本日、','丸の折り目'],['receipt','御家族より、品一件を預かる。','三角の折り目'],['shelf','棚に置いた者を、元の持ち主と取り違えない。','紙質が違う'],['return','返す時は、預けた本人にも中を確認してもらう。','横線の折り目'],['unopened','未開封のため、','四角の折り目']]),answer:['date','receipt','unopened','notchecked','signature','return'],give:['restoredLetter'],result:'署名と中身の関係を、受領票の文面から読み直した。',to:'letter-result'},
+ windowPuzzle:{title:'誰が確認したのか',type:'matching',prompt:'原本と写しを比べ、文をその情報源に戻す。目撃者の人数が増えた理由を確かめる。',documents:['window-doc'],cards:cards([['escape','侵入者は同じ窓から逃げた','報告の写しにある文'],['closed','窓は父が閉めた','父の申告欄にある文'],['soil','窓下の土が濡れていた','現場到着時の観察'],['man','外から男が入った','父が警官に話した文']]),slots:[{id:'observation',label:'警官自身が観察したこと'},{id:'handling',label:'父が申告した、窓の操作'},{id:'witness',label:'父が申告した、人物の目撃'},{id:'inference',label:'警官が報告で加えた推定'}],answer:{observation:'soil',handling:'closed',witness:'man',inference:'escape'},give:['windowAccount'],result:'目撃者が二人いるように見えた記述の出所を分けた。',to:'police-window-result'},
+ specimenPuzzle:{title:'机の小さな棚',type:'code',prompt:'四つの標本札と、裏表紙の約束から棚の番号を戻す。',documents:['specimen-doc'],inputLabel:'棚の四桁の番号',answer:'4132',give:['specimenOrder'],result:'標本ノートと一緒にしまわれた、父の紙袋を取り出した。',to:'study-cabinet-result'}
+};
+const work=(id,label,puzzle)=>H(id,label,55,55,[],{document:puzzle});
+// A full week in two locations replaces the immediate leap from campus to the culprit hunt.
+N['city-first'].actions=[A('大学へ戻る','campus-night')];
+scene('campus-night','閉館前の資料室','university-library','adult',[
+ L('','講義が終わっても、ちゃんこは家へ戻らなかった。図書館の窓には、夕方の空より先に室内の灯りが映っている。'),
+ L('adultKuri','あのおまわりさんを見ただけで、そんなに変わるもんか。'),L('adult','見ただけならね。十年前と同じことを言ったんだ。ちゃんと見ておかないと、って。'),L('adultKuri','仕事の言い方が、ずっと同じだけかもしれないだろ。'),L('adult','僕も、そう思いたい。でも、母さんに何も言わずに、こっちの町に来てる。'),
+ L('adultKuri','母さんが知らないのか、お前に話してないのか。そこ、まだ分かんなくない？'),L('','くりたけは机の上に、大学前交番の掲示を写した紙を置いた。授業の帰りに、配属先だけ確認してきたという。'),L('adult','……お前、怖くないの。'),L('adultKuri','怖いよ。だから、一個ずつ。昔みたいに、行ってみりゃ分かるで走ってったら、また同じことになる。'),
+ L('','ちゃんこは、紙の端の湿った跡を見た。くりたけは雨に降られていたらしい。'),L('adult','今度は、勝手に先に行くなよ。'),L('adultKuri','お前もな。')
+],[A('机に資料を並べる',null,{puzzle:'patrolPuzzle'})],{hotspots:[work('patrolsheet','当直表の写し','patrol-notes')]});
+side('campus-result','巡回表にない理由','university-library','adult',[
+ L('adult','勤務の順番は合う。僕をつけてきたから、この道を通ったとまでは言えない。'),L('adultKuri','でも、異動した理由は別だよな。'),L('adult','その理由は、聞かないと分からない。'),L('','紙を裏返すと、古い家の住所を消した跡があった。元の村と同じ字だが、誰が書いたかは分からない。'),L('adultKuri','それも、見てから決めようぜ。紙が怪しいんじゃなくて、まだ説明がないんだ。'),L('','閉館の音楽が鳴り始めた。ちゃんこは資料を重ねて鞄に入れた。明日なら話せることを、今夜のうちに答えにしない。そのためだけに、二人でいる意味があった。')
+],'town-evening');
+scene('town-evening','講義のない午後','city','adult',[
+ L('','翌日。授業の空いた時間に、ちゃんこは交番の前を通った。警官の姿はなく、代わりに見慣れない若い警官が窓を開けていた。'),L('makabe','先輩なら、巡回を終えて非番です。何かありましたか。'),L('adult','知り合いなんです。村で、お世話になって。'),L('makabe','ちゃんこさん、ですか。'),L('','名乗っていない。ちゃんこが黙ると、真壁は少しだけ困った顔になった。'),L('makabe','ご家族がこの町にいらっしゃるとは、聞いています。'),L('adult','どんな家族かも？'),L('makabe','そこは、僕の口から話すことではないと思います。'),L('adult','みんな、そう言います。僕の家族のことなのに。'),L('','真壁は、しばらく黙っていた。隠すことと、他人が勝手に話さないことは、外から見るとよく似ている。'),L('makabe','本人に聞いてください。もし話が食い違ったら、その時は僕にも聞かせてください。')
+],[A('銭湯の通りへ','bath-evening')]);
+scene('bath-evening','のれんの向こう','city-bath','adult',[
+ L('','銭湯の玄関に、見覚えのある靴があった。警官が村でも履いていた、踵の擦れた革靴。'),L('kiyo','入口で固まってると、後ろの人が入れないよ。'),L('adult','あ、すみません。ここ、昔からありますか。'),L('kiyo','あんたが生まれるより前からね。古い場所だと思って、何でも昔のままだと考えないでよ。湯は毎日入れ替えてる。'),L('','キヨの笑い方は気さくだった。ちゃんこは、それだけで少し気が楽になった。'),L('kiyo','人を探しに来た顔だね。でも、体を休めに来る人のことは、ここで問い詰めないでおくれ。'),L('adult','少しだけ、話せれば。'),L('kiyo','少しで終わる話かどうかは、あんた一人で決めることじゃない。')
+],[A('脱衣所へ','investigation-hub')]);
+// Bath reveal remains in its original place; a substantial second conversation follows it.
+N.bath.actions[0].to='bath-backroom';
+scene('bath-backroom','番台の奥の帳面','bath-office','adult',[
+ L('','警官は桃の絵を見られたあと、長い間、タオルを畳み直していた。ちゃんこが何を聞いても「ここでは」とだけ答えた。'),L('kiyo','こっちへおいで。客の前で言えないこともあるだろうから。'),L('adult','知ってたんですか。あの絵のこと。'),L('kiyo','知ってるよ。見れば分かることまで、知らないふりはしない。でも、その理由を聞いたかは別だね。'),L('adult','僕の家族にも、同じものがあるんです。'),L('','言葉にすると、今まで隠して暮らした十年が、小さな事実のように机に置かれた。キヨは顔色を変えなかった。'),L('kiyo','そうかい。なら、あんたがどんな顔でこの話をしたかも、他の客には話さないよ。'),L('adult','……ありがとうございます。'),L('kiyo','その代わり、聞いた話を勝手につないで、人の人生にしないこと。あの人が初めて来た日の帳面ならある。体の話じゃなくて、この町に来た時期だけ、本人に確認してみな。')
+],[A('初めて来た日のことを聞く','bath-ledger')]);
+side('bath-ledger','初めての客','bath-office','adult',[
+ L('kiyo','最初は、道に迷って来たんだよ。まだ配属もされていない頃。'),L('adult','来る予定があったんだ。'),L('kiyo','予定の中身は知らない。町の様子を見に来たって言ってた。それで、大学はどっちかと聞かれた。'),L('adult','やっぱり、僕を見に……。'),L('kiyo','あんたの話が出たとは言ってないよ。今、話の端に自分を足したね。'),L('','ちゃんこは口を閉じた。自分と関係があるはずだと思うほど、他の理由が見えなくなる。'),L('kiyo','ただ、心配する人がいる顔だった。たまにいるんだよ。誰かのために来たのに、会う勇気がなくて、湯だけ入って帰る人。'),L('adult','それが、優しさならいいんですけど。'),L('kiyo','優しくても、相手が怖がってたら、説明はいるんじゃないかね。')
+],'family',{give:['bathLedger']});
+N.family.actions[0].to='family-boxes';
+scene('family-boxes','引っ越しの箱','city-home','adult',[
+ L('','弟が押し入れから、引っ越しの時の箱を出してきた。十年前に捨てたはずだと思っていたものが、思いのほか残っている。'),L('adultBrother','捨てたんじゃなくて、僕らに見せてなかっただけなんだと思う。'),L('adult','ママが？'),L('adultBrother','だから、すぐ人の名前を当てるなって。僕が入れたのもあるし、パパが箱ごと持ってきたのもある。'),L('','紙袋の内側に、ちゃんこの古い字で虫の名前が書かれていた。中には、母の手紙が一通。封はされていない。'),L('mama','それは、出せなかったもの。'),L('adult','誰に出すつもりだったの。'),L('mama','警察。……昔のことを、話そうとしたの。'),L('papa','もう終わった話だ。'),L('adultBrother','終わってないから、兄ちゃんが調べてるんでしょ。'),L('','父は、弟に何か言い返しかけて、やめた。ちゃんこは初めて、弟が父をまっすぐ見返すのを見た。')
+],[A('封筒について聞く','family-envelope')]);
+side('family-envelope','出されなかった手紙','city-home','adult',[
+ L('mama','私が、あの人を傷つけたこと。それを、話そうと思ったの。'),L('adult','あの人って……おまわりさん？'),L('mama','本人から聞いて。私が代わりに話して、また何かを変えたくない。'),L('papa','そんな紙を、いま読ませなくてもいい。'),L('adult','なんで、パパが決めるの。'),L('','声が大きくなった。弟が紙を、破れないように机へ伏せた。'),L('adultBrother','ケンカするなら、この紙は僕が預かる。破いたら、誰が書いたかも分からなくなるから。'),L('mama','……いいわ。先生にも、残っている物があるはず。あの人と先生、両方に聞いて。'),L('','帰り道、ちゃんこは父の言葉を何度も思い出した。「読ませなくてもいい」。母のためなのか、自分のためなのか。どちらもありそうだった。')
+],'investigation-hub',{give:['motherEnvelope']});
+// Four approaches, not one virtuous answer followed by three arbitrary punishments.
+N.police.actions[0].prompt='真壁「元の家族としての話と、当時の捜査は、どう分けて聞き取りますか」';
+N.police.actions[0].choices=[
+ A('過去の被害は別件にし、現在の捜査資料だけ提出する','police-redaction'),
+ A('真壁に原本を預け、自分の話を独立して聞き直してもらう','police-independent',{set:['policeHonest']}),
+ A('婚姻関係と虚偽の申告を含め、今回の記録にも残す','police-admission',{set:['policeHonest']}),
+ A('ちゃんこと母に先に話し、公開する範囲を相談する','police-private')
+];
+scene('police-redaction','別件という線引き','city-police','police',[
+ L('police','私の古い被害と、十年前の件を、同じ資料に入れるべきではない。別件として出せば、余計な憶測を呼ばずに済む。'),L('makabe','別件として記録することには賛成です。しかし、関連がある可能性を、読む人から隠すことになります。'),L('police','本人の名を出さなければ、十分ではないか。'),L('makabe','誰の被害かを伏せることと、同じ種類の被害があったことまで消すのは違います。'),L('','警官は資料を二つに分けた。自分の名前がある方だけ、手元へ引き寄せる。'),L('police','守りたいものがある。'),L('makabe','なら、何から守るのかを書いてください。捜査の不利益と、家族の不利益を、同じ言葉で隠さないでください。')
+],[A('氏名を伏せても関連性は残し、原本を真壁に預ける','police-independent'),A('別件の原本を出さず、現在の事件だけで進める','father-silence')]);
+// A procedural pause offers four concrete responses rather than an immediate good/bad button.
+N['police-redaction'].actions=[{label:'提出の扱いを決める',prompt:'関連する過去を残しながら、誰に何を説明するか。',choices:[
+ A('本人の名前も関連性も、当面は保管庫にとどめる','father-silence'),A('氏名の扱いは分け、関連する被害の原本を真壁へ渡す','police-independent',{set:['policeHonest']}),A('家族への説明を先に行い、原本はそのあと提出する','police-private'),A('当時の申告を自分で訂正し、理由も記録する','police-admission',{set:['policeHonest']})]}];
+side('police-independent','別の人が読む原本','city-police','police',[
+ L('police','私の話を、先に正しいものとして読まないでくれ。私の家族だった人からも、別々に聞いてほしい。'),L('makabe','先輩を疑うため、ではありません。先輩が覚えているものと、当時見たものを分けます。'),L('police','それができていなかった。報告を読むたび、自分の記憶と似ていくのを、確かになったことだと思っていた。'),L('','真壁は警官の文章を写さず、一行ずつ、情報の出所を聞いた。窓を見た人。窓を閉めた人。侵入者を見たと言った人。'),L('makabe','全部が同じ人ではないですね。'),L('police','……ああ。だが、同じ文にまとめてしまった。'),L('','それは紙の上の小さな省略だった。誰かが十年信じ続けるには、十分な大きさの省略でもあった。')
+],'police-workbench',{give:['independentReport']});
+side('police-private','話す順番','city-police','police',[
+ L('police','先に、ちゃんこと母親へ話す。私が書類にしたことを、他人から聞かせたくない。'),L('makabe','それは必要だと思います。でも、許可が出るまで記録しないという意味ですか。'),L('police','……違う。話すことを、提出しない理由にはしない。原本は預ける。'),L('makabe','分かりました。家族の説明を聞く順番は、ご本人と相談してください。こちらの調査は止めません。'),L('','警官は電話を取った。何度も通った家へ、初めて用事を言って訪ねるために。')
+],'police-workbench',{give:['independentReport'],set:['policeHonest']});
+N['police-admission'].actions[0].to='police-workbench';
+scene('police-workbench','報告の中の目撃者','city-police','police',[
+ L('makabe','同じ窓の話なのに、原本と写しで、目撃者の数が変わっています。'),L('police','誰かが後から書き換えたのか。'),L('makabe','写しの方は、先輩の筆跡です。消して直した跡ではありません。要約した時に、情報がつながったんだと思います。'),L('police','自分が見たつもりで読んでいたものを、一度ばらすのか。'),L('makabe','はい。観察、申告、推定。相手の話を疑う前に、こちらが足したものを外しましょう。'),L('','先輩を守るために書かれた報告もある。先輩が誰かを守るために書いた報告もある。真壁はそのどちらにも、同じ余白を残した。')
+],[A('原本を机に広げる',null,{puzzle:'windowPuzzle'})],{hotspots:[work('windowpapers','原本と写し','window-doc')]});
+side('police-window-result','窓を閉めた人','city-police','police',[
+ L('makabe','外から男が入った、というところの情報源も父親です。ちゃんこさんの話に、別の大人の保証が付いていたように見えた。'),L('police','だから、子供が見間違えた可能性を、それ以上確かめなかった。'),L('makabe','お父さんが実際に見たかどうかは、まだ分かりません。ここで父親を犯人にしてしまうと、同じことの繰り返しです。'),L('police','見たと言った理由を、聞く。'),L('makabe','それと、部屋を調べなかった理由です。窓の話と、勉強部屋の立ち入りを断った話は、同じ日の記録にあります。'),L('','警官は、父親への怒りを覚えかけていた。すぐに、自分も同じように質問を止めたことを思い出した。')
+],'investigation-hub',{set:['policeRoute'],give:['independentReport']});
+N['kuri-shop'].actions[0].choices=[
+ A('店の時計が正しかったか、修理や時報の記録を探す','shop-clock'),
+ A('自分が最後に見たちゃんこの様子だけ、先に話す','kuri-last-view'),
+ A('母親が答えた帰宅時刻と、自分の申告を照合する','kuri-family-time'),
+ A('寄り道を隠したことも含めて、今の記憶を訂正する','kuri-confess',{set:['kuriHonest']})
+];
+N['kuri-confess'].actions[0].to='kuri-after';N['kuri-delay'].actions[0].to='kuri-after';
+scene('shop-clock','時計の針の八分','village','adultKuri',[
+ L('adultKuri','この十九時十四分、何の時計で書いたんだ。'),L('chihiro','店の壁の。あんたが見ていたやつ。'),L('adultKuri','あれ、進んでなかったか。'),L('chihiro','……進んでた。毎朝、お父さんが時報と比べてた。'),L('','記憶が戻ると、紙の数字が急に頼りなく見えた。だが、だからといって数字を無視するわけにはいかない。'),L('chihiro','修理の控えがある。時計は進んでても、その進み方まで書いてあるなら、戻せるかも。'),L('adultKuri','俺の嘘が消えるわけじゃないけどな。'),L('chihiro','それと、時刻が直るのは別でしょう。都合のいい時だけ記憶を信じるなよ。')
+],[A('控えの時刻を直す',null,{puzzle:'clockPuzzle'})],{hotspots:[work('clockpaper','時計の修理票','clock-doc')]});
+side('shop-clock-result','直した数字、残る嘘','village','adultKuri',[
+ L('adultKuri','十九時六分。店の時計だと十四分。'),L('chihiro','じゃあ、あんたが店に来たのは、書かれてる数字より早い。'),L('adultKuri','でも、ちゃんこと家まで一緒じゃなかったのは、変わらない。そこは俺がごまかした。'),L('','嘘を認める時刻は、十年遅れた。数字を八分戻しても、そこは戻らない。'),L('adultKuri','紙を直した理由も、書いておく。数字だけ変えたら、誰かが都合よく直したように見えるから。'),L('chihiro','今度は、あんたの字でね。')
+],'kuri-confess');
+side('kuri-last-view','最後に見た背中','forest','adultKuri',[
+ L('adultKuri','ちゃんこは、虫かごを両手で持ってた。森を出たあと、水を飲んで、じゃあなって別れた。それだけ。'),L('chihiro','顔色が悪かったとか、変なことを言ったとか、そういうのは。'),L('adultKuri','森じゃ少し悪かった。でも、帰り道のことまで、一緒にしちゃいけない。今、思い返すと全部変に見えるから。'),L('chihiro','ちゃんこに、どう言うつもり？'),L('adultKuri','変じゃなかった、とも言えない。見てたのは背中だ。後から知った事件を、背中に貼りつけたくない。'),L('','千尋は、配達の控えを机の上へ戻した。見たものを狭くすることは、友達を見捨てることではない。')
+],'shop-clock');
+side('kuri-family-time','家に着いた時刻','village','adultKuri',[
+ L('chihiro','お母さんが、ちゃんこが帰った時刻を言ってるかもしれない。'),L('adultKuri','それが俺と違ってたら、母親が嘘をついたって考える？'),L('chihiro','そう決めるために比べるんじゃないよ。どっちの時計か、同じ日か、何を見て答えたのか。'),L('adultKuri','……俺の方は、怒られた時に話を作ったんだ。その説明だけは、先に書かなきゃいけないな。'),L('','家の中のことを知らない人が、家の中の時刻を保証していた。くりたけは、自分の申告のいちばん危ういところを、初めて言葉にした。')
+],'kuri-confess');
+side('kuri-after','謝る前に書くこと','village','adultKuri',[
+ L('adultKuri','謝れば、ちゃんこは許してくれるかもしれない。でも、それで俺の話が正しくなるわけじゃない。'),L('chihiro','謝るのと、訂正するのは違うからね。'),L('adultKuri','謝りたい相手がいると、その人が楽になる言い方を探しちゃうんだよ。俺もいるから大丈夫って、昔と同じように。'),L('chihiro','今度は、大丈夫かどうかを二人で決めなよ。'),L('','くりたけは「一人で帰らせた」という言葉を消し、「森の出口で別れた」と書き直した。自分を責める文章は、正確な文章とは限らない。'),L('adultKuri','あの時の道も、もう一度歩いてくる。何かを思い出すためじゃなくて、どこまで見えてたかを、確かめるために。')
+],'kuri-road');
+side('kuri-road','二本の帰り道','forest','adultKuri',[
+ L('','森の出口は、思っていたより村に近かった。店の屋根も見える。昔は遠い冒険に思えた道が、歩くと短い。'),L('adultKuri','こんな近くで、遅くなるまで遊んでたのか。'),L('','父親に怒られる怖さ。母親にがっかりされる嫌さ。それで、森で見たものの怖さまで、帰りには小さくなっていた。'),L('adultKuri','俺は、もう家のことしか考えてなかったんだな。'),L('','分かれ道から、ちゃんこの家の玄関は見えない。煙突の先だけが見える。家に入るまで見ていたという説明は、この位置からはできない。'),L('','くりたけは、道の写真を一枚撮った。昔のことを何でも思い出せる人間になるのではなく、分からないところに印を付けるために。')
+],'investigation-hub',{set:['kuriRoute']});
+// The archive route now contains reconstruction and a lengthy, attributed past scene.
+N.archive.actions[0].to='archive-table';
+scene('archive-table','写真のない日付','archive','sumika',[
+ L('fumi','写真を見ていると、その日の声まで戻ってくるのよ。'),L('sumika','でも、写真の中に声はないでしょう。'),L('fumi','ないから、余計に自分の声で埋めてしまうのかもしれないね。'),L('','フミは二人で写る写真を、大事そうに机へ置いた。ペペの娘と若い警官。どちらも、後の事件を知らない顔をしている。'),L('sumika','これを、事件のあとだと思ったのは、なぜ？'),L('fumi','二人が並んで来たことと、教室を片付けた日のことを、一緒にしてた。どちらも寂しかったから。'),L('sumika','悲しかった日の順番は、分かりにくいのかもね。'),L('fumi','だから、日付を見て。私が嘘つきだって分かるためじゃなくて、私が間違えてるところを、残りの話から離すために。')
+],[A('写真を並べる',null,{puzzle:'photoPuzzle'})],{hotspots:[work('photopaper','写真と貸出票','photo-doc')]});
+side('photo-result','裏書きのない二人','classroom-past','sumika',[
+ L('sumika','二人で来たのが先。転勤の準備、そのあと桃の絵。そして、教室の閉鎖。'),L('fumi','そう。二人で来たの、覚えてる。あの子が、新しい場所に行くのを怖がってた。'),L('sumika','何が怖いって？'),L('fumi','家族ができたのに、家の形が変わるんだもの。嬉しいことでも、怖いのよ。'),L('sumika','その話、誰が聞いたの。'),L('fumi','私。先生が筆を洗ってる間に、机の向こうで。'),L('','澄香は、祖母の言葉をそのまま書いた。ここから先は、祖母が覚えている会話だ。写真に記録された音ではない。')
+],'past-classroom');
+scene('past-classroom','昔の教室、二人の椅子','classroom-past','sumika',[
+ L('','フミの語る、ずっと前の教室。窓は開いていて、まだ床に苔はなかった。'),L('youngMama','行った先で、絵を描ける場所はありますか。'),L('youngPolice','あると思う。なければ、机を置けばいい。'),L('youngMama','机だけだと、教室にはならないのよ。'),L('youngPolice','じゃあ、何がいる？'),L('youngMama','間違えても、そのまま置いておける場所。'),L('','若い警官は返事に困った。引っ越しの荷物の中に、それをどう入れるのか分からなかった。'),L('youngMama','ここなら、描きかけでも先生が捨てないの。何年もあとで見て、まだ直せると思える。'),L('youngPolice','新しい家でも、捨てない。'),L('youngMama','あなたが困るものでも？'),L('youngPolice','困ったら、先に言う。勝手に捨てたりしない。'),L('','フミは、そこで二人が笑ったと話した。今なら悪い予感の前触れのように聞こえる言葉も、その時は、ただの約束だった。'),L('fumi','あの人、優しくてね。優しいことが、あとになって難しくなるなんて、誰も知らないもの。'),L('sumika','今の私たちが知ってる結末を、この二人の台詞に混ぜないようにする。'),L('','澄香は、記録の見出しを「事件前の会話」ではなく、「フミが覚えている約束」に変えた。')
+],[A('現在の資料へ戻る','archive-after')],{tone:'memory',music:'sad'});
+side('archive-after','捨てなかった絵','archive','sumika',[
+ L('fumi','私は、先生が絵を残しておくのは優しいからだと思ってた。'),L('sumika','今は？'),L('fumi','捨てるって決めるのが怖かったのかもしれないね。'),L('','祖母は、机の上の三枚の作品札を並べた。桃、窓辺、教室。どれにも、誰かの昔の暮らしが付いている。'),L('fumi','野崎さんも、あれを全部片付けるって聞いて怒ってた。古い教室のものを、まとめて処分するって。'),L('sumika','先生が処分するつもりだったの？'),L('fumi','しなきゃいけない、と言ってた。いつか。いつか、ばっかりだった。'),L('','澄香は野崎の名前に丸を付けた。怪しい人の一覧にではなく、まだ話を聞いていない人の欄に。')
+],'nozaki');
+// The canvas clue needs examination, not merely the selection of an accusation.
+N.nozaki.hotspots.find(h=>h.id==='bundle').lines=[L('','布の中には、三枚の作品が重なっていた。どれにも古い札の剥がし跡がある。'),L('nozaki','俺の絵は、窓辺だよ。先生が返してくれなかった。'),L('sumika','他の二枚は？'),L('nozaki','札が外れてたから、一緒に持ってきた。持ち主を間違えて捨てられるより、いいと思ったんだ。'),L('sumika','それは、自分のものだと分かっていない物も、運んだということですか。'),L('','野崎は答えず、三枚とも机に置いた。')];delete N.nozaki.hotspots.find(h=>h.id==='bundle').give;
+N.nozaki.actions=[A('作品の札を確かめる','nozaki-workbench')];
+scene('nozaki-workbench','剥がれた名札','storehouse','sumika',[
+ L('nozaki','人の名前が剥がれただけで、あんなに分からなくなるんだな。'),L('sumika','名前があっても、本当にその人のものかは確かめます。'),L('nozaki','俺は、自分の絵なら見りゃ分かると思ってた。十年置いておくと、嫌いだったところばっかり目につく。'),L('sumika','嫌いになったから、自分の絵じゃなくなる？'),L('nozaki','ならない。だから、持って帰りたかったんだよ。先生の教室にあると、ずっと先生に預けて、直してもらうのを待ってるみたいだ。'),L('','野崎は、三枚の題名を別の紙に書いた。事件を連想させる題名だが、題名を付けたのは当時の生徒たちだった。'),L('sumika','使った紙と、絵の具と、書かれた日付。それで分けましょう。今の話は、そのあとで。')
+],[A('名札を作品に戻す',null,{puzzle:'paintingPuzzle'})],{hotspots:[work('catalogue','作品目録','painting-doc')]});
+side('nozaki-result','窓を描いた人','storehouse','sumika',[
+ L('nozaki','窓は、外へ出たいから描いたと思われた。先生にそう言われて、腹が立った。俺は、外から差す光を描いたつもりだったんだ。'),L('sumika','先生が間違った解釈をした？'),L('nozaki','間違いかどうか、俺も分からない。そう見えるのは、先生のものだし。でも、作者の気持ちとして記録されたら、嫌だった。'),L('','澄香は目録の余白から、「作者は閉じ込められた気持ちを表す」の一文を外し、先生の講評として書き直した。'),L('sumika','持ち出したものについては、先生に話してください。私が勝手になかったことにはできません。'),L('nozaki','分かってる。中の棚のことも、話す。怖くなって逃げたから、余計にまずくなった。')
+],'ruin-investigation',{give:['nozakiCanvas','nozakiCustody']});
+N['ruin-investigation'].actions[0].to='ruin-store';
+scene('ruin-store','奥の保管棚','storehouse','sumika',[
+ L('','教室の奥は、壁一枚で仕切られた小さな保管室だった。窓ガラスに棚の影が映り、同じ印が二組あるように見える。'),L('sumika','この扉も、ずっと閉めてあったんですか。'),L('pepe','誰も入れなければ、誰も困らないと思った。'),L('nozaki','俺は入ったよ。作品を返してほしいって何度言っても、今度、だったから。'),L('pepe','……そうだったな。'),L('sumika','置いてある物と、先生が怖くて見なかった物を分けてください。ここにある全てを、先生が作ったわけでもないでしょう。'),L('','棚には数字より大きく、月、桃、松、蝉の印が刻まれている。古い規則の紙は、鏡のような窓ガラスに裏返しで映っていた。')
+],[A('保管棚の錠を調べる',null,{puzzle:'cabinetPuzzle'})],{hotspots:[work('rules','棚の規則','cabinet-doc')]});
+scene('cabinet-result','未開封という言葉','storehouse','sumika',[
+ L('','引き出しには封筒があった。母の名前。事件の翌日の日付。澄香は、すぐにそれを母の告白だと思いかけた。'),L('pepe','名前があるから、娘が書いたものとは限らん。'),L('sumika','先生も、その中を知っているとは限りませんね。'),L('pepe','……ああ。'),L('','紙を広げると、折り目から細かく裂けて落ちた。字のつながりがなくなると、一枚の紙がいくつもの違う話に見える。'),L('nozaki','俺が見た時も、もうその封筒はあった。中まで見てない。勝手に開けたと思われたくなくて、黙ってた。'),L('sumika','黙っていた理由があるのは、分かりました。でも、黙っていた事実も記録します。'),L('','封筒の表の署名は、母のもの。中の紙の筆跡は、別だった。')
+],[A('紙片を作業台に並べる',null,{puzzle:'letterPuzzle'})],{hotspots:[work('fragments','断片と折り目','torn-doc')]});
+side('letter-result','預かった人、持ち主','storehouse','sumika',[
+ L('sumika','「御家族より、未開封の品を預かる」。中身を誰のものと確認したわけではないんですね。'),L('pepe','娘が、昔のことをしまった箱だと言った。私は、それ以上聞かなかった。'),L('sumika','母親の署名があるから、母親がしまった。そう読むと自然です。でも、ここにはそう書かれていない。'),L('','野崎は自分の作品を包み直していた。誰が運んだかと、誰のものか。それを混ぜて疑われたばかりの男が、今度は先生の紙を黙って見ている。'),L('nozaki','じゃあ、他の家族が入れたかもしれないのか。'),L('sumika','可能性だけなら、いくつもあります。だから、家族全員の話を聞く必要があります。'),L('pepe','鍵は、今の教室へ持っていく。もう、預かったままにはせん。'),L('','澄香は受領票を、封筒の中に戻さなかった。封筒と中身を、別々の袋へ収めた。')
+],'investigation-hub',{set:['sumikaRoute']});
+// At the joint meeting, four competing interpretations lead to different examinations.
+N.meeting.actions[0].prompt='集まった資料には、いくつかの説明が成り立つ。最初に、どの食い違いを確かめる。';
+N.meeting.actions[0].choices=[
+ A('日付のある記録を優先し、家族の話は保留する','meeting-records'),
+ A('母の以前の被害と、今回の共通点を聞く','meeting-mother'),
+ A('窓を閉めた父の話と、当時の原本を並べる','meeting-father'),
+ A('旧教室から品物が動いた経路を確かめる','meeting-nozaki')
+];
+N['meeting-records'].actions=[{label:'記録をどう扱うか',prompt:'紙の記録にも、誰かの申告が混じっている。',choices:[
+ A('現時点の資料だけをまとめ、本人への確認は打ち切る','record-ending'),
+ A('くりたけの訂正を口頭でも聞き、原本と分けて残す','meeting-kuri',{set:['kuriShared']}),
+ A('父親の申告が要約された過程を尋ねる','meeting-father'),
+ A('母の昔の話と、記録の日付を照らし合わせる','meeting-mother')
+]}];
+side('meeting-mother','また起きたのか','classroom','adult',[
+ L('adult','おまわりさんを傷つけたのは、ちゃんママだった。今回も同じだったら、全部つながる。'),L('mama','……そう思うのね。'),L('adult','違うなら、違うって言ってほしい。'),L('mama','覚えていないところを、違うと言っていいの？　昔も、そう言って逃げたかった。'),L('papa','母さんを責めるために、呼んだんじゃないだろう。'),L('police','責めることと、聞くことを、一緒にしないでほしい。私も、そのせいで質問を止めた。'),L('sumika','前の事件と似ていることは、調べる理由になります。同じ人だと決める理由にするには、まだ足りません。'),L('adult','でも、知らない男が二回も同じことをするよりは……。'),L('sumika','その「よりは」の間に、まだ調べていないことが入っています。'),L('','母は、机の上の自分の署名を見ていた。娘だった頃の名前と、今の名前。そのどちらにも、避けたい過去があった。')
+],'mother-journey');
+side('meeting-father','同じことを言った二人','classroom','adult',[
+ L('adult','パパは窓の男を見たと言った。僕も見たと思ってる。それなら、二人が同じ間違いをしたの？'),L('police','私は二人の話を合わせて、一つの目撃談にした。だが、お父さんは男の見た目を答えていない。'),L('papa','混乱してたんだ。質問を全部覚えているわけじゃない。'),L('sumika','では、見た目ではなく、何をしたかを聞きます。窓を閉めたのはお父さんですか。'),L('papa','そうだ。風が入ってたから。'),L('adult','逃げた男を追うためじゃなくて？'),L('','父は返事をしなかった。窓を閉めた、という同じ行動の理由だけが、少し変わった。'),L('sumika','記録の語尾をそろえる必要はありません。思い出せる動作を、それぞれで話してください。')
+],'mother-journey');
+side('meeting-nozaki','運んだ人の名','classroom','adult',[
+ L('adult','棚に並んでたものを、誰かが家へ持ってきた可能性は？　野崎さんは、あそこへ入れるんでしょう。'),L('sumika','現在の無断侵入は確認しました。ただ、持ち出した三枚の作品と、保存されていた物は別です。'),L('adult','先生が、野崎さんに運ばせたのかもしれない。'),L('pepe','疑われても仕方のない預かり方をした。だが、誰かへ運ばせたと言うなら、そうした記録を探してほしい。'),L('police','受領票の名前は、預けた人のもの。物の元の持ち主とは限らない。ここも、窓の証言と同じだ。'),L('adult','名前があるから、その人がやった。そう読んでた。'),L('sumika','それなら、母親の封筒も同じ条件で読み直せます。'),L('','怪しい物を見つけることと、誰かの行動を確かめることは違う。ちゃんこは、野崎の名を書いた紙を消さず、「現在の出入り」と書き添えた。')
+],'mother-journey');
+N['meeting-kuri'].actions[0].to='mother-journey';
+// The past is explicitly attributed to two people, never a false omniscient flashback.
+scene('mother-journey','村を出る前の日','classroom-past','adult',[
+ L('','母と警官に、別々に同じ日のことを聞いた。二人が覚えている部分は、少しずつ違った。ここからは、その二つの話を分けてたどる。'),L('youngMama','この箱、置いていってもいい？'),L('youngPolice','新しい家に持っていこう。描けなくなるわけじゃないんだから。'),L('youngMama','持っていけば同じ、ってわけじゃないのよ。'),L('youngPolice','そうかもしれない。でも、何が違うのかを、話してくれたら考えられる。'),L('','母が覚えているのは、そこで言葉に詰まったこと。警官が覚えているのは、彼女がうなずいたように見えたことだった。'),L('youngMama','なくなるのが怖いんじゃなくて……まだ、ここにあるのに、もう思い出みたいになるのが。'),L('youngPolice','じゃあ、また戻ってこよう。'),L('','その約束を、警官は解決策として覚えていた。母は、そのあと何も言えなくなったこととして覚えていた。どちらも、その場を見た人の話だった。'),L('mama','先生の古い教室へ行って、それから墓のある方まで歩いた。それは覚えてる。でも、あの夜は……。'),L('adult','その先が、ないんだ。'),L('mama','次に見た時には、あの人が倒れていた。私の手に何があったかも、聞かれるまで見なかった。')
+],[A('翌朝の話を聞く','past-peach')],{chapter:4,tone:'memory',music:'sad'});
+scene('past-peach','最初の桃の絵','classroom-past','adult',[
+ L('','母の話では、先生の教室へ来た時、まだ筆が水差しに浸かっていた。普段なら帰る前に片付ける父親が、片付けられなかった朝。'),L('pepe','娘は、警察へ行くと言った。私は、今はまずあの人を助けようと言った。'),L('police','手当てが終わっても、私は届けなかった。事故にすると、私が決めた。'),L('mama','許されたら、話さなくてもいいと思った。どれだけ怖かったか、相手がどこまで知りたいかを、聞かなかった。'),L('adult','なんで、一緒に暮らさなくなったの。'),L('police','許したと言ったあと、自分が怖がっていることを認められなかった。帰りが遅いと、何があったのかより、どういう状態かを見てしまう。'),L('mama','見張られていると思った。見張らせるようなことをしたのは私なのに。'),L('police','誰かが悪いと言えれば、まだ簡単だった。だが、傷つけた過去と、今怖がることを、一つの謝罪では終わらせられなかった。'),L('','ちゃんこは、父の手紙の言葉を思い出した。この家のことは、私が引き受けます。引き受けると言った人は、何を引き受けたつもりだったのか。'),L('adult','パパは、全部知ってたの。'),L('mama','昔のことは。私が、話したから。十年前のことは……私も聞きたい。')
+],[A('今の教室へ戻る','pepe-truth')],{chapter:4,tone:'memory',music:'sad',give:['motherPerspective']});
+// The forest is revisited to test present physical traces against old photographs.
+N['letter-result'].actions[0].to='forest-survey';
+doc('forest-doc','旧教室の搬入図',`この図は、村から森へ入った時の向きで描かれている。用紙の上が北。旧教室は入口から北へ、湖は西の谷へ、墓は東の沢を越えた先。南は村へ戻る道で、建物にはつながらない。
+
+搬入の手押し車は、西の湖畔では車輪を取られるため使わない。東の沢は増水時に渡れず、墓の道へ行く時は荷物を背負う。北の旧教室へ続く道は車が通れないが、手押し車なら戸口まで運べる。
+
+目撃の覚え書きは四つ。「音のする谷へ下り、水の上に空が広がった」「沢の石を渡り、低い石碑が一つあった」「車輪の跡が戸口で止まった」「送電線が見え、店の煙突が近くなった」。誰が通ったという名前はない。場所だけをまず一致させ、記録にない人物を足さないこと。
+
+裏には、森へ入った生徒の帰りを確認した表がある。丸が付いていても、家まで付き添った意味ではない。森の入口に戻ってきたことを確かめただけ。『帰宅を確認』と写した場合、道で別れた後のことまで見届けたように読めてしまう。
+
+澄香の書き添え。『古い図は、昔の道の位置を示している。現在の通行止めを、十年前も通れなかった理由にしない。逆に、昔に通れたから現在も安全とは限らない。年代の違うものを一枚の地図に重ねる時は、線の色を分ける』。`);
+D.puzzles.mapPuzzle={title:'目撃場所を地図に戻す',type:'matching',prompt:'四つの記述を、搬入図の場所へ置く。誰がいたかという推測を加えず、場所だけを比べる。',documents:['forest-doc'],cards:cards([['smoke','送電線と近づく煙突','帰宅確認の原文'],['wheel','戸口で止まる車輪の跡','搬入の覚え書き'],['stone','沢を渡った先の低い石碑','生徒の日誌'],['sky','谷を下りた水面に空','風景写生のメモ']]),slots:[{id:'north',label:'北：旧教室'},{id:'east',label:'東：墓への道'},{id:'south',label:'南：村へ戻る道'},{id:'west',label:'西：湖の谷'}],answer:{north:'wheel',east:'stone',south:'smoke',west:'sky'},result:'目撃場所と、見届けていない範囲を分けた。',to:'forest-records'};
+scene('forest-survey','現在の足跡','forest','sumika',[
+ L('','澄香は、野崎と旧教室の裏の道を歩いた。今の足跡と、昔の報告の足跡を同じものとして扱わないために。'),L('nozaki','雨が降れば、すぐなくなる。なのに、俺の跡はずっと残るみたいに言われた。'),L('sumika','出入りを隠したから、時期まで分からなくなったんです。'),L('nozaki','分かってる。でも、言えば一つだけ疑われて、黙れば全部疑われるなんて、その場じゃ考えなかったよ。'),L('','分かれ道に、古い木の杭があった。森の管理用の番号が彫られ、苔に覆われている。生徒の写生場所を指定した杭だという。'),L('sumika','先生は、ここに番号を残したんですね。'),L('nozaki','絵を描く場所と、入っちゃいけない場所を間違えないように。言葉だけじゃ分かんない子もいたから。'),L('','入ってはいけないと言われた場所へ、子供は行った。大人が何を知り、何を説明しなかったかを、道は記録していない。')
+],[A('湖へ続く谷を確かめる','lake-survey')]);
+side('lake-survey','水面に映る教室','lake','sumika',[
+ L('','湖の水面に、教室は映らない。木々が遮り、建物のある方角も見えない。'),L('sumika','日誌には、湖で先生の影を見たとある。でも、建物から見えたという意味ではなさそう。'),L('nozaki','先生は、ここで待つこともあった。森の中を歩き回る生徒が戻ってくるまで。'),L('sumika','帰宅を確認した、と後に写されているのは？'),L('nozaki','入口まで、だと思う。家までついていったら、先生、教室に戻れないよ。'),L('','一つの「帰った」が、人によって指す距離を変える。森を出た。村へ戻った。家の戸をくぐった。資料では、それらが同じ言葉に縮められていた。'),L('sumika','言葉が短いから、同じ出来事に見えたんですね。'),L('','澄香は、湖畔の杭を写真に撮った。カブトムシを捕まえる子供たちの姿は、今はどこにもない。')
+],'grave-survey');
+scene('grave-survey','沢の向こうの石','grave','sumika',[
+ L('','沢の向こうには、低い墓石があった。旧教室から一直線に行ける場所ではない。道の途中で水を渡らなければならない。'),L('nozaki','母親がここを歩いたって、先生の日記にあった。だからって、毎日来てたわけじゃない。'),L('sumika','一度来たことを、何度も来ていたみたいに話す人がいる？'),L('nozaki','俺のことも、そう言われた。昨日見たと、十年前にも見たが、ごっちゃになる。'),L('','墓の名は読めない。手で苔を拭うことも、石を動かすこともしなかった。写真にない字を、自分で作ってしまうかもしれないからだ。'),L('sumika','何かを見つけるために、元の状態を壊したくない。'),L('nozaki','でも、そのままにしてたら、読めないままだろ。'),L('sumika','調べる方法があるか、先に相談できます。今ここで読めないことを、失敗にしなくてもいい。')
+],[A('搬入図を広げる',null,{puzzle:'mapPuzzle'})],{hotspots:[work('forestmap','搬入図と目撃メモ','forest-doc')],music:'forest'});
+side('forest-records','戻った場所の違い','forest','sumika',[
+ L('sumika','帰宅を見届けたという記述は、村の道が見えたことから広がっている。家の中の証言の代わりには使えない。'),L('nozaki','同じ言葉を使ってるから、全部同じ人を見てる気がしてたんだな。'),L('sumika','ここで分かったのは、記録の範囲です。誰が家で何をしたかまでは、道から読めません。'),L('','澄香は地図の線を、途中で止めた。家の玄関まで届かせない線。分からないことを分からないまま描くために、一本の線にも、終わりを置く必要があった。'),L('nozaki','村に戻ったら、先生に絵を返してもらう。今度は、ちゃんと受け取ったって書くよ。'),L('','一人の秘密が全部の答えではない。だが、秘密が一つずつほどけると、まだ答えのない場所が、少し正確な形になる。')
+],'investigation-hub',{set:['sumikaRoute']});
+// Father's obstruction is questioned from four distinct, credible directions.
+const fatherOriginal=N['papa-confront'].intro;
+N['papa-confront'].intro=fatherOriginal.slice(0,3);
+N['papa-confront'].actions=[{label:'扉の前のパパに尋ねる',prompt:'父は「家族を守る」と言う。何を根拠に、もう一度聞く。',choices:[
+ A('先生が預かった箱と、父が閉めた部屋の関係を聞く','father-receipt'),
+ A('窓を閉めた動作と、侵入者を見たという申告を並べる','father-window'),
+ A('母の前の事件を知っていたか、はっきり尋ねる','father-mother'),
+ A('家のことを引き受けると書いた手紙の意味を聞く','father-letter')
+]}];
+side('father-receipt','二つの鍵、二つの話','papa-door','adult',[
+ L('adult','先生は、ちゃんママから箱の鍵を預かった。でも部屋を閉めたのはパパ。その二つは、同じ時だったの？'),L('papa','……同じではない。部屋は、俺が閉めた。箱の鍵は、あとで母さんが先生へ持っていった。'),L('adult','箱を閉めた人と、部屋を閉めた人が同じだって、ずっと思ってた。'),L('sumika','受領票も、部屋のことは書いていません。'),L('papa','書いてないことを、書かれてるみたいに読んでくれたんだ。俺には、都合がよかった。'),L('','父は初めて、自分の沈黙に他人が付けた意味を、そのままにしていたと認めた。')
+],'papa-admission',{chapter:5});
+side('father-window','窓を閉めるための手','papa-door','adult',[
+ L('adult','パパが窓を閉めた。それなら、その前に窓のところまで行けたんだよね。'),L('papa','風が入ってたからだ。'),L('police','原本には、侵入者が逃げたから閉めたように書かれている。私のまとめ方か、あなたの説明か。どちらかを確かめたい。'),L('papa','……男が逃げるところは、見ていない。'),L('sumika','見たものと、そうだと思ったものを分けてください。'),L('','父は、手のひらを扉から離した。窓を閉めた手について尋ねただけなのに、扉を守る力が弱くなった。')
+],'papa-admission',{chapter:5});
+side('father-mother','知っていた過去','papa-door','adult',[
+ L('adult','ママが昔、おまわりさんを傷つけたことを知ってた。それで、また起きたと思ったんでしょう。'),L('papa','昔のことは知っていた。母さんが、自分で話した。'),L('adult','今回も、母さんを守ろうとしてる？'),L('papa','守る相手を、ここで決めさせるな。'),L('','強い言葉だった。だが、母が犯人だという答えでも、違うという答えでもなかった。'),L('sumika','家族全員が傷ついたことと、誰の行為を隠したかは別です。お父さんがしたことを、まず話してください。')
+],'papa-admission',{chapter:5});
+side('father-letter','引き受けるという言葉','papa-door','adult',[
+ L('adult','この家のことは、私が引き受けます。あの手紙、何を引き受けたつもりだったの。'),L('papa','父親でいることだ。'),L('adult','だから、実の父親には近づいてほしくなかった？'),L('papa','それもあった。だが、あの人が来れば、この部屋のことを、また聞かれると思った。'),L('police','私は、あなたが私を拒む理由を、夫婦の過去だけだと思っていた。'),L('papa','そう思っていてくれた方が、楽だった。'),L('','一つの理由が嘘ではなくても、それだけが理由とは限らない。父の手紙の文は、変わらないまま重くなった。')
+],'papa-admission',{chapter:5});
+scene('papa-admission','見ていない男','papa-door','adult',fatherOriginal.slice(3),[A('虫の部屋へ','old-room')],{chapter:5,music:'dread'});
+N['old-room'].actions[0].prompt='部屋は残っている。扉の前の痕跡と、鍵を保管した人の説明を、どう確かめる。';
+N['old-room'].actions[0].choices=[
+ A('殻と敷居を調べ、夢の中と実際の部屋の違いを見る','door-shell'),
+ A('父が閉めたあと、鍵が誰へ渡ったかを確認する','door-key'),
+ A('母の保管していた部屋の鍵で、扉を開ける','final-study'),
+ A('室内は保存したまま、窓からの経路をもう一度確認する','door-window')
+];
+side('door-shell','虫が通った敷居','room-night','adult',[
+ L('','敷居には、古い引き傷が残っている。虫一匹が付けたと決められる大きさではない。'),L('adult','ここで、シャルロットが死んだのかな。'),L('sumika','殻があることと、ここで死んだことは別です。後から移動した可能性もあります。'),L('adult','夢の中だと、僕が投げ入れた。でも、夢だから……。'),L('sumika','夢の言葉は残せます。物の証拠と同じ欄には置きません。'),L('','ちゃんこは殻を動かさず、敷居ごと写真に収めた。何かを確かめるために、大事な物をまた壊したくなかった。')
+],'door-key',{chapter:5,music:'dread'});
+side('door-key','保管した鍵','room-night','adult',[
+ L('mama','部屋の鍵は、あの朝、パパから受け取った。箱の鍵は別で、そのあと先生へ預けたの。'),L('adult','じゃあ、部屋の中を見てから鍵を掛けたのは……。'),L('mama','私は見ていない。パパが、今は入らない方がいいと言ったから。'),L('papa','そう言った。'),L('sumika','お母さんが鍵を持っていたから、お母さんが中を確認した。そうは言えなかったんですね。'),L('','母は鍵を差した。十年、保管していた鍵の重さを、今初めて確かめるように。')
+],'final-study',{chapter:5,music:'dread'});
+scene('door-window','外から見た窓','oldhouse-window','adult',[
+ L('','窓の下へ回ると、今は石が敷いてあった。十年前の泥の状態は、現場写真にしか残っていない。'),L('adult','ここを歩いても、あの時足跡がなかった理由までは、分からないんだ。'),L('police','今の窓を開けてみても、昔の留め金の位置は戻らない。だが、調べない理由にすることもできない。'),L('adult','中をそのまま残せば、あとで誰かが正しく調べてくれる気がした。'),L('sumika','誰かに任せることはできます。ただ、何を任せたかを言わなければ、十年前と同じです。')
+],[{label:'部屋の調査をどう進めるか',prompt:'今の状態と、十年前の状態を混ぜずに確かめたい。',choices:[A('部屋は封じたままにし、侵入者の捜索を続ける','closed-ending'),A('鍵の受け渡しを記録してから、中へ入る','door-key'),A('家族にも立ち会ってもらい、扉を開ける','final-study'),A('敷居の痕跡を記録してから、中へ入る','door-shell')]}],{chapter:5});
+// The study cabinet is finally functional. Its clues were present in the childhood room.
+N['final-study'].hotspots.push(work('specimens','机に挟まれた標本ノート','specimen-doc'));
+N['final-study'].actions=[A('小さな棚の番号を合わせる',null,{puzzle:'specimenPuzzle'}),A('宝箱の鍵を使う','revelation',{requires:['chestKey','specimenPuzzle']})];
+scene('study-cabinet-result','紙袋の中の控え','study','adult',[
+ L('','棚には、子供の標本道具と、父の名前を書いた紙袋があった。先生が書いた受領票の写しが、その中に入っている。'),L('adult','この写し、パパも持ってたの。'),L('papa','持っていた。鍵がどこにあるか、知らなかったわけじゃない。'),L('adult','先生に預けたことも知ってた。でも、僕には教えなかった。'),L('papa','ああ。'),L('','標本をもらった日を、ちゃんこは細かく書いていた。大人は事件の日を、少しずつ違う言葉で覚えていた。几帳面さが正しさを保証するわけではない。それでも、残したものがあったから、聞き返すことができる。'),L('adult','箱を、開ける。パパにも、ここにいてほしい。'),L('','父は、今度は止めなかった。')
+],[A('宝箱の鍵を使う','revelation',{requires:['chestKey']})],{chapter:5,music:'dread'});
+N.revelation.actions[0].prompt='過去は変えられない。最初に誰へ、どういう形で話す。';
+N.revelation.actions[0].choices=[
+ A('警察で自分の供述を先に残し、家族への連絡を任せる','final-police'),
+ A('父と二人で話し、二人の証言の食い違いを確かめる','final-papa'),
+ A('母・父・弟を呼び、箱の中身と今分かったことを話す','family-ending-scene'),
+ A('先生の記録と並べ、自分が覚えた範囲を文章にする','final-records')
+];
+scene('final-police','供述を残す机','police-office','adult',[
+ L('adult','僕がやったことを、先に残してください。家族には、警察から伝えてほしい。'),L('police','供述は聞く。ただ、お前の言葉だけで、他の人の行為を消すことはできない。'),L('adult','パパが隠したのは、僕を守るためだ。それは、僕の責任で……。'),L('police','理由を考えるのと、その人の責任を代わりに引き受けるのは違う。私は昔、母さんにその違いを話さなかった。'),L('adult','家族の前へ戻るのが、怖い。'),L('police','怖いままで、誰かに一緒にいてもらうことはできる。自分で決められない人だと扱いたいわけじゃない。私が代わりに全部話してしまえば、また、お前の言葉がなくなる。')
+],[{label:'供述のあと、どうするか',prompt:'記録を残すことと、家族に向き合うこと。',choices:[A('供述だけを残し、当面は家族と会わない','alone-ending'),A('弟に先に話し、家族へ伝える場を作る','final-brother'),A('父の隠蔽も別の供述として記録してもらう','final-papa'),A('警官にも立ち会ってもらい、家族へ話す','family-ending-scene')]}],{chapter:6,music:'sad'});
+side('final-papa','父親のついた嘘','papa-confession','adult',[
+ L('adult','パパの言葉と、僕が思い出したこと。同じにして出した方が、信じてもらえると思った。'),L('papa','同じじゃないところは、同じにするな。俺は、お前が蓋を閉めるところを見た。お前が全部をどうしたかまでは、見ていない。'),L('adult','でも、僕は……。'),L('papa','お前が思い出したなら、それはお前の言葉で話すことだ。俺が見たこととして保証しちゃいけない。窓の男の時、俺は、それをやった。'),L('','父は、自分が息子を守るために作った話を、もう息子に直させなかった。'),L('papa','俺が部屋を閉めたことも、調査を断ったことも、母さんが疑われた時に黙っていたことも、俺が話す。'),L('adult','父親じゃなくなるのが、怖かった？'),L('papa','怖かった。だが、怖いから父親であることをやめたわけじゃない。その間違いも、俺がした父親の仕事なんだと思う。'),L('','ちゃんこは、父の言葉を許す言葉で終わらせなかった。今は、聞いたことを、そのまま持って帰ることにした。')
+],'family-ending-scene',{chapter:6,music:'sad'});
+side('final-records','覚えた範囲の外側','classroom','adult',[
+ L('pepe','この日記と同じだったと、書かなくていい。お前が覚えていることだけを、先に残しなさい。'),L('adult','先生が書いてあるなら、その言葉の方が正しい気がする。'),L('pepe','私は見ていない夜も、知っているように書いた。娘の言葉と、自分の恐れを、違う欄へ分けなかった。'),L('sumika','重なるところと、重ならないところを両方残します。全部が一致する文章を作る必要はありません。'),L('adult','分からないことが残ると、まだ逃げてるみたいで……。'),L('sumika','分からないことを埋めるために、誰かを作る方が危ない。今は、あの夜を説明するための男を、もう一度作らなくていいんです。'),L('','ちゃんこは、思い出した手の動きと、思い出せない時間を別々に書いた。空白のある紙を、途中だからと破らずに持った。')
+],'family-ending-scene',{chapter:6,music:'sad'});
+side('final-brother','弟が聞きたいこと','living','adult',[
+ L('adultBrother','何も言わないまま出ていくつもりだった？'),L('adult','出ていく、とは決めてない。でも、ここにいていいかも分からない。'),L('adultBrother','僕がどう思うかまで、一人で決めないでよ。'),L('adult','怖くないの。'),L('adultBrother','怖いよ。だから、知りたいんだよ。何があって、何がまだ分からなくて、誰に聞けばいいのか。'),L('','弟は、幼い頃と同じように、小さな箱を膝に置いていた。兄が虫の名前を教えてくれるのを待った箱。今は、兄の言葉を自分から聞きに来ている。'),L('adultBrother','僕は、昔、小さかった。だから何も覚えてないって、ずっと言われた。でも、みんなが黙る時の顔は、覚えてる。あれを、もうやめて。'),L('adult','……うん。一緒に、話してくれる？'),L('adultBrother','僕の言葉を、兄ちゃんの謝罪の言葉に変えないなら。')
+],'family-ending-scene',{chapter:6,music:'sad'});
+// The evidence deduction is four-way too; feedback explains the limitation of the chosen source.
+N['pepe-truth'].actions[0].challenge.options=['papaLetter','graveSound','birthdayCard','noIntruder'];
+N['pepe-truth'].actions[0].challenge.feedback={papaLetter:'手紙には父の思いはあるが、カードを渡した日の記録はない。',graveSound:'森で聞いた音は、家の食卓がいつだったかを示していない。',noIntruder:'窓下の写真は侵入の検証には使えるが、カードをもらった日の資料ではない。'};
+// A route is complete only after its investigation, not when the longer chapter begins.
+for(const id of ['family','police-admission','kuri-confess','kuri-delay','ruin-investigation'])for(const a of N[id].actions||[])if(a.set)a.set=a.set.filter(f=>!['chankoRoute','policeRoute','kuriRoute','sumikaRoute'].includes(f));
+N['family-envelope'].set=['chankoRoute'];
+delete N['letter-result'].set;
+N['kuri-after'].actions=[A('修理票を確かめる','shop-clock',{showUnless:'clockPuzzle'}),A('森の出口を確かめる','kuri-road',{showIf:'clockPuzzle'})];
+// Keep the familiar canonical facts; completion depends on investigation, not hidden affection points.
+D.expansion={edition:3,targetMinutes:120,puzzleCount:Object.keys(D.puzzles).length};
+})();
+</script>
 <script>/* Standalone browser ADV. No CDN, backend, or loading gate. */
 (()=>{'use strict';
 const D=window.ADV,$=id=>document.getElementById(id),clone=v=>JSON.parse(JSON.stringify(v));
@@ -3564,7 +3933,7 @@ if(!profile.checkpoints||!Array.isArray(profile.endings))profile={endings:[],che
 let settings={volume:.35,muted:false,speed:25,...read(SETTINGS,{})};
 let s=null,typing=null,autoTimer=null,auto=false,fullText='',rendered=false,toastTimer=null,lastArt='',audio=null,ended=false;
 const art=name=>window.ADV_ASSETS?.[name]||`assets/${name}.webp`;
-const fresh=()=>({version:1,node:D.start,flags:[],evidence:[],known:{},items:[],visited:[],inspected:{},cast:[],history:[],mode:'idle',cursor:0,activeHotspot:null,activeAction:null,ending:null,source:null});
+const fresh=()=>({version:1,node:D.start,flags:[],evidence:[],known:{},items:[],visited:[],inspected:{},cast:[],history:[],mode:'idle',cursor:0,activeHotspot:null,activeAction:null,ending:null,source:null,puzzleDraft:{}});
 const node=()=>D.nodes[s.node];
 const has=k=>s.flags.includes(k)||s.evidence.includes(k);
 const matches=req=>!req||(Array.isArray(req)?req.every(has):has(req));
@@ -3578,7 +3947,7 @@ function checkpoint(id){if(profile.checkpoints[id])return;const snap=clone(s);de
 function enter(id,{revisit=false}={}){if(!D.nodes[id])throw Error('Unknown scene: '+id);stopText();s.node=id;s.ending=null;s.activeHotspot=null;s.activeAction=null;s.cursor=0;s.mode='intro';s.source=null;checkpoint(id);const seen=s.visited.includes(id);uniq(s.visited,id);effects(node());drawScene();if(seen&&!revisit){s.mode='idle';renderIdle()}else showLine();save()}
 function restore(id){const cp=profile.checkpoints[id];if(!cp)return;const prior=s?.history||[];s={...fresh(),...clone(cp),history:prior};closePanel();$('titleScreen').hidden=true;$('game').hidden=false;ensureAudio();enter(id,{revisit:true});toast('この場面に到達した時点の証拠・選択に戻りました')}
 function stopText(){clearInterval(typing);typing=null;clearTimeout(autoTimer);autoTimer=null}
-function addHistory(who,text){s.history.push({who,text,scene:node().title});if(s.history.length>500)s.history.shift()}
+function addHistory(who,text){s.history.push({who,text,scene:node().title});if(s.history.length>2000)s.history.shift()}
 function queue(){if(s.mode==='intro')return node().intro||[];if(s.mode==='hotspot')return node().hotspots.find(h=>h.id===s.activeHotspot)?.lines||[];if(s.mode==='action')return node().actions[s.activeAction]?.lines||[];return[]}
 function setCharacter(who,mood){const c=D.characters[who];if(!c){$('character').hidden=true;return}uniq(s.cast,who);const img=$('character');img.hidden=false;img.dataset.child=!!c.child;img.dataset.beetle=!!c.beetle;img.dataset.mood=mood||'';img.alt=c.name;let variant=c.art;if(who==='chanko'&&node().chapter>=1&&node().music!=='day')variant='chanko-child-fear';if(who==='adult'&&['revelation','family-ending-scene','alone-ending'].includes(s.node))variant='chanko-adult-grief';if(who==='mama'&&node().chapter>=2)variant='mama-grief';if(who==='adultKuri'&&['kuri-confess','kuri-delay','meeting','meeting-kuri','meeting-records','family-ending-scene'].includes(s.node))variant='kuri-adult-guilt';const src=art(variant);if(img.getAttribute('src')!==src)img.src=src}
 function showLine({resume=false}={}){stopText();const lines=queue();if(s.cursor>=lines.length){finishConversation();return}const line=lines[s.cursor];$('investigation').hidden=true;$('hotspots').hidden=true;$('choices').hidden=true;$('endCard').hidden=true;$('dialogue').hidden=false;$('sceneCaption').textContent='';$('modeLabel').textContent=node().memory?'記憶をたどる':'会話';setCharacter(line.who,line.mood);const cg=lines.slice(0,s.cursor+1).findLast(l=>l.bg);$('game').classList.toggle('cg',!!cg);if(cg){const src=art('bg-'+cg.bg);if(lastArt!==src){lastArt=src;$('background').src=lastArt;}$('character').hidden=true;}else if(lastArt!==art('bg-'+node().bg)){lastArt=art('bg-'+node().bg);$('background').src=lastArt;}$('speaker').textContent=D.characters[line.who]?.name||'記録';$('memoryTag').textContent=node().memory?'ちゃんこの記憶':line.who?'':'情景';fullText=line.text;rendered=false;$('dialogueText').textContent='';$('nextMark').hidden=true;if(!resume){addHistory(D.characters[line.who]?.name||'情景',line.text);if(line.sfx==='ring')ring();effects(line)}
@@ -3590,24 +3959,33 @@ function drawScene(){const n=node();$('game').className=n.tone?'tone-'+n.tone:''
 function button(label,fn,cls){const b=document.createElement('button');b.textContent=label;if(cls)b.className=cls;b.onclick=fn;return b}
 function renderInventory(){const el=$('inventory');el.replaceChildren();for(const id of s.items){const item=D.items[id];if(!item)continue;const b=button(`${item.icon} ${item.name}`,()=>itemPanel(id));if(id==='stickers'&&node().chapter<2){const count=document.createElement('em');count.textContent=has('oneSticker')?'3':'4';b.append(count)}el.append(b)}}
 function renderIdle(){stopText();drawScene();$('dialogue').hidden=true;$('choices').hidden=true;$('investigation').hidden=false;$('hotspots').hidden=false;$('character').hidden=true;$('modeLabel').textContent=node().pov==='group'?'視点を選ぶ':'探索';$('inspectList').replaceChildren();$('actionList').replaceChildren();$('hotspots').replaceChildren();$('sceneCaption').textContent='';for(const h of node().hotspots||[]){if(h.requires&&!matches(h.requires))continue;const done=s.inspected[s.node]?.includes(h.id);const b=button('',()=>inspect(h.id),done?'done':'');b.innerHTML=`<span>${done?'✓':'◇'}</span>${esc(h.label)}`;$('inspectList').append(b);const spot=button('',()=>inspect(h.id),done?'done':'');spot.innerHTML=`${done?'✓':'+'}<span>${esc(h.label)}</span>`;spot.style.left=h.x+'%';spot.style.top=h.y+'%';spot.setAttribute('aria-label',h.label);$('hotspots').append(spot)}(node().actions||[]).forEach((a,i)=>{if(a.showUnless&&matches(a.showUnless))return;if(a.showIf&&!matches(a.showIf))return;const allowed=matches(a.requires);const b=button('',()=>act(i));b.textContent=a.label+(allowed?'　→':'');b.disabled=!allowed;$('actionList').append(b)});save()}
-function inspect(id){if(s.mode!=='idle')return;const h=node().hotspots?.find(h=>h.id===id);if(!h||!matches(h.requires))return;s.mode='hotspot';s.activeHotspot=id;s.cursor=0;showLine()}
-function act(index){if(s.mode!=='idle')return;const a=node().actions?.[index];if(!a||!matches(a.requires))return;s.activeAction=index;if(a.special==='catch'){openCatch();return}if(a.challenge){openChallenge(a.challenge);return}if(a.choices){s.mode='choice';renderChoices();save();return}if(a.lines){s.mode='action';s.cursor=0;showLine();return}effects(a);if(a.to)enter(a.to);else renderIdle()}
+function inspect(id){if(s.mode!=='idle')return;const h=node().hotspots?.find(h=>h.id===id);if(!h||!matches(h.requires))return;if(h.document){effects(h);s.inspected[s.node]??=[];uniq(s.inspected[s.node],h.id);openDocument(h.document);save();return}s.mode='hotspot';s.activeHotspot=id;s.cursor=0;showLine()}
+function act(index){if(s.mode!=='idle')return;const a=node().actions?.[index];if(!a||!matches(a.requires))return;s.activeAction=index;if(a.puzzle){openPuzzle(a.puzzle);return}if(a.special==='catch'){openCatch();return}if(a.challenge){openChallenge(a.challenge);return}if(a.choices){s.mode='choice';renderChoices();save();return}if(a.lines){s.mode='action';s.cursor=0;showLine();return}effects(a);if(a.to)enter(a.to);else renderIdle()}
 function renderChoices(){$('dialogue').hidden=true;$('investigation').hidden=true;$('hotspots').hidden=true;$('choices').hidden=false;$('choicePrompt').textContent=node().actions[s.activeAction].prompt;$('choiceList').replaceChildren();node().actions[s.activeAction].choices.forEach((c,i)=>{$('choiceList').append(button(c.label,()=>choose(i)))});$('modeLabel').textContent='選択'}
 function choose(i){if(s.mode!=='choice')return;const c=node().actions[s.activeAction]?.choices?.[i];if(!c)return;addHistory('選択',c.label);effects(c);enter(c.to)}
-function openChallenge(ch){openPanel('EVIDENCE','証拠を示す');$('panelBody').innerHTML=`<p class="panel-note">${esc(ch.prompt)}</p><div class="evidence-options"></div><p id="challengeFeedback" class="panel-note" role="status"></p>`;const list=$('panelBody').querySelector('.evidence-options');for(const id of ch.options){if(!has(id))continue;list.append(button(D.evidence[id].title,()=>{if(id===ch.answer){closePanel();enter(ch.success)}else $('challengeFeedback').textContent=ch.wrong}))}}
+function openChallenge(ch){openPanel('EVIDENCE','証拠を示す');$('panelBody').innerHTML=`<p class="panel-note">${esc(ch.prompt)}</p><div class="evidence-options"></div><p id="challengeFeedback" class="panel-note" role="status"></p>`;const list=$('panelBody').querySelector('.evidence-options');for(const id of ch.options){if(!has(id))continue;list.append(button(D.evidence[id].title,()=>{if(id===ch.answer){closePanel();enter(ch.success)}else $('challengeFeedback').textContent=ch.feedback?.[id]||ch.wrong}))}}
 function finishEnding(id){const e=D.endings[id];s.mode='ending';s.ending=id;uniq(profile.endings,id);stopText();$('dialogue').hidden=true;$('investigation').hidden=true;$('hotspots').hidden=true;$('character').hidden=true;$('choices').hidden=true;$('endCard').hidden=false;$('endName').textContent=e.name;$('endText').textContent=e.text;$('modeLabel').textContent='結末';$('rewindEnding').onclick=()=>restore(e.rewind);save()}
 function openPanel(kicker,title){clearTimeout(autoTimer);$('panelKicker').textContent=kicker;$('panelTitle').textContent=title;$('panelBody').replaceChildren();if(!$('panel').open)$('panel').showModal()}
 function closePanel(){$('panel').close();if(auto&&rendered&&s&&['intro','hotspot','action'].includes(s.mode))autoTimer=setTimeout(advance,1500)}
 function journal(){openPanel('CASE FILE','証拠手帳');const body=$('panelBody');body.innerHTML='<p class="panel-note">調べて分かったことだけを記録しています。「知っている人」は作中でその事実を知った人物です。</p>';if(!s.evidence.length){body.innerHTML+='<p class="panel-note">まだ証拠はありません。場面を調べると記録されます。</p>';return}for(const id of s.evidence){const e=D.evidence[id];const owners=Object.entries(s.known).filter(([,a])=>a.includes(id)).map(([p])=>D.characters[p]?.name||p);const div=document.createElement('article');div.className='entry';div.innerHTML=`<h3>${esc(e.title)}</h3><p>${esc(e.text)}</p><small>出典：${esc(e.source)}</small><div>${owners.map(x=>`<span class="evidence-tag">${esc(x)}</span>`).join('')}</div>`;body.append(div)}}
 function flow(tab='flow'){openPanel('STORY CHART',tab==='cast'?'登場人物':'人物・分岐');const body=$('panelBody'),tabs=document.createElement('div');tabs.className='panel-tabs';tabs.append(button('物語の分岐',()=>flow('flow'),tab==='flow'?'active':''),button('登場人物',()=>flow('cast'),tab==='cast'?'active':''),button('結末の記録',()=>flow('ends'),tab==='ends'?'active':''));body.append(tabs);if(tab==='cast'){const grid=document.createElement('div');grid.className='cast-grid';for(const id of s?.cast||[]){const c=D.characters[id];const div=document.createElement('article');div.className='cast-card';div.innerHTML=`<img src="${art(c.art)}" alt="${esc(c.name)}"><h3>${esc(c.name)}</h3><p>${esc(c.bio)}</p>`;grid.append(div)}body.append(grid);return}if(tab==='ends'){const note=document.createElement('p');note.className='panel-note';note.textContent=`到達した結末：${profile.endings.length} / ${Object.keys(D.endings).length}。選択で変わるのは、事実を受け取ったあとの行動です。`;body.append(note);for(const id of profile.endings){const e=D.endings[id];const div=document.createElement('article');div.className='entry';div.innerHTML=`<h3>${esc(e.name)}</h3><p>${esc(e.text)}</p>`;if(profile.checkpoints[e.rewind])div.append(button('分かれ道から読み直す',()=>restore(e.rewind)));body.append(div)}return}const note=document.createElement('p');note.className='panel-note';note.textContent='到達した場面から再開できます。その時点の証拠と選択に戻ります。結末の閲覧記録は残ります。未到達の場面名や真相は表示しません。';body.append(note);for(let ch=0;ch<D.chapters.length;ch++){const ids=Object.keys(D.nodes).filter(id=>D.nodes[id].chapter===ch&&profile.checkpoints[id]);if(!ids.length)continue;const h=document.createElement('h3');h.className='flow-group';h.textContent=D.chapters[ch];body.append(h);const grid=document.createElement('div');grid.className='flow-grid';for(const id of ids){const n=D.nodes[id];const b=button('',()=>restore(id),'flow-card');b.innerHTML=`<small>${esc(D.characters[n.pov]?.name||'情景')} · ${esc(n.location)}</small><b>${esc(n.title)}</b><small>${s?.node===id?'現在の場面':'この場面から再開　→'}</small>`;grid.append(b)}body.append(grid)}}
 function history(){openPanel('BACKLOG','会話履歴');for(const h of s?.history||[]){const div=document.createElement('div');div.className='log-line';div.innerHTML=`<b>${esc(h.who)} <span style="color:#82938e"> / ${esc(h.scene)}</span></b><p>${esc(h.text)}</p>`;$('panelBody').append(div)}$('panelBody').scrollTop=$('panelBody').scrollHeight}
-function itemPanel(id){const item=D.items[id];openPanel('ITEM',item.name);$('panelBody').innerHTML=`<div style="font:100px serif;text-align:center;color:#c4ac78">${item.icon}</div><p class="panel-note">${esc(item.detail)}</p>`;if(id==='key'&&s.node==='final-study')$('panelBody').append(button('この部屋の宝箱に使用',()=>{closePanel();enter('revelation')}));if(id==='net'&&s.node==='lake')$('panelBody').append(button('湖で虫取り勝負をする',()=>{closePanel();openCatch()}));if(id==='stickers'&&s.node==='lake'&&has('caught')&&!has('oneSticker'))$('panelBody').append(button('森の虫かごに一枚貼る',()=>{closePanel();act(1)}))}
+function itemPanel(id){const item=D.items[id];openPanel('ITEM',item.name);$('panelBody').innerHTML=`<div style="font:100px serif;text-align:center;color:#c4ac78">${item.icon}</div><p class="panel-note">${esc(item.detail)}</p>`;if(id==='key'&&s.node==='final-study'&&has('specimenPuzzle'))$('panelBody').append(button('この部屋の宝箱に使用',()=>{closePanel();enter('revelation')}));if(id==='net'&&s.node==='lake')$('panelBody').append(button('湖で虫取り勝負をする',()=>{closePanel();openCatch()}));if(id==='stickers'&&s.node==='lake'&&has('caught')&&!has('oneSticker'))$('panelBody').append(button('森の虫かごに一枚貼る',()=>{closePanel();act(1)}))}
 function settingsPanel(){openPanel('OPTIONS','設定・保存');$('panelBody').innerHTML=`<label class="settings-row">BGM・効果音の音量<input id="volumeSetting" type="range" min="0" max="100" value="${settings.volume*100}" aria-label="音量"></label><label class="settings-row">文字の速さ（0で一括表示）<input id="speedSetting" type="range" min="0" max="60" step="5" value="${settings.speed}" aria-label="文字の速さ"></label><p class="panel-note">会話・調査・選択ごとに、このブラウザーへ自動保存します。下の「保存データを書き出す」で、別のブラウザーにも移せます。</p><div id="saveActions" class="panel-tabs"></div><label class="file-button">保存データを読み込む<input id="importSave" type="file" accept="application/json,.json"></label><p class="panel-note">画像・音楽はゲームに同梱。音は最初のクリック後に再生されます。設定を閉じるには右上の ×、または Esc。</p>`;if(window.ADV_DOWNLOAD){const row=document.createElement('p');row.className='panel-note';const link=document.createElement('a');link.id='downloadArchive';link.href=window.ADV_DOWNLOAD;link.download='konchu-adv.zip';link.textContent='ZIPファイルをダウンロード（約22MB）';link.style.color='#e2c18f';row.append(link);$('panelBody').append(row)};$('volumeSetting').oninput=e=>{settings.volume=Number(e.target.value)/100;settingsSave()};$('speedSetting').oninput=e=>{settings.speed=Number(e.target.value);settingsSave()};$('saveActions').append(button('保存データを書き出す',exportSave),button('タイトルへ',()=>{save();closePanel();showTitle()}));$('importSave').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());validateSave(data.state);if(!data.profile||!data.profile.checkpoints||!Array.isArray(data.profile.endings))throw Error('形式が違います');for(const [id,cp]of Object.entries(data.profile.checkpoints)){if(!D.nodes[id])throw Error('場面が存在しません');validateSave({...cp,history:[]})}s=data.state;profile=data.profile;closePanel();save();resume()}catch(err){toast('読み込めませんでした：'+err.message)}}}
 function validateSave(v){if(!v||v.version!==1||!D.nodes[v.node]||!['flags','evidence','items','visited','cast','history'].every(k=>Array.isArray(v[k]))||!v.known||!v.inspected)throw Error('このADV版の保存データではありません');if(v.evidence.some(id=>!D.evidence[id])||v.cast.some(id=>!D.characters[id]))throw Error('未対応のデータです');if(!['intro','idle','hotspot','action','choice','ending'].includes(v.mode))throw Error('進行データが不正です');return true}
 function exportSave(){const blob=new Blob([JSON.stringify({format:'konchu-adv-1',state:s,profile})],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='昆虫とおしりの部屋-ADV-セーブ.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function newGame(){stopText();profile.checkpoints={};s=fresh();$('titleScreen').hidden=true;$('game').hidden=false;ensureAudio();enter(D.start,{revisit:true})}
 function showTitle(){stopText();auto=false;$('autoButton').textContent='自動 OFF';$('game').hidden=true;$('titleScreen').hidden=false;const saved=read(SAVE,null);$('continueGame').hidden=!saved;$('titleFlow').hidden=!Object.keys(profile.checkpoints).length;if(saved&&D.nodes[saved.node])$('saveLabel').textContent=D.nodes[saved.node].title;audio?.theme('title')}
 function resume(){if(!s){const data=read(SAVE,null);try{validateSave(data);s=data}catch{toast('保存データを読み込めませんでした');return}}$('titleScreen').hidden=true;$('game').hidden=false;ensureAudio();drawScene();if(s.mode==='ending')finishEnding(s.ending);else if(s.mode==='choice')renderChoices();else if(['intro','hotspot','action'].includes(s.mode))showLine({resume:true});else renderIdle()}
+
+/* Investigation workbench; answers are validated only on explicit submission. */
+function openDocument(id,returnTo){const doc=D.documents?.[id];if(!doc)return;openPanel('DOCUMENT',doc.title);const article=document.createElement('article');article.className='paper-document';for(const paragraph of doc.text.split('\n\n')){const p=document.createElement('p');p.textContent=paragraph;article.append(p)}$('panelBody').append(article);if(doc.evidence)evidence(doc.evidence);if(returnTo)$('panelBody').append(button('作業机へ戻る',()=>openPuzzle(returnTo)));save()}
+function openPuzzle(id){const q=D.puzzles[id];if(!q)return;s.puzzleDraft??={};const draft=s.puzzleDraft[id]??={order:[],assigned:{},value:''};openPanel('INVESTIGATION',q.title);const root=$('panelBody');const prompt=document.createElement('p');prompt.className='panel-note';prompt.textContent=q.prompt;root.append(prompt);const refs=document.createElement('div');refs.className='puzzle-references';for(const docid of q.documents||[])refs.append(button(D.documents[docid].title,()=>openDocument(docid,id)));root.append(refs);const board=document.createElement('div');board.className='puzzle-board';root.append(board);let selected=null;
+const cardLabel=key=>q.cards.find(c=>c.id===key)?.label||key;
+function makeCard(c,onClick){const b=button(c.label,onClick,'work-card');b.dataset.card=c.id;if(c.note){const note=document.createElement('small');note.textContent=c.note;b.append(note)}return b}
+function changed(){save();render()}
+function render(){board.replaceChildren();if(q.type==='sequence'){const tray=document.createElement('div');tray.className='card-tray';for(const c of q.cards.filter(c=>!draft.order.includes(c.id)))tray.append(makeCard(c,()=>{draft.order.push(c.id);changed()}));board.append(tray);const list=document.createElement('ol');list.className='ordered-evidence';draft.order.forEach((key,i)=>{const li=document.createElement('li');li.draggable=true;li.addEventListener('dragstart',ev=>ev.dataTransfer.setData('text/plain',String(i)));li.addEventListener('dragover',ev=>ev.preventDefault());li.addEventListener('drop',ev=>{ev.preventDefault();const from=Number(ev.dataTransfer.getData('text/plain'));if(!Number.isInteger(from)||from<0||from>=draft.order.length)return;const moved=draft.order.splice(from,1)[0];draft.order.splice(i,0,moved);changed()});li.append(makeCard(q.cards.find(c=>c.id===key),()=>{draft.order.splice(i,1);changed()}));const controls=document.createElement('div');controls.append(button('↑',()=>{if(i>0){[draft.order[i-1],draft.order[i]]=[draft.order[i],draft.order[i-1]];changed()}}),button('↓',()=>{if(i<draft.order.length-1){[draft.order[i+1],draft.order[i]]=[draft.order[i],draft.order[i+1]];changed()}}));li.append(controls);list.append(li)});board.append(list);const guide=document.createElement('p');guide.className='panel-note';guide.textContent='資料片を選んで並べる。並べた資料はドラッグか矢印で移動できます。もう一度押すと外れます。';board.append(guide)}else if(q.type==='matching'){const tray=document.createElement('div');tray.className='card-tray';for(const c of q.cards){const b=makeCard(c,()=>{selected=c.id;render()});if(selected===c.id)b.classList.add('selected');if(Object.values(draft.assigned).includes(c.id))b.classList.add('placed');tray.append(b)}board.append(tray);const slots=document.createElement('div');slots.className='matching-slots';for(const slot of q.slots){const section=document.createElement('section');const h=document.createElement('h3');h.textContent=slot.label;section.append(h);const b=button(draft.assigned[slot.id]?cardLabel(draft.assigned[slot.id]):'ここに資料を置く',()=>{if(selected){for(const key of Object.keys(draft.assigned))if(draft.assigned[key]===selected)delete draft.assigned[key];draft.assigned[slot.id]=selected;selected=null}else delete draft.assigned[slot.id];changed()});section.append(b);slots.append(section)}board.append(slots);const guide=document.createElement('p');guide.className='panel-note';guide.textContent='資料を選び、置きたい欄を押してください。配置済みの欄を押すと外せます。';board.append(guide)}else{if(q.diagram){const diagram=document.createElement('div');diagram.className='puzzle-diagram';for(const cell of q.diagram){const figure=document.createElement('figure');figure.innerHTML='<span>'+esc(cell.symbol)+'</span><figcaption>'+esc(cell.label)+'</figcaption>';diagram.append(figure)}board.append(diagram)}const label=document.createElement('label');label.className='code-entry';label.textContent=q.inputLabel||'記録する';const input=document.createElement('input');input.inputMode='numeric';input.maxLength=q.digits||4;input.autocomplete='off';input.value=draft.value;input.setAttribute('aria-label',q.inputLabel||'記録する');input.oninput=()=>{draft.value=input.value;save()};label.append(input);board.append(label)}}
+render();const feedback=document.createElement('p');feedback.id='puzzleFeedback';feedback.className='panel-note';feedback.setAttribute('role','status');root.append(feedback);const controls=document.createElement('div');controls.className='puzzle-controls';controls.append(button(q.submit||'確かめる',()=>{let value=q.type==='sequence'?draft.order:q.type==='matching'?draft.assigned:draft.value.replace(/[^0-9]/g,'');let valid;if(q.type==='matching')valid=Object.keys(q.answer).length===Object.keys(value).length&&Object.entries(q.answer).every(([key,id])=>value[key]===id);else valid=JSON.stringify(value)===JSON.stringify(q.answer);if(!valid){feedback.textContent=q.failure||'この組み合わせでは、資料の記述をすべて説明できない。';return}uniq(s.flags,id);effects(q);addHistory('調査',q.result);closePanel();if(q.to)enter(q.to);else{renderIdle();toast(q.result)}save()}),button('置き直す',()=>{draft.order=[];draft.assigned={};draft.value='';feedback.textContent='';changed()}),button('いったん離れる',closePanel));root.append(controls)}
 
 /* Original small WebAudio score: equal temperament, no remote music files. */
 class Score{constructor(){const C=window.AudioContext||window.webkitAudioContext;this.ctx=new C();this.master=this.ctx.createGain();this.master.connect(this.ctx.destination);this.current='';this.step=0;this.timer=null;this.volume();this.ctx.resume()}
@@ -3635,7 +4013,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopText()
 window.addEventListener('beforeunload',save);
 window.addEventListener('error',e=>{if(!e.message)return;$('fatalError').hidden=false;$('fatalError').textContent='進行中にエラーが発生しました。ページを再読込すると直前の自動保存から再開できます。 '+e.message});
 /* Testable public state inspection; normal play uses the same handlers. */
-window.ADVGame={get state(){return s},get profile(){return profile},newGame,enter,inspect,act,choose,advance,restore,save,reveal,renderIdle,finishCatch,get catchState(){return catchState},get currentNode(){return s?node():null}};
+window.ADVGame={openPuzzle,openDocument,get state(){return s},get profile(){return profile},newGame,enter,inspect,act,choose,advance,restore,save,reveal,renderIdle,finishCatch,get catchState(){return catchState},get currentNode(){return s?node():null}};
 showTitle();settingsSave();
 })();
 </script>
